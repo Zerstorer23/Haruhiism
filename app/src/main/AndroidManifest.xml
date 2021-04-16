@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.haruhi.bismark439.haruhiism">
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <uses-feature android:name="android.software.live_wallpaper"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/appicoharuhi"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+
+        <!-- Widgets -->
+        <receiver android:name=".Widgets.HaruhiWidgetProvider"
+                  android:label="@string/surprise"
+                    >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/haruhi_widget_info"/>
+        </receiver>
+        <receiver android:name=".Widgets.MikuruWidgetProvider"
+                  android:label="@string/melancholy"
+            >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/mikuru_widget_info"/>
+        </receiver>
+        <receiver android:name=".Widgets.DayCounterProvider"
+            android:label="D-Day Counter">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/dday_widget_info"/>
+        </receiver>
+
+        <activity android:name=".Widgets.ConfigurationActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
+       <!-- <receiver android:name=".Widgets.NagatoInterfaceProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/nagato_widget_info"/>
+        </receiver>-->
+        <!-- Widgets -->
+        <!-- WallPaper -->
+        <service
+            android:name=".WallPaper.yukiWall"
+            android:enabled="true"
+            android:label="@string/haruhiismLWP"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/yukiwallpaper">
+            </meta-data>
+        </service>
+        <activity android:name=".WallPaper.yukiSetting"
+                  android:label="YUKI SETTING"
+                  android:exported="true"
+            >
+        </activity>
+
+           <service
+             android:name=".WallPaper.YukiNWall"
+             android:enabled="true"
+             android:label="@string/yuki_n"
+             android:permission="android.permission.BIND_WALLPAPER">
+             <intent-filter>
+                 <action android:name="android.service.wallpaper.WallpaperService"/>
+             </intent-filter>
+
+             <meta-data
+                 android:name="android.service.wallpaper"
+                 android:resource="@xml/yuki_n_wallpaper">
+             </meta-data>
+         </service>
+         <!-- WallPaper -->
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".AlarmAdd">
+        </activity>
+        <activity
+            android:name=".AlarmScreens.AlarmScreen"
+            android:launchMode="singleTop">
+        </activity>
+        <activity
+            android:name=".AlarmScreens.Mikuru_Screen"
+            android:launchMode="singleTop">
+        </activity>
+        <activity
+            android:name=".AlarmScreens.KoizumiScreen"
+            android:launchMode="singleTop">
+        </activity>
+        <activity
+            android:name=".AlarmScreens.MikuruOisiyiScreen"
+            android:launchMode="singleTop">
+        </activity>
+        <activity
+            android:name=".AlarmScreens.HaruhiBasic"
+            android:launchMode="singleTop">
+        </activity>
+
+    </application>
+
+</manifest>
