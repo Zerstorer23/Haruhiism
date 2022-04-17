@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_padding"
+    tools:context=".activities.alarm_screens.mikuru_alarms.MikuruPuzzleAlarmActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:orientation="vertical">
+
+
+            <Button
+                android:id="@+id/unlock_mikuru"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/give_up_just_unlock"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingTop="4dp"
+                android:text="@string/mikuruJinsoku"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            app:srcCompat="@drawable/mikuru"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/line0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/my_border"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/mline1"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/my_border"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/mline2"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/my_border"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/mline3"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/line3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/my_border"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/mline4"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/line4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/my_border"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/mline5"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/line5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/my_border"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/mline6"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/line6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/my_border"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/mline7"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+                    android:id="@+id/main"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border_green"
+            android:padding="4dp"
+            android:text="Sentence"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:translationX="0dp"
+            android:translationY="50dp"/>
+
+        <TextView
+            android:id="@+id/text4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border_green"
+            android:padding="4dp"
+            android:text="Verb"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:translationX="0dp"
+            android:translationY="50dp"/>
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border_green"
+            android:padding="4dp"
+            android:text="Noun (Tool)"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:translationX="0dp"
+            android:translationY="50dp"/>
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border_green"
+            android:padding="4dp"
+            android:text="Verb"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:translationX="0dp"
+            android:translationY="50dp"/>
+
+        <TextView
+            android:id="@+id/text5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border_green"
+            android:padding="4dp"
+            android:text="Adjective"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:translationX="0dp"
+            android:translationY="50dp"/>
+
+        <TextView
+            android:id="@+id/text6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_border_green"
+            android:padding="4dp"
+            android:text="Adjective2"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:translationX="0dp"
+            android:translationY="50dp"/>
+    </FrameLayout>
+</FrameLayout>

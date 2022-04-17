@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.haruhi.bismark439.haruhiism",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 103,
+      "versionName": "k1.03",
+      "outputFile": "app-release.apk"
+    }
+  ],
+  "elementType": "File"
+}
