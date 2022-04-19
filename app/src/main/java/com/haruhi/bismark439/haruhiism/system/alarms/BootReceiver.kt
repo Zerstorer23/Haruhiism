@@ -22,13 +22,13 @@ import kotlinx.coroutines.launch
 class BootReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        Handler(Looper.getMainLooper()).post {
+/*        Handler(Looper.getMainLooper()).post {
             Toast.makeText(
                 context,
                 "action ${intent.action}",
                 Toast.LENGTH_SHORT
             ).show()
-        }
+        }*/
         println("action ${intent.action}")
         if (intent.action == Intent.ACTION_BOOT_COMPLETED
             || intent.action == Intent.ACTION_REBOOT

@@ -1,7 +1,6 @@
 package com.haruhi.bismark439.haruhiism.system.alarms
 
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
@@ -22,6 +21,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import java.lang.Runnable
 import kotlin.concurrent.thread
+import android.app.NotificationChannel as NotificationChannel1
 
 @DelicateCoroutinesApi
 class MyService : Service() {
@@ -72,7 +72,7 @@ class MyService : Service() {
     }
 
     private fun createNotificationChannel() {
-        val notificationChannel = NotificationChannel(
+        val notificationChannel = NotificationChannel1(
             CHANNEL_ID,
             resources.getString(R.string.app_name),
             NotificationManager.IMPORTANCE_HIGH
@@ -90,10 +90,9 @@ class MyService : Service() {
         )
     }
 
-    @SuppressLint("UnspecifiedImmutableFlag")
     private fun sendNotification(title: String, messageBody: String) {
         val intent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         val notificationBuilder = NotificationCompat.Builder(
             this, CHANNEL_ID
         )

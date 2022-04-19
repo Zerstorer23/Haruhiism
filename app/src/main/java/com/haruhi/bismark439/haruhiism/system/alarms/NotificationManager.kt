@@ -13,14 +13,14 @@ import com.haruhi.bismark439.haruhiism.system.Constants.NOTIFICATION_CHANNEL_ID
 object NotificationManager {
     private const val ALARM_NOTIFICATION_CHANNEL_NUMBER = 1
 
-    @SuppressLint("UnspecifiedImmutableFlag")
+
     fun sendNotification(context: Context) {//sendClass: Class<*>?
         val mNotifyMgr = context.getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
         val contentIntent = PendingIntent.getActivity(
             context,
             0,
             Intent(context, context::class.java).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT),
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         // Build Notification , setOngoing keeps the notification always in status bar
         val notificationBuilder = NotificationCompat.Builder(

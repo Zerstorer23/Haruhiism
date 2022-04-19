@@ -1,6 +1,5 @@
 package com.haruhi.bismark439.haruhiism.widgets.providers
 
-import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -37,7 +36,7 @@ object WidgetCreater {
         return remoteViews
     }
 
-    @SuppressLint("UnspecifiedImmutableFlag")
+
     fun createPresetUI(
         context: Context,
         appWidgetIds: IntArray,
@@ -78,7 +77,7 @@ object WidgetCreater {
         intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
         intent.putExtra(SRC_WIDGET, srcName)
-        val pi = PendingIntent.getBroadcast(context, 0, intent, 0)
+        val pi = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         remoteViews.setOnClickPendingIntent(R.id.widgetImage, pi)
         return remoteViews
     }

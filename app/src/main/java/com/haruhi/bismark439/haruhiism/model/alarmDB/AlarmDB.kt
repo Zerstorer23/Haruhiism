@@ -68,7 +68,7 @@ class AlarmDB {
             }
         }
 
-        @SuppressLint("UnspecifiedImmutableFlag", "ShortAlarm")
+        @SuppressLint( "ShortAlarm")
         fun registerAlarm(mContext: Context, alarm: AlarmData) {
             val alarmManager = mContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(mContext, AlarmReceiver::class.java)
@@ -81,7 +81,7 @@ class AlarmDB {
                 mContext,
                 reqCode,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             ) //getactivity
 
             alarmManager.setRepeating(
@@ -92,7 +92,7 @@ class AlarmDB {
             )
         }
 
-        @SuppressLint("UnspecifiedImmutableFlag")
+
         fun disableAlarm(mContext: Context, temp: AlarmData) {
             val alarmManager = mContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(mContext, AlarmReceiver::class.java)
@@ -103,14 +103,14 @@ class AlarmDB {
                     mContext,
                     reqCode,
                     intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
             pi.cancel()
             alarmManager.cancel(pi)
             println("Disabled code:$reqCode")
         }
 
-        @SuppressLint("UnspecifiedImmutableFlag")
+
         fun removeAlarm(mContext: Context, reqCode: Int) {
             val alarmManager = mContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(mContext, AlarmReceiver::class.java)
@@ -119,7 +119,7 @@ class AlarmDB {
                     mContext,
                     reqCode,
                     intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
             pi.cancel()
             alarmManager.cancel(pi)

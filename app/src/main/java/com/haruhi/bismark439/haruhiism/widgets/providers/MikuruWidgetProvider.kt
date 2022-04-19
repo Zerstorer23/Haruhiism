@@ -1,6 +1,5 @@
 package com.haruhi.bismark439.haruhiism.widgets.providers
 
-import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
@@ -12,7 +11,7 @@ import com.haruhi.bismark439.haruhiism.widgets.providers.HaruhiWidgetProvider.Co
  * Created by Bismark439 on 19/01/2018.
  */
 class MikuruWidgetProvider : AppWidgetProvider() {
-    @SuppressLint("UnspecifiedImmutableFlag")
+
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,

@@ -43,7 +43,7 @@ class ConfigurationActivity :
         binding.btnCustomColor.setOnClickListener { onCustomColor() }
         binding.okButton.setOnClickListener { onCreateWidget() }
         setDatePicker()
-        setSpinner();
+        setSpinner()
         //INITIALISE
         updateExample()
         val extras = intent.extras
@@ -97,7 +97,7 @@ class ConfigurationActivity :
         }
     }
 
-    fun setDatePicker() {
+    private fun setDatePicker() {
         val today = Date()
         val cal = Calendar.getInstance()
         cal.time = today

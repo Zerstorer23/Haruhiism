@@ -26,7 +26,7 @@ import kotlin.math.abs
 @DelicateCoroutinesApi
 class AlarmReceiver : BroadcastReceiver() {
     companion object {
-        const val DUPLICATE_TIME_BOUND_IN_SEC = 30
+        const val DUPLICATE_TIME_BOUND_IN_SEC = 59
     }
 
     private var alarmManager: AlarmManager? = null

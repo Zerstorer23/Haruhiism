@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 }
-
 android {
     compileSdk 31
 
@@ -10,16 +9,21 @@ android {
         applicationId "com.haruhi.bismark439.haruhiism"
         minSdk 26
         targetSdk 31
-        versionCode 103
-        versionName "k1.03"
+        versionCode 105
+        versionName "k1.05"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            defaultConfig {
+                ndk {
+                    debugSymbolLevel 'full'
+                }
+            }
         }
     }
     compileOptions {
@@ -29,9 +33,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
+    ndkVersion '24.0.8215888'
+    buildToolsVersion '31.0.0'
+
 }
 
 dependencies {
@@ -40,8 +47,8 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.2"
     implementation('androidx.room:room-ktx:2.4.2')
 //Coroutines
-    apply plugin : "kotlin-android"
-    apply plugin : "kotlin-android-extensions"
+    apply plugin: "kotlin-android"
+    apply plugin: "kotlin-android-extensions"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
