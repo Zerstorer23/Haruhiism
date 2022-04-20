@@ -42,6 +42,9 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     apply plugin: 'kotlin-kapt'
     implementation('androidx.room:room-runtime:2.4.2')
     kapt "androidx.room:room-compiler:2.4.2"

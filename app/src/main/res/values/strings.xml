@@ -600,15 +600,16 @@ hNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNmm+///-..-/////ydddddddNdNNNNNNNNNMMMMMMMMNN
     <string name="surprise">直觀</string>
     <string name="yuki_n" translatable="false">YUKI.N></string>
     <string name="todaydesu">Today!</string>
-    <string name="txt_koizumi_board_title">\" ● VS ○ \"</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
-    <string name="app_widget_description">This is an app widget description</string>
-    <string name="slideToUnlock">밀어서 잠금해제</string>
+    <string name="txt_koizumi_board_title" translatable="false">\" ● VS ○ \"</string>
+    <string name="slideToUnlock">Slide to unlock</string>
     <string name="empty_phone_line">_ _ _ _ _ _ _ _ _ _ _</string>
     <string name="koizumi_score_header">\" ● VS ○ \"</string>
     <string name="typewriter_yuki_n"><![CDATA[YUKI.N>_]]></string>
-    <string name="settting_alarms_msg">알람 설정중입니다...</string>
+    <string name="settting_alarms_msg">Setting alarms…</string>
+    <string name="wallpaper_setting">Wallpapers</string>
+    <string name="title_alarms">Alarms</string>
+    <string name="title_wallpapers">Wallpapers</string>
+    <string name="txt_main_navigator">주 네비게이터</string>
     <!--
     https://www.text-image.com/convert/pic2ascii.cgi
     Width 99

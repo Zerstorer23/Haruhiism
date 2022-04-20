@@ -1,17 +1,18 @@
-package com.haruhi.bismark439.haruhiism.activities
+package com.haruhi.bismark439.haruhiism.activities.navigation_ui.home
 
 import android.Manifest
 import android.app.WallpaperManager
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.haruhi.bismark439.haruhiism.R
-import com.haruhi.bismark439.haruhiism.activities.interfaces.BaseActivity
-import com.haruhi.bismark439.haruhiism.databinding.ActivityMainBinding
+import com.haruhi.bismark439.haruhiism.activities.AddAlarmActivity
+import com.haruhi.bismark439.haruhiism.activities.interfaces.IFragmentActivity
+import com.haruhi.bismark439.haruhiism.databinding.FragmentHomeBinding
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmAdapter
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDB
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDao
@@ -24,38 +25,63 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@OptIn(DelicateCoroutinesApi::class)
+class HomeFragment : IFragmentActivity<FragmentHomeBinding, HomeViewModel>(
+    FragmentHomeBinding::inflate,
+    HomeViewModel::class.java
+) {
 
-@DelicateCoroutinesApi
-class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     private var easter = false
-
-    // private var demolish = false
     private lateinit var adaptor: AlarmAdapter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun onActivityStart() {
         onCheckPermission()
-        // demolish = false
         setUpAddAlarmLauncher()
+    }
+
+    override fun onRefreshUI() {
+
         binding.easterEggButton.setOnClickListener { onEasterEgg() }
         binding.btnAddAlarm.setOnClickListener {
             onClickAddAlarm()
         }
         loadAlarms()
+        binding.setWallPaperBtn.setOnClickListener { setWallpaper() }
     }
 
+
+
+    fun setWallpaper() {
+        val bitmap: Bitmap =
+            BitmapFactory.decodeResource(resources, R.drawable.haruhi1)
+        val wallpaperManager = WallpaperManager.getInstance(this.context)
+        wallpaperManager.setBitmap(bitmap)
+
+        Toaster.show(requireContext(), "Wallpaper set")
+    }
+/*
+    fun getWallpaper() {
+        val wmInstance = WallpaperManager.getInstance(this);
+       wmInstance.getDrawable()
+            .getBitmap()
+            .compress(
+                Bitmap.CompressFormat.PNG, 100,
+                new FileOutputStream ("/storage/emulated/0/output.png")
+            )
+    }*/
 
 
     private fun onCheckPermission() {
-        StorageManager.checkPermission(this, Manifest.permission.RECEIVE_BOOT_COMPLETED)
+        StorageManager.checkPermission(this.requireActivity(), Manifest.permission.RECEIVE_BOOT_COMPLETED)
     }
 
     private fun onClickAddAlarm() {
-        val intent = Intent(this, AddAlarmActivity::class.java)
+        val intent = Intent(requireContext(), AddAlarmActivity::class.java)
         LauncherManager.launch(LauncherType.CreateAlarm, intent)
     }
 
     private fun setUpAddAlarmLauncher() {
-        LauncherManager.init(this, LauncherType.CreateAlarm) {
+        LauncherManager.init(activity as AppCompatActivity, LauncherType.CreateAlarm) {
             val newAlarm = it.data!!.getParcelableExtra<AlarmData>("alarm")!!
             lifecycleScope.launch {
                 println("Insert new alarm: " + newAlarm.reqCode)
@@ -65,16 +91,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun loadAlarms() {
-        AlarmDao.initDao(this)
+        AlarmDao.initDao(requireContext())
         lifecycleScope.launch {
             AlarmDao.instance.selectAll().collect {
                 AlarmDB.alarmDB = ArrayList(it)
                 println("alarm list updated : " + it.size)
-                adaptor = AlarmAdapter(this@MainActivity, AlarmDB.alarmDB)
-                binding.rvAlarms.layoutManager = LinearLayoutManager(this@MainActivity)
+                adaptor = AlarmAdapter(requireContext(), AlarmDB.alarmDB)
+                binding.rvAlarms.layoutManager = LinearLayoutManager(requireContext())
                 binding.rvAlarms.adapter = adaptor
                 if (AlarmDB.alarmDB.size == 0) return@collect
-                AlarmDB.safeRegisterAllAlarms(this@MainActivity)
+                AlarmDB.safeRegisterAllAlarms(requireContext())
             }
         }
     }
@@ -87,7 +113,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     fun removeAlarm(alarmData: AlarmData, position: Int) {
-        AlarmDB.removeAlarm(this, alarmData.reqCode)
+        AlarmDB.removeAlarm(requireContext(), alarmData.reqCode)
         lifecycleScope.launch {
             AlarmDao.instance.delete(alarmData)
             binding.rvAlarms.adapter?.notifyItemRemoved(position)
@@ -110,5 +136,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
         easter = !easter
     }
+
 
 }

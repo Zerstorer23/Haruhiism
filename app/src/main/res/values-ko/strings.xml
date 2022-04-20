@@ -49,12 +49,12 @@
     <string name="clicktodisarm">해제하려면 여기를 누르세요.</string>
     <string name="asahinaMikuru">아사히나 미쿠루</string>
     <string name="mikuruJinsoku">단어를 드래그해서 미쿠루의 금지사항을 격파하자!</string>
-    <string name="mline1">저... [금지사항]으로 돌아갈 수 없어요</string>
-    <string name="mline2">그러니까... [금지사항]으로 항상 미래와 연락하거나</string>
-    <string name="mline3">[금지사항] 하거나 했는데요...</string>
-    <string name="mline4">그랬더니 [금지사항]...</string>
+    <string name="mline1">저… [금지사항]으로 돌아갈 수 없어요</string>
+    <string name="mline2">그러니까… [금지사항]으로 항상 미래와 연락하거나</string>
+    <string name="mline3">[금지사항] 하거나 했는데요…</string>
+    <string name="mline4">그랬더니 [금지사항]…</string>
     <string name="mline5">저, 굉장히 놀라서 허둥대면서 [금지사항]을 해봤는데</string>
-    <string name="mline6">전혀 [금지사항]...</string>
+    <string name="mline6">전혀 [금지사항]…</string>
     <string name="mline7">저, 어쩌면 좋아요~</string>
     <string name="future">미래</string>
     <string name="kawai">카와이한 미소녀</string>
@@ -96,7 +96,7 @@
     <string name="sinceMelancholy">우울 이후</string>
     <string name="give_up_just_unlock">포기하고 그냥 해제</string>
     <string name="mikurunotea">미쿠루가 끓여주는 녹차</string>
-    <string name="n_make_a_perfect_tea">완벽한 차를 만들자...</string>
+    <string name="n_make_a_perfect_tea">완벽한 차를 만들자…</string>
     <string name="press_long_to_pour_tea">탭해서 녹차 붓기</string>
     <string name="pourtoolittle">너무 조금 부었다!</string>
     <string name="pourtomuch">너무 많아요!</string>
@@ -110,5 +110,10 @@
     <string name="empty_phone_line">_ _ _ _ _ _ _ _ _ _ _</string>
     <string name="koizumi_score_header">\" ● VS ○ \"</string>
     <string name="typewriter_yuki_n"><![CDATA[YUKI.N>_]]></string>
-    <string name="settting_alarms_msg">알람 설정중입니다...</string>
+    <string name="settting_alarms_msg">알람 설정중입니다…</string>
+    <string name="wallpaper_setting">배경화면</string>
+    <string name="slideToUnlock">밀어서 알람해제</string>
+    <string name="title_alarms">알람</string>
+    <string name="title_wallpapers">배경화면</string>
+    <string name="txt_main_navigator">주 네비게이터</string>
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.widget.ToggleButton
 import com.haruhi.bismark439.haruhiism.activities.MainActivity
+import com.haruhi.bismark439.haruhiism.activities.MainNavigatorActivity
 import com.haruhi.bismark439.haruhiism.activities.interfaces.ItemsAdaptor
 import com.haruhi.bismark439.haruhiism.databinding.ItemAlarmViewBinding
 import com.haruhi.bismark439.haruhiism.system.Helper
@@ -82,12 +83,15 @@ class AlarmAdapter(
     }
 
     private fun removeData(alarmData: AlarmData, position: Int) {
-        if (context !is MainActivity) return
+        if (context !is MainActivity
+            || context !is MainNavigatorActivity) return
         context.removeAlarm(alarmData, position)
     }
 
     private fun updateAlarm(alarmData: AlarmData, position: Int) {
-        if (context !is MainActivity) return
+        if (context !is MainActivity
+            || context !is MainNavigatorActivity
+        ) return
         context.updateAlarm(alarmData, position)
     }
 
