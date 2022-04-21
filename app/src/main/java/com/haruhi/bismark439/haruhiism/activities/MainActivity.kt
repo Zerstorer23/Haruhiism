@@ -1,10 +1,7 @@
 package com.haruhi.bismark439.haruhiism.activities
 
 import android.Manifest
-import android.app.WallpaperManager
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +16,6 @@ import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmData
 import com.haruhi.bismark439.haruhiism.system.LauncherManager
 import com.haruhi.bismark439.haruhiism.system.LauncherType
 import com.haruhi.bismark439.haruhiism.system.StorageManager
-import com.haruhi.bismark439.haruhiism.system.ui.Toaster
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -33,7 +29,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private lateinit var adaptor: AlarmAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        onCheckPermission()
         // demolish = false
         setUpAddAlarmLauncher()
         binding.easterEggButton.setOnClickListener { onEasterEgg() }
@@ -44,10 +39,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
 
-
-    private fun onCheckPermission() {
-        StorageManager.checkPermission(this, Manifest.permission.RECEIVE_BOOT_COMPLETED)
-    }
 
     private fun onClickAddAlarm() {
         val intent = Intent(this, AddAlarmActivity::class.java)
@@ -70,7 +61,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             AlarmDao.instance.selectAll().collect {
                 AlarmDB.alarmDB = ArrayList(it)
                 println("alarm list updated : " + it.size)
-                adaptor = AlarmAdapter(this@MainActivity, AlarmDB.alarmDB)
+                adaptor = AlarmAdapter(this@MainActivity, AlarmDB.alarmDB, ::removeAlarm,::updateAlarm)
                 binding.rvAlarms.layoutManager = LinearLayoutManager(this@MainActivity)
                 binding.rvAlarms.adapter = adaptor
                 if (AlarmDB.alarmDB.size == 0) return@collect
@@ -79,14 +70,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    fun updateAlarm(alarmData: AlarmData, position: Int) {
+    private fun updateAlarm(alarmData: AlarmData, position: Int) {
         lifecycleScope.launch {
             AlarmDao.instance.update(alarmData)
             binding.rvAlarms.adapter!!.notifyItemChanged(position)
         }
     }
 
-    fun removeAlarm(alarmData: AlarmData, position: Int) {
+    private fun removeAlarm(alarmData: AlarmData, position: Int) {
         AlarmDB.removeAlarm(this, alarmData.reqCode)
         lifecycleScope.launch {
             AlarmDao.instance.delete(alarmData)

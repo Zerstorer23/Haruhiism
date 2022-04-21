@@ -1,10 +1,7 @@
 package com.haruhi.bismark439.haruhiism.activities.navigation_ui.home
 
 import android.Manifest
-import android.app.WallpaperManager
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -20,22 +17,19 @@ import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmData
 import com.haruhi.bismark439.haruhiism.system.LauncherManager
 import com.haruhi.bismark439.haruhiism.system.LauncherType
 import com.haruhi.bismark439.haruhiism.system.StorageManager
-import com.haruhi.bismark439.haruhiism.system.ui.Toaster
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @OptIn(DelicateCoroutinesApi::class)
-class HomeFragment : IFragmentActivity<FragmentHomeBinding, HomeViewModel>(
-    FragmentHomeBinding::inflate,
-    HomeViewModel::class.java
+class HomeFragment : IFragmentActivity<FragmentHomeBinding>(
+    FragmentHomeBinding::inflate
 ) {
 
     private var easter = false
     private lateinit var adaptor: AlarmAdapter
 
     override fun onActivityStart() {
-        onCheckPermission()
         setUpAddAlarmLauncher()
     }
 
@@ -46,34 +40,9 @@ class HomeFragment : IFragmentActivity<FragmentHomeBinding, HomeViewModel>(
             onClickAddAlarm()
         }
         loadAlarms()
-        binding.setWallPaperBtn.setOnClickListener { setWallpaper() }
     }
 
 
-
-    fun setWallpaper() {
-        val bitmap: Bitmap =
-            BitmapFactory.decodeResource(resources, R.drawable.haruhi1)
-        val wallpaperManager = WallpaperManager.getInstance(this.context)
-        wallpaperManager.setBitmap(bitmap)
-
-        Toaster.show(requireContext(), "Wallpaper set")
-    }
-/*
-    fun getWallpaper() {
-        val wmInstance = WallpaperManager.getInstance(this);
-       wmInstance.getDrawable()
-            .getBitmap()
-            .compress(
-                Bitmap.CompressFormat.PNG, 100,
-                new FileOutputStream ("/storage/emulated/0/output.png")
-            )
-    }*/
-
-
-    private fun onCheckPermission() {
-        StorageManager.checkPermission(this.requireActivity(), Manifest.permission.RECEIVE_BOOT_COMPLETED)
-    }
 
     private fun onClickAddAlarm() {
         val intent = Intent(requireContext(), AddAlarmActivity::class.java)
@@ -96,7 +65,8 @@ class HomeFragment : IFragmentActivity<FragmentHomeBinding, HomeViewModel>(
             AlarmDao.instance.selectAll().collect {
                 AlarmDB.alarmDB = ArrayList(it)
                 println("alarm list updated : " + it.size)
-                adaptor = AlarmAdapter(requireContext(), AlarmDB.alarmDB)
+                adaptor =
+                    AlarmAdapter(requireContext(), AlarmDB.alarmDB, ::removeAlarm, ::updateAlarm)
                 binding.rvAlarms.layoutManager = LinearLayoutManager(requireContext())
                 binding.rvAlarms.adapter = adaptor
                 if (AlarmDB.alarmDB.size == 0) return@collect
@@ -105,14 +75,14 @@ class HomeFragment : IFragmentActivity<FragmentHomeBinding, HomeViewModel>(
         }
     }
 
-    fun updateAlarm(alarmData: AlarmData, position: Int) {
+    private fun updateAlarm(alarmData: AlarmData, position: Int) {
         lifecycleScope.launch {
             AlarmDao.instance.update(alarmData)
             binding.rvAlarms.adapter!!.notifyItemChanged(position)
         }
     }
 
-    fun removeAlarm(alarmData: AlarmData, position: Int) {
+    private fun removeAlarm(alarmData: AlarmData, position: Int) {
         AlarmDB.removeAlarm(requireContext(), alarmData.reqCode)
         lifecycleScope.launch {
             AlarmDao.instance.delete(alarmData)

@@ -9,7 +9,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.activities.interfaces.BaseActivity
+import com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setting.WallpaperSettingFragment
 import com.haruhi.bismark439.haruhiism.databinding.ActivityMainNavigatorBinding
+import com.haruhi.bismark439.haruhiism.system.LauncherManager
+import com.haruhi.bismark439.haruhiism.system.LauncherType
 
 class MainNavigatorActivity : BaseActivity<ActivityMainNavigatorBinding>(ActivityMainNavigatorBinding::inflate) {
 
@@ -27,5 +30,6 @@ class MainNavigatorActivity : BaseActivity<ActivityMainNavigatorBinding>(Activit
         )
     //    setupActionBarWithNavController(navController, appBarConfiguration)*/
         navView.setupWithNavController(navController)
+
     }
 }

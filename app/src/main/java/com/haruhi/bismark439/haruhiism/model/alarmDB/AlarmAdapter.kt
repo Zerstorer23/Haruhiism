@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.widget.ToggleButton
-import com.haruhi.bismark439.haruhiism.activities.MainActivity
-import com.haruhi.bismark439.haruhiism.activities.MainNavigatorActivity
 import com.haruhi.bismark439.haruhiism.activities.interfaces.ItemsAdaptor
 import com.haruhi.bismark439.haruhiism.databinding.ItemAlarmViewBinding
 import com.haruhi.bismark439.haruhiism.system.Helper
@@ -13,17 +11,21 @@ import com.haruhi.bismark439.haruhiism.system.Helper.convertDec
 import com.haruhi.bismark439.haruhiism.system.isTrueAt
 import kotlinx.coroutines.DelicateCoroutinesApi
 
+
+typealias updateFunction = (alarmData: AlarmData, position: Int) -> Unit
 @DelicateCoroutinesApi
 class AlarmAdapter(
     context: Context,
     items: ArrayList<AlarmData>,
+    private val removeAlarm: updateFunction,
+    private val updateAlarm: updateFunction
 ) : ItemsAdaptor<AlarmData, ItemAlarmViewBinding>(context, items, ItemAlarmViewBinding::inflate) {
     override fun onBindView(binding: ItemAlarmViewBinding, position: Int, model: AlarmData) {
         setUpToggle(binding, model, position)
         setData(binding, model)
         binding.root.setOnLongClickListener {
             Helper.vibrate(context, 200)
-            removeData(model, position)
+            removeAlarm(model, position)
             true
         }
     }
@@ -82,18 +84,6 @@ class AlarmAdapter(
         return true
     }
 
-    private fun removeData(alarmData: AlarmData, position: Int) {
-        if (context !is MainActivity
-            || context !is MainNavigatorActivity) return
-        context.removeAlarm(alarmData, position)
-    }
-
-    private fun updateAlarm(alarmData: AlarmData, position: Int) {
-        if (context !is MainActivity
-            || context !is MainNavigatorActivity
-        ) return
-        context.updateAlarm(alarmData, position)
-    }
 
 
 }

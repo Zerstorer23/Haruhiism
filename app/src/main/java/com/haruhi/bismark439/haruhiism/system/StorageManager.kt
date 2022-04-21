@@ -27,36 +27,7 @@ object StorageManager {
         )
     }
 
-    private const val READ_CODE = 1
-    fun checkPermission(activity: Activity, permission:String) : Boolean{
-        if (ContextCompat.checkSelfPermission(
-                activity.applicationContext,
-                permission
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            return true
-        } else {
-            ActivityCompat.requestPermissions(
-                activity,
-                arrayOf(permission),
-                READ_CODE
-            )
-        }
-        return false
-    }
 
-    fun onReadPermissionResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ): Boolean {
-        if (requestCode == READ_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                return true
-            }
-        }
-        return false
-    }
 
     fun launchImageLoader(type: LauncherType) {
         val intent =

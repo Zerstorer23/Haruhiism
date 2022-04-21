@@ -24,8 +24,7 @@
         >
         <activity
             android:name=".activities.MainNavigatorActivity"
-            android:exported="true"
-            android:label="@string/txt_main_navigator" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
