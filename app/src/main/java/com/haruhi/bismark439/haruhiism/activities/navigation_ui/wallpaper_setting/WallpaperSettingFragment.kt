@@ -2,36 +2,22 @@ package com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setti
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.WallpaperManager
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.activities.interfaces.IFragmentActivity
 import com.haruhi.bismark439.haruhiism.databinding.FragmentWallpaperSettingBinding
-import com.haruhi.bismark439.haruhiism.system.LauncherManager
-import com.haruhi.bismark439.haruhiism.system.LauncherType
-import com.haruhi.bismark439.haruhiism.system.PermissionManager
+import com.haruhi.bismark439.haruhiism.system.*
 import com.haruhi.bismark439.haruhiism.system.ui.Toaster
 import java.io.FileOutputStream
 
-enum class TimeUnit {
-    Day, Hour, Second
-}
-
-enum class CropType {
-    Fit, Fill, Stretch
-}
 
 class WallpaperSettingFragment :
     IFragmentActivity<FragmentWallpaperSettingBinding>(
@@ -48,15 +34,19 @@ class WallpaperSettingFragment :
     var launcherInit = false
     val type = LauncherType.SelectPath
     //val act2 =
-    val fileExplorerLauncher =initActivityLauncher {onPathSelected(it)  }
-
+    private val fileExplorerLauncher =initActivityLauncher(this::onPathSelected)
+    val isOnProgress = true
     override fun onRefreshUI() {
+        val bivis = ScreenManager.getBinaryVisibility(isOnProgress)
+        binding.mainBoard.visibility=bivis.showIfFalse
+        binding.workOnProgress.visibility=bivis.showIfTrue
+
         binding.btnOpenFolder.setOnClickListener {
             onClickOpenFolder()
         }
-       binding.editSelectedPath.setText(folderPath)
+       binding.etSelectedPath.setText(folderPath)
         binding.tvFilesFound.text = "$numFiles files found"
-        binding.rgFillType.check(getRadioGroupId(cropType))
+        binding.rgFillType.check(cropType.getRadioGroupId())
         binding.etTimeVal.setText(timeVal.toString())
         /*   setSpinner()*/
          binding.btnLeftSet.setOnClickListener { setWallpaper(R.drawable.wp_haruhi) }
@@ -104,8 +94,8 @@ class WallpaperSettingFragment :
     }
 
 
-    private fun getRadioGroupId(type: CropType): Int {
-        return when (type) {
+    fun CropType.getRadioGroupId(): Int {
+        return when (this) {
             CropType.Fit -> binding.rbFit.id
             CropType.Fill -> binding.rbFill.id
             CropType.Stretch -> binding.rbStretch.id
@@ -151,13 +141,13 @@ class WallpaperSettingFragment :
     }
 
     private fun launchFileExplorer() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-       // LauncherManager.launch(type, intent)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+        intent.addCategory(Intent.CATEGORY_DEFAULT)
         fileExplorerLauncher.launch(intent)
     }
 
-    fun onPathSelected(res: ActivityResult) {
-
+    private fun onPathSelected(res: ActivityResult) {
+        binding.etSelectedPath.setText(res.data.toString())
     }
 
 }

@@ -15,7 +15,6 @@ import androidx.viewbinding.ViewBinding
 import com.haruhi.bismark439.haruhiism.MyApp
 import com.haruhi.bismark439.haruhiism.system.ActivityResFunc
 
-typealias FragmentInflater<T> = (lf: LayoutInflater, vg: ViewGroup?, b: Boolean) -> T
 
 abstract class IFragmentActivity<T : ViewBinding>(
     private val inflater: FragmentInflater<T>
@@ -50,3 +49,5 @@ abstract class IFragmentActivity<T : ViewBinding>(
         return launcher
     }
 }
+
+typealias FragmentInflater<T> = (lf: LayoutInflater, vg: ViewGroup?, b: Boolean) -> T

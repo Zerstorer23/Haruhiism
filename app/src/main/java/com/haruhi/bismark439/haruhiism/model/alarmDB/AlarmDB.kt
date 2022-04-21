@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import com.haruhi.bismark439.haruhiism.system.alarms.AlarmReceiver
 import com.haruhi.bismark439.haruhiism.R
+import com.haruhi.bismark439.haruhiism.activities.AddAlarmActivity
 import com.haruhi.bismark439.haruhiism.activities.alarm_screens.KyonSisterAlarmActivity
 import com.haruhi.bismark439.haruhiism.activities.alarm_screens.HaruhiAlarmScreen
 import com.haruhi.bismark439.haruhiism.activities.alarm_screens.KoizumiAlarmScreenActivity
@@ -70,10 +71,11 @@ class AlarmDB {
 
         @SuppressLint( "ShortAlarm")
         fun registerAlarm(mContext: Context, alarm: AlarmData) {
+            if(!alarm.enabled) return
             val alarmManager = mContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(mContext, AlarmReceiver::class.java)
             val reqCode = alarm.reqCode
-            val time: Long = alarm.startingTime
+            val time: Long = AlarmFactory.getNearestNextTimeInMills(alarm.alarmHours, alarm.alarmMinutes)// alarm.startingTime
             intent.putExtra(ALARM_REQ_CODE_TITLE, reqCode)
             println("Sent code[ADD]:$reqCode")
             println("$alarm")

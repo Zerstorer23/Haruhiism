@@ -1,9 +1,8 @@
 package com.haruhi.bismark439.haruhiism.activities.navigation_ui.home
 
-import android.Manifest
 import android.content.Intent
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.result.ActivityResult
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.haruhi.bismark439.haruhiism.R
@@ -14,9 +13,7 @@ import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmAdapter
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDB
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDao
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmData
-import com.haruhi.bismark439.haruhiism.system.LauncherManager
-import com.haruhi.bismark439.haruhiism.system.LauncherType
-import com.haruhi.bismark439.haruhiism.system.StorageManager
+import com.haruhi.bismark439.haruhiism.system.ui.Toaster
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -28,10 +25,9 @@ class HomeFragment : IFragmentActivity<FragmentHomeBinding>(
 
     private var easter = false
     private lateinit var adaptor: AlarmAdapter
+    private val createAlarmLauncher = initActivityLauncher(this::onAlarmCreated)
 
-    override fun onActivityStart() {
-        setUpAddAlarmLauncher()
-    }
+    override fun onActivityStart() {}
 
     override fun onRefreshUI() {
 
@@ -43,21 +39,21 @@ class HomeFragment : IFragmentActivity<FragmentHomeBinding>(
     }
 
 
-
     private fun onClickAddAlarm() {
         val intent = Intent(requireContext(), AddAlarmActivity::class.java)
-        LauncherManager.launch(LauncherType.CreateAlarm, intent)
+        createAlarmLauncher.launch(intent)
     }
 
-    private fun setUpAddAlarmLauncher() {
-        LauncherManager.init(activity as AppCompatActivity, LauncherType.CreateAlarm) {
-            val newAlarm = it.data!!.getParcelableExtra<AlarmData>("alarm")!!
-            lifecycleScope.launch {
-                println("Insert new alarm: " + newAlarm.reqCode)
-                AlarmDao.instance.insert(newAlarm)
-            }
+
+    private fun onAlarmCreated(it: ActivityResult) {
+        val newAlarm = it.data!!.getParcelableExtra<AlarmData>("alarm")!!
+        lifecycleScope.launch {
+            println("Insert new alarm: " + newAlarm.reqCode)
+            AlarmDao.instance.insert(newAlarm)
         }
     }
+
+
 
     private fun loadAlarms() {
         AlarmDao.initDao(requireContext())

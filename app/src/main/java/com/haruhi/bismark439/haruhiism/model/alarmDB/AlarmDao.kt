@@ -26,6 +26,13 @@ interface AlarmDao {
                 "LIMIT 1"
     )
     fun select(code: Int): Flow<AlarmData?>
+    @Query(
+        "SELECT * " +
+                "FROM `alarm-table`" +
+                "where reqCode=:code "+
+                "LIMIT 1"
+    )
+    fun selectOnce(code: Int): AlarmData?
 
     companion object {
         lateinit var instance: AlarmDao

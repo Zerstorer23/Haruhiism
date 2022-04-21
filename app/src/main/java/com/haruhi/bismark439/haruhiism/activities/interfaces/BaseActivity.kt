@@ -8,7 +8,7 @@ import com.haruhi.bismark439.haruhiism.MyApp
 import com.haruhi.bismark439.haruhiism.system.Sleeper
 import com.haruhi.bismark439.haruhiism.system.ui.Toaster
 
-typealias ActivityViewBinder<T> = (lf: LayoutInflater) -> T
+
 
 open class BaseActivity<T : ViewBinding>(
     private val inflater: ActivityViewBinder<T>
@@ -45,3 +45,5 @@ open class BaseActivity<T : ViewBinding>(
     }
 
 }
+
+typealias ActivityViewBinder<T> = (lf: LayoutInflater) -> T

@@ -28,20 +28,7 @@ object LauncherManager {
             }
     }
 
-    fun init(
-        registerForActivityResult: (ActivityResultContracts.StartActivityForResult,
-                                    f: (it:ActivityResult)->Unit)-> ActivityResultLauncher<Intent>,
-        type: LauncherType,
-        onResult: ActivityResFunc) : ActivityResultLauncher<Intent>{
-        dictionary[type] =
-                registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            {
-                if (it.resultCode == Activity.RESULT_OK) {
-                    onResult(it)
-                }
-            }
-        return dictionary[type]!!
-    }
+
     fun launch(type: LauncherType, intent: Intent) {
         if (dictionary.containsKey(type)) {
             dictionary[type]?.launch(intent)

@@ -1,25 +1,20 @@
 package com.haruhi.bismark439.haruhiism.system.alarms
 
-import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.os.Handler
 import android.os.IBinder
-import android.os.Looper
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.haruhi.bismark439.haruhiism.R
-import com.haruhi.bismark439.haruhiism.activities.MainActivity
+import com.haruhi.bismark439.haruhiism.activities.MainNavigatorActivity
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDB
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDao
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import java.lang.Runnable
 import kotlin.concurrent.thread
 import android.app.NotificationChannel as NotificationChannel1
 
@@ -91,7 +86,7 @@ class MyService : Service() {
     }
 
     private fun sendNotification(title: String, messageBody: String) {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MainNavigatorActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         val notificationBuilder = NotificationCompat.Builder(
             this, CHANNEL_ID

@@ -1,8 +1,10 @@
 package com.haruhi.bismark439.haruhiism.system
 
+import com.haruhi.bismark439.haruhiism.R
+
 object Constants {
 
-//adb shell am broadcast -a android.intent.action.BOOT_COMPLETED
+    //adb shell am broadcast -a android.intent.action.BOOT_COMPLETED
     //adb -s ce07171780f8c0030b7e shell am broadcast -a android.intent.action.BOOT_COMPLETED -p com.haruhi.bismark439.haruhiism
     //adb devices
     const val NOTIFICATION_CHANNEL_ID = "com.haruhi.bismark439.haruhiism:notification_channel"
@@ -36,13 +38,31 @@ fun String.toDayName(index: Int): String {
 
 fun String.getDays(): String {
     val sb = StringBuilder()
-    if(this.length < 7) return "?"
-    for(i in 0..6){
-        if(this[i]!='0'){
+    if (this.length < 7) return "?"
+    for (i in 0..6) {
+        if (this[i] != '0') {
             sb.append(this.toDayName(i))
         }
     }
     return sb.toString()
+}
+
+fun Long.toReadableTime(): String {
+    var seconds = this / 1000
+    val hours = seconds / (3600)
+    seconds -= hours * 3600
+    val minutes = seconds / 60
+    seconds -= minutes * 60
+    seconds %= 60
+    return "${hours}h : ${minutes}m : ${seconds}s"
+}
+
+enum class TimeUnit {
+    Day, Hour, Second
+}
+
+enum class CropType {
+    Fit, Fill, Stretch
 }
 
 

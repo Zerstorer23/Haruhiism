@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.haruhi.bismark439.haruhiism.system.toReadableTime
 
 /**
  * Created by Bismark439 on 14/01/2018.
@@ -72,8 +73,7 @@ data class AlarmData(
         val sb = StringBuilder()
         sb.append("=====PRINTING ALARM DATA: =====\n")
         sb.append("${alarmHours} :  $alarmMinutes  Code: $reqCode  Enabled: $enabled \n")
-        sb.append("$days \n")
-        sb.append("\n")
+        sb.append("Last: ${lastTime.toReadableTime()} :  $alarmMinutes  Days: $days \n")
         sb.append("======================\n")
         return sb.toString()
     }

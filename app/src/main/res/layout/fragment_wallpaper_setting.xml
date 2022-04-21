@@ -1,182 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/activity_padding"
     android:layout_marginBottom="@dimen/activity_nav_height"
-    >
-
-
-<LinearLayout
-
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activities.navigation_ui.wallpaper_setting.WallpaperSettingFragment">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnOpenFolder"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="3"
-            android:text="Open\nFolder" />
-
-        <EditText
-            android:id="@+id/editSelectedPath"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="7"
-            android:enabled="false"
-            android:minHeight="48dp"
-            android:text="C:\dd\dd\dd.." />
-    </LinearLayout>
+    android:padding="@dimen/activity_padding">
 
     <TextView
-        android:id="@+id/tvFilesFound"
+        android:id="@+id/workOnProgress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="523 files found"
-        android:textSize="15dp" />
-
-    <CheckBox
-        android:id="@+id/cbRandom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Randomize order" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:src="@drawable/appicoharuhi" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:src="@drawable/appicoharuhi" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:src="@drawable/appicoharuhi" />
-
-
-    </LinearLayout>
-
-
-
-    <RadioGroup
-        android:id="@+id/rgFillType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rbFit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Fit" />
-
-        <RadioButton
-            android:id="@+id/rbStretch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Stretch" />
-
-        <RadioButton
-            android:id="@+id/rbFill"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Fill" />
-    </RadioGroup>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:layout_marginVertical="15dp">
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_gravity="center"
-            android:gravity="end"
-            android:text="Update Every"/>
-        <EditText
-            android:id="@+id/etTimeVal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="number"
-            />
-        <Spinner
-            android:id="@+id/spTimeUnit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_weight="1"/>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvWallpaperStatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Wallpaper is ON"
-        android:textSize="36dp"
-        android:textColor="#00c800"
         android:gravity="center"
-        android:layout_marginTop="5dp"
+        android:text="@string/this_service_is_under_development"
+        android:textSize="36dp"
+        android:visibility="gone"
+
         />
 
-</LinearLayout>
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/mainBoard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="bottom"
-        android:layout_gravity="bottom">
-        <Button
-            android:id="@+id/btnLeftSet"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        >
+
+        <LinearLayout
+
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".activities.navigation_ui.wallpaper_setting.WallpaperSettingFragment">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnOpenFolder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="3"
+                    android:text="Open\nFolder" />
+
+                <EditText
+                    android:id="@+id/et_selected_path"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="7"
+                    android:enabled="false"
+                    android:minHeight="48dp"
+                    android:text="C:\dd\dd\dd.." />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvFilesFound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="523 files found"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/cbRandom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Randomize order" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/appicoharuhi" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/appicoharuhi" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/appicoharuhi" />
+
+
+            </LinearLayout>
+
+
+            <RadioGroup
+                android:id="@+id/rgFillType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbFit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Fit" />
+
+                <RadioButton
+                    android:id="@+id/rbStretch"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Stretch" />
+
+                <RadioButton
+                    android:id="@+id/rbFill"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Fill" />
+            </RadioGroup>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginVertical="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:gravity="end"
+                    android:text="Update Every" />
+
+                <EditText
+                    android:id="@+id/etTimeVal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="number" />
+
+                <Spinner
+                    android:id="@+id/spTimeUnit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvWallpaperStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="Wallpaper is ON"
+                android:textColor="#00c800"
+                android:textSize="36dp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Set 1" />
-        <Button
-            android:id="@+id/btnRightSet"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Set2" />
-    </LinearLayout>
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnLeftSet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Set 1" />
+
+            <Button
+                android:id="@+id/btnRightSet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="Set2" />
+        </LinearLayout>
+    </FrameLayout>
+
 </FrameLayout>

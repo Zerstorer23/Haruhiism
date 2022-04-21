@@ -16,6 +16,7 @@ import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmWakers
 import com.haruhi.bismark439.haruhiism.system.alarms.SoundPlayer.Companion.DEFAULT_VOLUME
 import com.haruhi.bismark439.haruhiism.system.isTrueAt
 import com.haruhi.bismark439.haruhiism.system.replaceAt
+import com.haruhi.bismark439.haruhiism.system.ui.Toaster
 import java.util.*
 
 
@@ -144,36 +145,20 @@ class AddAlarmActivity : BaseActivity<ActivityAddAlarmBinding>(ActivityAddAlarmB
     private fun onDone() {
         val hour = alarmTimePicker.hour
         val minutes = alarmTimePicker.minute
-        val nearestTimeInMills = getNearestNextTimeInMills(hour, minutes)
-        //AlarmData temp = new AlarmData(time, reqCode,true);
-
+        val nearestTimeInMills = AlarmFactory.getNearestNextTimeInMills(hour, minutes)
         val newAlarm = AlarmFactory.create(hour, minutes, nearestTimeInMills)
         newAlarm.days = days
         newAlarm.waker = getSelectedWaker()
         newAlarm.volume = binding.aVolseek.progress
         newAlarm.enabled = true
-
+        AlarmFactory.showNextAlarmTime(applicationContext, newAlarm)
         val data = Intent()
         data.putExtra(AlarmDB.ALARM_INTENT_DATA_LABEL, newAlarm)
         setResult(RESULT_OK, data)
         finish()
     }
 
-    private fun getNearestNextTimeInMills(hour: Int, minutes: Int): Long {
-        var nextTimeInMills: Long
-        val calendar = Calendar.getInstance() //Alarm time
-        calendar[Calendar.HOUR_OF_DAY] = hour
-        calendar[Calendar.MINUTE] = minutes
-        nextTimeInMills =
-            calendar.timeInMillis - calendar.timeInMillis % 60_000 //Convert to seconds
 
-        if (System.currentTimeMillis() > nextTimeInMills) {
-            //this time is past..
-            nextTimeInMills += (dayInMills * 2)
-            //add 1 day
-        }
-        return nextTimeInMills
-    }
 
     companion object {
         const val dayInMills: Long = 1000 * 60 * 60 * 24
@@ -184,6 +169,7 @@ class AddAlarmActivity : BaseActivity<ActivityAddAlarmBinding>(ActivityAddAlarmB
             R.string.koizumi_and_sos,
             R.string.mikuruJinsoku
         )
+
     }
 
 
