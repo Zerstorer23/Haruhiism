@@ -127,7 +127,7 @@
     <string name="txt_hours">시간</string>
     <string name="txt_enable_wallpaper">자동변경 켜기</string>
     <string name="txt_disable_wallpaper">자동변경 끄기</string>
-    <string name="txt_wallpaper_is_off">배경화면을 사용중이지 않음</string>
+    <string name="txt_wallpaper_is_off"> </string>
     <string name="txt_wallpaper_is_on">배경화면 사용중</string>
     <string name="txt_files_found">%1$s 개의 이미지를 찾음</string>
     <string name="empty_this_field_to_use_default_text_set">…</string>

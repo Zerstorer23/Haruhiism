@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyEllipsis">
     <string name="app_name">Haruhiism</string>
     <string name="sincelast">Until 直觀</string>
     <string name="beforelast">Since 直觀</string>
