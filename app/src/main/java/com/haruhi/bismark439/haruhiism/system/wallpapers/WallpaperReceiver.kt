@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setting.MyWallpaperOption
-import com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setting.WallpaperSettingFragment
 
 class WallpaperReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
