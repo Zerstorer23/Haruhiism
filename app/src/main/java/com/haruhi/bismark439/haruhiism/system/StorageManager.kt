@@ -1,6 +1,5 @@
 package com.haruhi.bismark439.haruhiism.system
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences

@@ -4,10 +4,8 @@ package com.haruhi.bismark439.haruhiism.system
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import java.util.*
 
 object Helper {
 

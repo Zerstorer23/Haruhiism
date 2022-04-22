@@ -118,7 +118,7 @@ object WallpaperHandler {
         return dstBmp
     }
 
-    @SuppressLint("MissingPermission")
+/*    @SuppressLint("MissingPermission")
     fun getWallpaper(context: Context) {
         val wmInstance = WallpaperManager.getInstance(context)
         wmInstance.drawable.toBitmap()
@@ -126,5 +126,5 @@ object WallpaperHandler {
                 Bitmap.CompressFormat.PNG, 100,
                 FileOutputStream("/storage/emulated/0/output.png")
             )
-    }
+    }*/
 }

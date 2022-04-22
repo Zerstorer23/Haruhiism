@@ -1,7 +1,5 @@
 package com.haruhi.bismark439.haruhiism.system
 
-import com.haruhi.bismark439.haruhiism.R
-
 object Constants {
 
     //adb shell am broadcast -a android.intent.action.BOOT_COMPLETED

@@ -1,6 +1,5 @@
 package com.haruhi.bismark439.haruhiism.system.alarms
 
-import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context

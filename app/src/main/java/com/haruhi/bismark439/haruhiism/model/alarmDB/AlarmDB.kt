@@ -5,16 +5,14 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import com.haruhi.bismark439.haruhiism.system.alarms.AlarmReceiver
 import com.haruhi.bismark439.haruhiism.R
-import com.haruhi.bismark439.haruhiism.activities.AddAlarmActivity
-import com.haruhi.bismark439.haruhiism.activities.alarm_screens.KyonSisterAlarmActivity
 import com.haruhi.bismark439.haruhiism.activities.alarm_screens.HaruhiAlarmScreen
 import com.haruhi.bismark439.haruhiism.activities.alarm_screens.KoizumiAlarmScreenActivity
+import com.haruhi.bismark439.haruhiism.activities.alarm_screens.KyonSisterAlarmActivity
 import com.haruhi.bismark439.haruhiism.activities.alarm_screens.mikuru_alarms.MikuruOchaAlarmActivity
 import com.haruhi.bismark439.haruhiism.activities.alarm_screens.mikuru_alarms.MikuruPuzzleAlarmActivity
+import com.haruhi.bismark439.haruhiism.system.alarms.AlarmReceiver
 import kotlinx.coroutines.DelicateCoroutinesApi
-import java.util.*
 
 enum class AlarmWakers {
     Random, KyonSister, MikuruPuzzle, Koizumi, MikuruOcha, Haruhi
@@ -24,7 +22,7 @@ class AlarmDB {
     @DelicateCoroutinesApi
     companion object {
         const val ALARM_INTENT_DATA_LABEL = "alarm"
-        const val ALARM_REQ_CODE_TITLE = "requestCode"
+        private const val ALARM_REQ_CODE_TITLE = "requestCode"
         val AlarmDictionary = hashMapOf(
             AlarmWakers.KyonSister to KyonSisterAlarmActivity::class.java,
             AlarmWakers.MikuruPuzzle to MikuruPuzzleAlarmActivity::class.java,
@@ -46,15 +44,6 @@ class AlarmDB {
 
 
         var alarmDB: ArrayList<AlarmData> = arrayListOf()
-
-        fun getByCode(req: Int): AlarmData? {
-            for (alarm in alarmDB) {
-                if (alarm.reqCode == req) {
-                    return alarm
-                }
-            }
-            return null
-        }
 
         fun  safeRegisterAllAlarms(context: Context) {
             for (alarm in alarmDB) {

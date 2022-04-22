@@ -72,7 +72,7 @@ data class AlarmData(
     override fun toString(): String {
         val sb = StringBuilder()
         sb.append("=====PRINTING ALARM DATA: =====\n")
-        sb.append("${alarmHours} :  $alarmMinutes  Code: $reqCode  Enabled: $enabled \n")
+        sb.append("$alarmHours :  $alarmMinutes  Code: $reqCode  Enabled: $enabled \n")
         sb.append("Last: ${lastTime.toReadableTime()} :  $alarmMinutes  Days: $days \n")
         sb.append("======================\n")
         return sb.toString()

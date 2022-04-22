@@ -1,8 +1,6 @@
 package com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setting
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.provider.DocumentsContract
@@ -78,7 +76,7 @@ class MyWallpaperOption {
 
     var imgList: ArrayList<Uri> = arrayListOf()
     var simplePath: String = ""
-    var pathIsValid = false
+    private var pathIsValid = false
 
     fun setPathUri(uri: Uri?) {
         folderPathUri = uri
@@ -161,7 +159,7 @@ class MyWallpaperOption {
             getRandomUri()
         } else {
             val curr = iterator
-            iterator++;
+            iterator++
             iterator %= imgList.size
             savePartial(context, this, ITERATOR)
             imgList[curr]

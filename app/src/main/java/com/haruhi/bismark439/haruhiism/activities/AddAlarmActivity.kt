@@ -1,3 +1,5 @@
+@file:OptIn(DelicateCoroutinesApi::class)
+
 package com.haruhi.bismark439.haruhiism.activities
 
 import android.content.Intent
@@ -16,8 +18,7 @@ import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmWakers
 import com.haruhi.bismark439.haruhiism.system.alarms.SoundPlayer.Companion.DEFAULT_VOLUME
 import com.haruhi.bismark439.haruhiism.system.isTrueAt
 import com.haruhi.bismark439.haruhiism.system.replaceAt
-import com.haruhi.bismark439.haruhiism.system.ui.Toaster
-import java.util.*
+import kotlinx.coroutines.DelicateCoroutinesApi
 
 
 class AddAlarmActivity : BaseActivity<ActivityAddAlarmBinding>(ActivityAddAlarmBinding::inflate) {
@@ -142,6 +143,7 @@ class AddAlarmActivity : BaseActivity<ActivityAddAlarmBinding>(ActivityAddAlarmB
         }
     }
 
+    @DelicateCoroutinesApi
     private fun onDone() {
         val hour = alarmTimePicker.hour
         val minutes = alarmTimePicker.minute

@@ -15,8 +15,9 @@ import com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_settin
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDB
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDao
 import com.haruhi.bismark439.haruhiism.system.wallpapers.WallpaperBroadcastManager
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 import android.app.NotificationChannel as NotificationChannel1
 

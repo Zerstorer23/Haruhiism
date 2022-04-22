@@ -18,7 +18,7 @@ class WidgetDB {
     @DelicateCoroutinesApi
     companion object {
         //var widgetDB: ArrayList<WidgetData> = arrayListOf()
-        var widgetDB: HashMap<Int, WidgetData> = hashMapOf()// arrayListOf()
+        private var widgetDB: HashMap<Int, WidgetData> = hashMapOf()// arrayListOf()
 
         private fun buildHashMap(it: List<WidgetData>) {
             widgetDB.clear()
