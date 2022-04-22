@@ -136,5 +136,5 @@
     <string name="update_every">변환 주기</string>
     <string name="open_nfolder">폴더열기</string>
     <string name="apply_settings">적용</string>
-    <string name="txt_wallpaper_set">Wallpaper set</string>
+    <string name="txt_wallpaper_set">화면 설정 완료</string>
 </resources>
