@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setting.MyWallpaperOption
-import com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setting.WallpaperSettingFragment
 
 object WallpaperBroadcastManager {
     private const val wallpaperCode = 346
@@ -30,7 +29,7 @@ object WallpaperBroadcastManager {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         val timeInterval : Long =  10*1000L//option.getTimeUnitInMills()
-        alarmManager.setInexactRepeating(
+        alarmManager.setRepeating(
             AlarmManager.RTC,
             System.currentTimeMillis()+timeInterval,
             timeInterval,
