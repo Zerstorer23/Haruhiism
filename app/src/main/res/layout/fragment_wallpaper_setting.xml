@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/activity_nav_height"
     android:padding="@dimen/activity_padding">
 
-    <TextView
-        android:id="@+id/workOnProgress"
+    <ProgressBar
+        android:id="@+id/spLoading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/this_service_is_under_development"
-        android:textSize="36dp"
-        android:visibility="gone"
-
+        android:indeterminate="true"
+        android:visibility="visible"
+        tools:visibility="gone"
         />
 
     <FrameLayout
         android:id="@+id/mainBoard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        >
+        tools:visibility="visible"
+        android:visibility="gone">
 
-        <LinearLayout
-
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -50,14 +48,15 @@
                 <EditText
                     android:id="@+id/et_selected_path"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
                     android:layout_weight="7"
                     android:enabled="false"
                     android:minHeight="48dp"
-                    android:text="C:\dd\dd\dd.." />
+                    android:text="C:\dd\dd\dd.."
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <TextView
@@ -66,13 +65,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="523 files found"
-                android:textSize="15dp" />
+                android:textSize="18sp" />
 
-            <CheckBox
-                android:id="@+id/cbRandom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Randomize order" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,57 +74,63 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/imgLeft"
                     android:layout_width="0dp"
-                    android:layout_height="100dp"
+                    android:layout_height="150dp"
                     android:layout_weight="1"
                     android:src="@drawable/appicoharuhi" />
 
                 <ImageView
+                    android:id="@+id/imgCenter"
                     android:layout_width="0dp"
-                    android:layout_height="100dp"
+                    android:layout_height="150dp"
                     android:layout_weight="1"
                     android:src="@drawable/appicoharuhi" />
 
                 <ImageView
+                    android:id="@+id/imgRight"
                     android:layout_width="0dp"
-                    android:layout_height="100dp"
+                    android:layout_height="150dp"
                     android:layout_weight="1"
                     android:src="@drawable/appicoharuhi" />
-
-
             </LinearLayout>
 
-
-            <RadioGroup
-                android:id="@+id/rgFillType"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:visibility="gone">
 
-                android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/rbFit"
-                    android:layout_width="0dp"
+                <RadioGroup
+                    android:id="@+id/rgFillType"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Fit" />
+                    android:layout_gravity="center"
 
-                <RadioButton
-                    android:id="@+id/rbStretch"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Stretch" />
+                    android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/rbFill"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Fill" />
-            </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/rbFit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Fit" />
 
+                    <RadioButton
+                        android:id="@+id/rbStretch"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Stretch" />
+
+                    <RadioButton
+                        android:id="@+id/rbFill"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Fill" />
+                </RadioGroup>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -142,7 +142,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:gravity="end"
                     android:text="Update Every" />
 
@@ -151,6 +151,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:inputType="number" />
 
                 <Spinner
@@ -162,6 +163,48 @@
                     android:gravity="center" />
             </LinearLayout>
 
+            <CheckBox
+                android:id="@+id/cbRandom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Randomize order"
+                android:textSize="16sp" />
+
+            <FrameLayout
+                android:id="@+id/flQuatationContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/cbAddTextOption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Add texts on images"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/etCustomQuotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:hint="Empty this field to use default text set..."/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:gravity="bottom|center"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tvWallpaperStatus"
                 android:layout_width="match_parent"
@@ -169,33 +212,37 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="Wallpaper is ON"
-                android:textColor="#00c800"
                 android:textSize="36dp" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:gravity="bottom"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnLeftSet"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="Set 1" />
 
-            <Button
-                android:id="@+id/btnRightSet"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="Set2" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_toggle_wallpaper"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="1"
+                    android:paddingVertical="12dp"
+                    android:text="Enable Wallpaper" />
+
+                <Button
+                    android:id="@+id/btnRightSet"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_weight="1"
+                    android:paddingVertical="12dp"
+                    android:text="Apply settings" />
+            </LinearLayout>
+
         </LinearLayout>
+
     </FrameLayout>
 
 </FrameLayout>

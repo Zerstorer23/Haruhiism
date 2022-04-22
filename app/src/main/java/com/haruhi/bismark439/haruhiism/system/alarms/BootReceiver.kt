@@ -20,7 +20,7 @@ class BootReceiver : BroadcastReceiver() {
             || intent.action == Intent.ACTION_MY_PACKAGE_REPLACED
             || intent.action == Intent.ACTION_AIRPLANE_MODE_CHANGED
         ) {
-            val mintent = Intent(context, MyService::class.java)
+            val mintent = Intent(context, BootingService::class.java)
             context.startForegroundService(mintent)
         }
     }

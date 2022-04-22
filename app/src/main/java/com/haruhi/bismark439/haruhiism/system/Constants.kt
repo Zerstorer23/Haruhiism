@@ -58,7 +58,7 @@ fun Long.toReadableTime(): String {
 }
 
 enum class TimeUnit {
-    Day, Hour, Second
+    Day, Hour, Minutes
 }
 
 enum class CropType {

@@ -1,26 +1,23 @@
 package com.haruhi.bismark439.haruhiism.system
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 
 object StorageManager {
 
     private const val PREF_NAME = "HARUHI_PREF"
-    fun getSharedPrefEditor(context: Context):SharedPreferences.Editor{
-        val sharedPref = getSharedPref(context)
+    fun getPrefWriter(context: Context): SharedPreferences.Editor {
+        val sharedPref = getPrefReader(context)
         return sharedPref.edit()
     }
-    fun getSharedPref(context: Context):SharedPreferences{
+
+    fun getPrefReader(context: Context): SharedPreferences {
         return context.getSharedPreferences(
             PREF_NAME,
             AppCompatActivity.MODE_PRIVATE
@@ -35,12 +32,17 @@ object StorageManager {
         LauncherManager.launch(type, intent)
     }
 
-    fun getFileExtension(activity: Activity, uri: Uri): String? {
+    private fun getFileExtension(context: Context, uri: Uri): String? {
         return MimeTypeMap.getSingleton()
             .getExtensionFromMimeType(
-                activity.contentResolver.getType(uri)
+                context.contentResolver.getType(uri)
             )
     }
 
+    private val imageExts = hashSetOf("gif", "jpg", "png", "jpeg")
+    fun isAnImage(context: Context, uri: Uri): Boolean {
+        val ext = getFileExtension(context, uri)
+        return imageExts.contains(ext)
+    }
 
 }

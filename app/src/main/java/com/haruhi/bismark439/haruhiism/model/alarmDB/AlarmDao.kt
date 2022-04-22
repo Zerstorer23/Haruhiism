@@ -19,6 +19,8 @@ interface AlarmDao {
     @Query("SELECT * FROM `alarm-table`")
     fun selectAll(): Flow<List<AlarmData>>
 
+    @Query("SELECT * FROM `alarm-table`")
+    fun selectAllOnce(): List<AlarmData>
     @Query(
         "SELECT * " +
                 "FROM `alarm-table`" +

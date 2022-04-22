@@ -121,5 +121,13 @@
     <string name="seconds">초</string>
     <string name="toast_next_alarm">%1$s 후에 알람이 울립니다.</string>
     <string name="txt_no_alarm_tomorrow">알람은 다음 설정일에 울립니다</string>
-    <string name="this_service_is_under_development">준비중입니다...</string>
+    <string name="this_service_is_under_development">준비중입니다…</string>
+    <string name="wp_invalid_paths">Invalid path</string>
+    <string name="txt_day">Day</string>
+    <string name="txt_hours">Hours</string>
+    <string name="txt_enable_wallpaper">Enable Wallpaper</string>
+    <string name="txt_wallpaper_is_off">Wallpaper is OFF</string>
+    <string name="txt_disable_wallpaper">Disable Wallpaper</string>
+    <string name="txt_wallpaper_is_on">Wallpaper is ON</string>
+    <string name="txt_files_found">%1$s files found</string>
 </resources>

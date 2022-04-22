@@ -616,6 +616,14 @@ hNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNmm+///-..-/////ydddddddNdNNNNNNNNNMMMMMMMMNN
     <string name="toast_next_alarm">Next alarm after %1$s</string>
     <string name="txt_no_alarm_tomorrow">Alarm will ring on the next calendar day</string>
     <string name="this_service_is_under_development">This service is under development…</string>
+    <string name="wp_invalid_paths">Invalid path</string>
+    <string name="txt_day">Day</string>
+    <string name="txt_hours">Hours</string>
+    <string name="txt_enable_wallpaper">Enable Wallpaper</string>
+    <string name="txt_wallpaper_is_off">Wallpaper is OFF</string>
+    <string name="txt_disable_wallpaper">Disable Wallpaper</string>
+    <string name="txt_wallpaper_is_on">Wallpaper is ON</string>
+    <string name="txt_files_found">%1$s files found</string>
 
     <!--
     https://www.text-image.com/convert/pic2ascii.cgi

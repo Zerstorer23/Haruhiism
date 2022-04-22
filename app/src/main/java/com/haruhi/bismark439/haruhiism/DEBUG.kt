@@ -9,6 +9,15 @@ object DEBUG {
         for (line in stack) sb.append("$line \n")
         println(sb.toString())
     }
+
+    private var beginTime = 0L
+    fun start(){
+        beginTime = System.currentTimeMillis()
+    }
+    fun lap(tag:String){
+        val elapsed = System.currentTimeMillis() - beginTime
+        println("Elapsed $tag = $elapsed")
+    }
 }
 
 /*

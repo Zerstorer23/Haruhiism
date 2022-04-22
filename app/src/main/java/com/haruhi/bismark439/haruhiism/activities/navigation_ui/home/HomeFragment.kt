@@ -13,7 +13,6 @@ import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmAdapter
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDB
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDao
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmData
-import com.haruhi.bismark439.haruhiism.system.ui.Toaster
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -24,10 +23,12 @@ class HomeFragment : IFragmentActivity<FragmentHomeBinding>(
 ) {
 
     private var easter = false
-    private lateinit var adaptor: AlarmAdapter
     private val createAlarmLauncher = initActivityLauncher(this::onAlarmCreated)
 
-    override fun onActivityStart() {}
+    override fun onActivityStart() {
+
+        loadAlarms()
+    }
 
     override fun onRefreshUI() {
 
@@ -35,7 +36,7 @@ class HomeFragment : IFragmentActivity<FragmentHomeBinding>(
         binding.btnAddAlarm.setOnClickListener {
             onClickAddAlarm()
         }
-        loadAlarms()
+        setUpListView()
     }
 
 
@@ -61,14 +62,17 @@ class HomeFragment : IFragmentActivity<FragmentHomeBinding>(
             AlarmDao.instance.selectAll().collect {
                 AlarmDB.alarmDB = ArrayList(it)
                 println("alarm list updated : " + it.size)
-                adaptor =
-                    AlarmAdapter(requireContext(), AlarmDB.alarmDB, ::removeAlarm, ::updateAlarm)
-                binding.rvAlarms.layoutManager = LinearLayoutManager(requireContext())
-                binding.rvAlarms.adapter = adaptor
+                setUpListView()
                 if (AlarmDB.alarmDB.size == 0) return@collect
                 AlarmDB.safeRegisterAllAlarms(requireContext())
             }
         }
+    }
+    private fun setUpListView(){
+        val adaptor = AlarmAdapter(requireContext(), AlarmDB.alarmDB, ::removeAlarm, ::updateAlarm)
+        binding.rvAlarms.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvAlarms.adapter = adaptor
+
     }
 
     private fun updateAlarm(alarmData: AlarmData, position: Int) {

@@ -24,12 +24,12 @@ class ActivityYukiLWPSettings :
 
     companion object {
         fun loadLWP(context: Context): String {
-            val pref = StorageManager.getSharedPref(context)
+            val pref = StorageManager.getPrefReader(context)
             return pref.getString("haruhiismLWP", "SUZUMIYA HARUHI")!!
         }
 
         fun saveLWP(context: Context, name: String?) {
-            val editor = StorageManager.getSharedPrefEditor(context)
+            val editor = StorageManager.getPrefWriter(context)
             editor.putString("haruhiismLWP", name)
             editor.commit()
         }
