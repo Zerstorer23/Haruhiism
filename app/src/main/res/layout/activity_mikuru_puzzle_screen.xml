@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/activity_padding"
+    tools:ignore="HardcodedText,ContentDescription,NestedWeights"
     tools:context=".activities.alarm_screens.mikuru_alarms.MikuruPuzzleAlarmActivity">
 
     <LinearLayout
@@ -24,7 +25,7 @@
             <Button
                 android:id="@+id/unlock_mikuru"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:text="@string/give_up_just_unlock"
                 android:visibility="gone"/>

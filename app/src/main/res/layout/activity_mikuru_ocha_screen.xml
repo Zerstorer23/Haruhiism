@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:ignore="HardcodedText,ContentDescription,NestedWeights"
     tools:context=".activities.alarm_screens.mikuru_alarms.MikuruOchaAlarmActivity">
 <LinearLayout
     android:layout_width="match_parent"
@@ -32,7 +33,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="  "/>
+        android:text="  " />
     </LinearLayout>
 
     <ImageView
@@ -40,8 +41,7 @@
         android:layout_width="75dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        app:srcCompat="@drawable/mikuru_prof"
-        android:contentDescription="imageView" />
+        app:srcCompat="@drawable/mikuru_prof" />
 
 </LinearLayout>
 

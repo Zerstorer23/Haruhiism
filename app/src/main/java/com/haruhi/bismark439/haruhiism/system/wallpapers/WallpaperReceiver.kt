@@ -14,8 +14,7 @@ class WallpaperReceiver : BroadcastReceiver() {
     }
 
     private fun setWallpaper(context: Context, option: MyWallpaperOption) {
-        val imgUri = option.getNextUri(context)
-        val bitmap = WallpaperHandler.loadBitmapFromUri(context, imgUri)
-        WallpaperHandler.setWallpaper(context, bitmap)
+        val imgUri = option.getNextUri(context) ?: return
+        WallpaperHandler.setWallpaper(context, imgUri, option)
     }
 }

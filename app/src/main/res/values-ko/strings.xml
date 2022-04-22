@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="TypographyEllipsis">
     <string name="app_name">하루히즘</string>
     <string name="beforelast">직관까지</string>
     <string name="sincelast">직관이후</string>
@@ -33,16 +34,16 @@
     <string name="who_wakes_you_up">누가 깨워주나?</string>
     <string name="kyon_s_sister">쿈의 여동생</string>
     <string name="mikuru_chan">미쿠루쨩</string>
-    <string name="linef1">저...</string>
-    <string name="linef2">그러니까...</string>
+    <string name="linef1">저…</string>
+    <string name="linef2">그러니까…</string>
     <string name="linef3"> </string>
     <string name="linef4">그랬더니</string>
     <string name="linef5">저, 굉장히 놀라서 허둥대면서</string>
     <string name="linef6">전혀</string>
     <string name="line1">로 돌아갈 수 없어요</string>
     <string name="line2">로 항상 미래와 연락하거나</string>
-    <string name="line3">하거나 했는데요...</string>
-    <string name="line4">...</string>
+    <string name="line3">하거나 했는데요…</string>
+    <string name="line4" >...</string>
     <string name="line5">을 해봤는데</string>
     <string name="line6">...</string>
     <string name="haruhialarm">하루히 알람</string>
@@ -58,7 +59,6 @@
     <string name="mline7">저, 어쩌면 좋아요~</string>
     <string name="future">미래</string>
     <string name="kawai">카와이한 미소녀</string>
-
     <string name="q1">전화기</string>
     <string name="q2">편지</string>
     <string name="q3">시간평면</string>
@@ -122,12 +122,19 @@
     <string name="toast_next_alarm">%1$s 후에 알람이 울립니다.</string>
     <string name="txt_no_alarm_tomorrow">알람은 다음 설정일에 울립니다</string>
     <string name="this_service_is_under_development">준비중입니다…</string>
-    <string name="wp_invalid_paths">Invalid path</string>
-    <string name="txt_day">Day</string>
-    <string name="txt_hours">Hours</string>
-    <string name="txt_enable_wallpaper">Enable Wallpaper</string>
-    <string name="txt_wallpaper_is_off">Wallpaper is OFF</string>
-    <string name="txt_disable_wallpaper">Disable Wallpaper</string>
-    <string name="txt_wallpaper_is_on">Wallpaper is ON</string>
-    <string name="txt_files_found">%1$s files found</string>
+    <string name="wp_invalid_paths">경로가 불법입니다.</string>
+    <string name="txt_day">일</string>
+    <string name="txt_hours">시간</string>
+    <string name="txt_enable_wallpaper">자동변경 켜기</string>
+    <string name="txt_disable_wallpaper">자동변경 끄기</string>
+    <string name="txt_wallpaper_is_off">배경화면을 사용중이지 않음</string>
+    <string name="txt_wallpaper_is_on">배경화면 사용중</string>
+    <string name="txt_files_found">%1$s 개의 이미지를 찾음</string>
+    <string name="empty_this_field_to_use_default_text_set">…</string>
+    <string name="add_texts_on_images">텍스트 추가</string>
+    <string name="randomize_order">순서 섞기</string>
+    <string name="update_every">변환 주기</string>
+    <string name="open_nfolder">폴더열기</string>
+    <string name="apply_settings">적용</string>
+    <string name="txt_wallpaper_set">Wallpaper set</string>
 </resources>

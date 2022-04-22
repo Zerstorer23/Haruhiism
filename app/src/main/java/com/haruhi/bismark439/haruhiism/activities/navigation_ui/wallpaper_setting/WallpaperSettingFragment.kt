@@ -1,6 +1,7 @@
 package com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setting
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
@@ -8,18 +9,18 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.lifecycleScope
-import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.activities.interfaces.IFragmentActivity
 import com.haruhi.bismark439.haruhiism.databinding.FragmentWallpaperSettingBinding
-import com.haruhi.bismark439.haruhiism.system.*
+import com.haruhi.bismark439.haruhiism.system.CropType
+import com.haruhi.bismark439.haruhiism.system.PermissionManager
+import com.haruhi.bismark439.haruhiism.system.ScreenManager
+import com.haruhi.bismark439.haruhiism.system.TimeUnit
 import com.haruhi.bismark439.haruhiism.system.ui.Toaster
 import com.haruhi.bismark439.haruhiism.system.wallpapers.WallpaperBroadcastManager
-import com.haruhi.bismark439.haruhiism.system.wallpapers.WallpaperHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 
 class WallpaperSettingFragment :
@@ -40,30 +41,24 @@ class WallpaperSettingFragment :
             getString(R.string.txt_hours),
             getString(R.string.minute)
         )
-        DEBUG.start()
     }
 
     private fun loadOptions() {
-        DEBUG.lap("start loading")
         if (init) {
             postInit()
             return
         }
         lifecycleScope.launch(Dispatchers.Default) {
             option = MyWallpaperOption.loadData(requireContext())
-            DEBUG.lap("load option ")
             option.readFiles(requireContext())
-            DEBUG.lap("Read files ")
             withContext(Dispatchers.Main) {
                 postInit()
             }
-            DEBUG.lap("update UI")
             init = true
         }
     }
 
     private fun preInit() {
-        setSpinner()
         binding.btnOpenFolder.setOnClickListener {
             onClickOpenFolder()
         }
@@ -74,7 +69,7 @@ class WallpaperSettingFragment :
         lifecycleScope.launch(Dispatchers.Default) {
             saveSettings(true)
             withContext(Dispatchers.Main) {
-                Toaster.show(requireContext(), "Wallpaper set")
+                Toaster.show(requireContext(), getString(R.string.txt_wallpaper_set))
             }
         }
     }
@@ -84,14 +79,14 @@ class WallpaperSettingFragment :
         binding.mainBoard.visibility = View.GONE
         preInit()
         loadOptions()
-        DEBUG.lap("Finish loading")
     }
 
     private fun postInit() {
+        setSpinner()
         updateEnabled()
         updatePreviews()
         updateQuotations()
-        binding.tvFilesFound.text = "${option.imgList.size} images found"
+        binding.tvFilesFound.text = getString(R.string.txt_files_found, option.imgList.size.toString())
         binding.rgFillType.check(option.cropType.getRadioGroupId())
         binding.etTimeVal.setText(option.timeVal.toString())
         binding.cbRandom.isChecked = option.randomise
@@ -112,8 +107,9 @@ class WallpaperSettingFragment :
     private fun updateQuotations() {
         val vis = ScreenManager.getBinaryVisibility(option.addTexts)
         binding.etCustomQuotes.visibility = vis.showIfTrue
+        binding.etCustomQuotes.setText(option.customText)
         binding.cbAddTextOption.isChecked = option.addTexts
-        binding.cbAddTextOption.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.cbAddTextOption.setOnCheckedChangeListener { _, isChecked ->
             option.addTexts = isChecked
             binding.etCustomQuotes.visibility = ScreenManager.getVisibility(isChecked)
         }
@@ -123,13 +119,14 @@ class WallpaperSettingFragment :
         binding.tvFilesFound.text =
             getString(R.string.txt_files_found, option.imgList.size.toString())
         binding.etSelectedPath.setText(option.simplePath)
-        val size = option.imgList.size
         val imgArr = arrayOf(binding.imgLeft, binding.imgCenter, binding.imgRight)
         ScreenManager.setVisibilities(View.INVISIBLE, *imgArr)
+        val size = option.imgList.size
         if (size == 0) return
         for (i in imgArr) {
             i.visibility = View.VISIBLE
-            i.setImageURI(option.getRandomUri())
+            val imguri = option.getRandomUri() ?: return
+            i.setImageURI(imguri)
         }
     }
 
@@ -172,6 +169,7 @@ class WallpaperSettingFragment :
             id: Long
         ) {
             option.timeUnit = TimeUnit.values()[position]
+            println("Selected: " + option.timeUnit)
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -199,7 +197,9 @@ class WallpaperSettingFragment :
         }
     }
 
+    @SuppressLint("WrongConstant")
     private fun launchFileExplorer() {
+
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
         intent.addCategory(Intent.CATEGORY_DEFAULT)
         intent.putExtra("android.content.extra.SHOW_ADVANCED", true)
@@ -212,6 +212,10 @@ class WallpaperSettingFragment :
             return
         }
         val uri = res.data!!.data!!
+        requireActivity().contentResolver.takePersistableUriPermission(
+            uri,
+            Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
         option.setPathUri(uri)
         lifecycleScope.launch {
             option.readFiles(requireContext())
@@ -223,7 +227,7 @@ class WallpaperSettingFragment :
 
     private fun saveSettings(setImmediately: Boolean) {
         try {
-            option.timeVal = binding.etTimeVal.text.toString().toInt()
+            option.setTimeVal(binding.etTimeVal.text.toString())
             option.customText = binding.etCustomQuotes.text.toString()
         } catch (e: Exception) {
 
@@ -231,7 +235,6 @@ class WallpaperSettingFragment :
         MyWallpaperOption.saveData(requireContext(), option)
         if (!setImmediately) return
         println("Saving settings...")
-        DEBUG.printStack()
         WallpaperBroadcastManager.updateWallpaper(requireContext(), option, option.isEnabled)
     }
 

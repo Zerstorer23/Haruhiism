@@ -60,13 +60,9 @@ abstract class BasicAlarmScreenActivity<T : ViewBinding>(inflater: ActivityViewB
         finish()
     }
 
-    @Suppress("DEPRECATION")
+
     @SuppressLint("MissingPermission")
     protected fun vibrate(duration:Long = 500){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrationManager.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE)) // New vibrate method for API Level 26 or higher
-        } else {
-            vibrationManager.vibrate(duration) // Vibrate method for below API Level 26
-        }
+        vibrationManager.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE)) // New vibrate method for API Level 26 or higher
     }
 }

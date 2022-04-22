@@ -15,17 +15,16 @@
         android:gravity="center"
         android:indeterminate="true"
         android:visibility="visible"
-        tools:visibility="gone"
-        />
+        tools:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/mainBoard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="visible"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
-        <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -43,7 +42,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
                     android:layout_weight="3"
-                    android:text="Open\nFolder" />
+                    android:text="@string/open_nfolder" />
 
                 <EditText
                     android:id="@+id/et_selected_path"
@@ -55,8 +54,11 @@
                     android:layout_weight="7"
                     android:enabled="false"
                     android:minHeight="48dp"
-                    android:text="C:\dd\dd\dd.."
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    tools:text="C:\dd\dd\dd.."
+                    tools:ignore="LabelFor,SmallSp"
+                    android:importantForAutofill="no"
+                    android:inputType="text" />
             </LinearLayout>
 
             <TextView
@@ -64,8 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="523 files found"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:text="523 files found" />
 
 
             <LinearLayout
@@ -78,59 +80,58 @@
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:src="@drawable/appicoharuhi" />
+                    android:src="@drawable/appicoharuhi"
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/imgCenter"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:src="@drawable/appicoharuhi" />
+                    android:src="@drawable/appicoharuhi"
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/imgRight"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:src="@drawable/appicoharuhi" />
+                    android:src="@drawable/appicoharuhi"
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
 
-            <FrameLayout
+            <RadioGroup
+                android:id="@+id/rgFillType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
                 android:visibility="gone">
 
-
-                <RadioGroup
-                    android:id="@+id/rgFillType"
-                    android:layout_width="match_parent"
+                <RadioButton
+                    android:id="@+id/rbFit"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Fit"
+                    tools:ignore="HardcodedText" />
 
-                    android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/rbStretch"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Stretch"
+                    tools:ignore="HardcodedText" />
 
-                    <RadioButton
-                        android:id="@+id/rbFit"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Fit" />
-
-                    <RadioButton
-                        android:id="@+id/rbStretch"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Stretch" />
-
-                    <RadioButton
-                        android:id="@+id/rbFill"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Fill" />
-                </RadioGroup>
-            </FrameLayout>
+                <RadioButton
+                    android:id="@+id/rbFill"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Fill"
+                    tools:ignore="HardcodedText" />
+            </RadioGroup>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -144,7 +145,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="Update Every" />
+                    android:text="@string/update_every" />
 
                 <EditText
                     android:id="@+id/etTimeVal"
@@ -152,7 +153,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    tools:text="1"
+                    android:importantForAutofill="no"
+                    tools:ignore="LabelFor" />
 
                 <Spinner
                     android:id="@+id/spTimeUnit"
@@ -167,7 +171,7 @@
                 android:id="@+id/cbRandom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Randomize order"
+                android:text="@string/randomize_order"
                 android:textSize="16sp" />
 
             <FrameLayout
@@ -184,15 +188,18 @@
                         android:id="@+id/cbAddTextOption"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Add texts on images"
+                        android:text="@string/add_texts_on_images"
                         android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/etCustomQuotes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/empty_this_field_to_use_default_text_set"
                         android:visibility="gone"
-                        android:hint="Empty this field to use default text set..."/>
+                        tools:visibility="visible"
+                        android:importantForAutofill="no"
+                        android:inputType="text" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </FrameLayout>
 
@@ -211,8 +218,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:text="Wallpaper is ON"
-                android:textSize="36dp" />
+                tools:text="Wallpaper is ON"
+                android:textSize="36sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -228,7 +235,8 @@
                     android:layout_marginHorizontal="10dp"
                     android:layout_weight="1"
                     android:paddingVertical="12dp"
-                    android:text="Enable Wallpaper" />
+                    tools:text="Enable Wallpaper"
+                    tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/btnRightSet"
@@ -238,7 +246,8 @@
                     android:layout_marginHorizontal="10dp"
                     android:layout_weight="1"
                     android:paddingVertical="12dp"
-                    android:text="Apply settings" />
+                    android:text="@string/apply_settings"
+                    tools:ignore="ButtonStyle" />
             </LinearLayout>
 
         </LinearLayout>

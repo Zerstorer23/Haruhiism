@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="10dp"
     android:layout_marginTop="10dp"
     android:orientation="horizontal">
@@ -13,7 +14,7 @@
         android:layout_marginStart="10dp"
         android:layout_weight="4"
         android:textColor="#AA111111"
-        android:text="07 : 00"
+        tools:text="07 : 00"
         android:textSize="40sp"
         android:textStyle="bold"/>
 
@@ -36,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#AF111111"
                 android:layout_weight="1"
-                android:text="Repeat"/>
+                tools:text="Repeat"/>
 
             <TextView
                 android:id="@+id/cr_name"
@@ -137,7 +138,6 @@
         android:id="@+id/cr_toggle"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:text="ToggleButton"/>
+        android:layout_weight="2"/>
 
 </LinearLayout>

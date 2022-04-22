@@ -10,16 +10,17 @@ object WallpaperBroadcastManager {
     private const val wallpaperCode = 346
     fun updateWallpaper(context: Context, option: MyWallpaperOption, immediate: Boolean) {
         if (option.isEnabled) {
-            addWallpaperChanger(context)
+            addWallpaperChanger(context, option)
             if(immediate){
-                WallpaperHandler.setWallpaper(context,option.getNextUri(context))
+                val uri = option.getNextUri(context) ?: return
+                WallpaperHandler.setWallpaper(context,uri, option)
             }
         } else {
             removeWallpaperChanger(context)
         }
     }
 
-    private fun addWallpaperChanger(mContext: Context) {
+    private fun addWallpaperChanger(mContext: Context, option: MyWallpaperOption) {
         val alarmManager = mContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(mContext, WallpaperReceiver::class.java)
         val pi = PendingIntent.getBroadcast(
@@ -28,9 +29,10 @@ object WallpaperBroadcastManager {
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        val timeInterval : Long =  10*1000L//option.getTimeUnitInMills()
+        val timeInterval : Long = option.getTimeUnitInMills()
+
         alarmManager.setRepeating(
-            AlarmManager.RTC,
+            AlarmManager.RTC_WAKEUP,
             System.currentTimeMillis()+timeInterval,
             timeInterval,
             pi

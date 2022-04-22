@@ -2,6 +2,7 @@ package com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setti
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.provider.DocumentsContract
@@ -30,7 +31,7 @@ class MyWallpaperOption {
                 option.setPathUri(option.folderPathUri)
             }
             option.customText = sharedPref.getString(CUSTOM_TEXT, "")!!
-            option.randomise = sharedPref.getBoolean(RANDOMISE, false)
+            option.randomise = sharedPref.getBoolean(RANDOMISE, true)
             option.isEnabled = sharedPref.getBoolean(ENABLED, false)
             option.addTexts = sharedPref.getBoolean(ADD_TEXTS, false)
             option.timeVal = sharedPref.getInt(TIME_VAL, 1)
@@ -66,7 +67,7 @@ class MyWallpaperOption {
     }
 
     var folderPathUri: Uri? = null// = Uri.parse(NOT_FOUND)
-    var randomise = false
+    var randomise = true
     var isEnabled = false
     var addTexts = false
     var customText = ""
@@ -77,11 +78,13 @@ class MyWallpaperOption {
 
     var imgList: ArrayList<Uri> = arrayListOf()
     var simplePath: String = ""
-
+    var pathIsValid = false
 
     fun setPathUri(uri: Uri?) {
         folderPathUri = uri
-        if (uri == null) return
+        pathIsValid = folderPathUri != null
+        if (!pathIsValid) return
+
         try {
             val docUri = DocumentsContract.buildDocumentUriUsingTree(
                 uri,
@@ -89,6 +92,7 @@ class MyWallpaperOption {
             )
             simplePath = docUri.lastPathSegment!!
         } catch (e: java.lang.Exception) {
+            pathIsValid = false
             e.printStackTrace()
         }
 
@@ -96,16 +100,17 @@ class MyWallpaperOption {
 
     fun readFiles(context: Context) {
         imgList.clear()
-        if (folderPathUri == null) return
-        val uriTree = folderPathUri
-        // the uri returned by Intent.ACTION_OPEN_DOCUMENT_TREE
-        // the uri from which we query the files
-        val uriFolder = DocumentsContract.buildChildDocumentsUriUsingTree(
-            uriTree,
-            DocumentsContract.getTreeDocumentId(uriTree)
-        )
+        if (!pathIsValid) return
         var cursor: Cursor? = null
         try {
+            println("Read " + folderPathUri.toString())
+            // the uri returned by Intent.ACTION_OPEN_DOCUMENT_TREE
+            // the uri from which we query the files
+            val uriFolder = DocumentsContract.buildChildDocumentsUriUsingTree(
+                folderPathUri,
+                DocumentsContract.getTreeDocumentId(folderPathUri)
+            )
+
             // let's query the files
             cursor = context.contentResolver.query(
                 uriFolder, arrayOf(DocumentsContract.Document.COLUMN_DOCUMENT_ID),
@@ -115,7 +120,10 @@ class MyWallpaperOption {
                 do {
                     // build the uri for the file
                     val uriFile =
-                        DocumentsContract.buildDocumentUriUsingTree(uriTree, cursor.getString(0))
+                        DocumentsContract.buildDocumentUriUsingTree(
+                            folderPathUri,
+                            cursor.getString(0)
+                        )
 
                     //add to the list
                     if (StorageManager.isAnImage(context, uriFile)) {
@@ -124,14 +132,14 @@ class MyWallpaperOption {
                 } while (cursor.moveToNext())
             }
         } catch (e: Exception) {
-
+            e.printStackTrace()
         } finally {
             cursor?.close()
         }
-
-/*        for(i in imgList){
-            println(i)
-        }*/
+        pathIsValid = true
+        if (pathIsValid) {
+            println("Fonund ${imgList.size} files")
+        }
     }
 
     fun getTimeUnitInMills(): Long {
@@ -142,11 +150,13 @@ class MyWallpaperOption {
         }
     }
 
-    fun getRandomUri(): Uri {
+    fun getRandomUri(): Uri? {
+        if (!canPollImages()) return null
         return imgList[(Math.random() * imgList.size).toInt()]
     }
 
-    fun getNextUri(context: Context): Uri {
+    fun getNextUri(context: Context): Uri? {
+        if (!canPollImages()) return null
         return if (randomise) {
             getRandomUri()
         } else {
@@ -155,6 +165,21 @@ class MyWallpaperOption {
             iterator %= imgList.size
             savePartial(context, this, ITERATOR)
             imgList[curr]
+        }
+    }
+
+    private fun canPollImages(): Boolean {
+        return pathIsValid && imgList.size > 0
+    }
+
+    fun setTimeVal(text: String) {
+        try {
+            val number = text.toInt()
+            if (timeVal <= 0) return
+            timeVal = number
+        } catch (e: Exception) {
+            e.printStackTrace()
+
         }
     }
 }

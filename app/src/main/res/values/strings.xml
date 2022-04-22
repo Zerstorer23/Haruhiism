@@ -624,6 +624,13 @@ hNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNmm+///-..-/////ydddddddNdNNNNNNNNNMMMMMMMMNN
     <string name="txt_disable_wallpaper">Disable Wallpaper</string>
     <string name="txt_wallpaper_is_on">Wallpaper is ON</string>
     <string name="txt_files_found">%1$s files found</string>
+    <string name="empty_this_field_to_use_default_text_set">Empty this field to use default text set…</string>
+    <string name="add_texts_on_images">Add texts on images</string>
+    <string name="randomize_order">Randomize order</string>
+    <string name="update_every">Update Every</string>
+    <string name="open_nfolder">Open\nFolder</string>
+    <string name="apply_settings">Apply settings</string>
+    <string name="txt_wallpaper_set">Wallpaper set</string>
 
     <!--
     https://www.text-image.com/convert/pic2ascii.cgi
