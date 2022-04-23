@@ -70,24 +70,24 @@ object WallpaperHandler {
             this.color = Color.BLUE// Color.parseColor("#B7ADED")
             this.textSize = size
             typeface = Typeface.DEFAULT
-            setShadowLayer(2f, 0f, 0f, Color.WHITE)
+            setShadowLayer(5f, 0f, 0f, Color.WHITE)
             canvas.drawText(dateStr, centerX, upperY, this)
         }
     }
-
+    private const val max_side_length = 17
     private fun drawQuote(metrics: DisplayMetrics, bitmap: Bitmap, canvas: Canvas, text: String) {
         val centerX = bitmap.width * 0.1f
         var upperY = bitmap.height * 0.225f
-        val size = 12f * metrics.density
+        val size = 8f * metrics.density
 
-        for (i in 0..text.length step 10) {
-            val wrappedText = text.substring(i, min(i + 10, text.length))
+        for (i in 0..text.length step max_side_length) {
+            val wrappedText = text.substring(i, min(i + max_side_length, text.length))
             Paint().apply {
                 flags = Paint.ANTI_ALIAS_FLAG
                 this.color = Color.parseColor("#A3DCE4")
                 this.textSize = size
                 typeface = Typeface.DEFAULT
-                setShadowLayer(2f, 0f, 0f, Color.WHITE)
+                setShadowLayer(5f, 0f, 0f, Color.parseColor("#C8FFFFFF"))
                 canvas.drawText(wrappedText, centerX, upperY, this)
             }
             upperY+= 13f * metrics.density

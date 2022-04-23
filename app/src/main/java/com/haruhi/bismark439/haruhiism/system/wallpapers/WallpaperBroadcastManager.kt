@@ -31,7 +31,7 @@ object WallpaperBroadcastManager {
         )
         val timeInterval : Long = option.getTimeUnitInMills()
 
-        alarmManager.setRepeating(
+        alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             System.currentTimeMillis()+timeInterval,
             timeInterval,

@@ -127,8 +127,8 @@
     <string name="txt_hours">시간</string>
     <string name="txt_enable_wallpaper">자동변경 켜기</string>
     <string name="txt_disable_wallpaper">자동변경 끄기</string>
-    <string name="txt_wallpaper_is_off"> </string>
-    <string name="txt_wallpaper_is_on">배경화면 사용중</string>
+    <string name="txt_wallpaper_is_off">상태: 비활성화</string>
+    <string name="txt_wallpaper_is_on">상태: 활성화</string>
     <string name="txt_files_found">%1$s 개의 이미지를 찾음</string>
     <string name="empty_this_field_to_use_default_text_set">…</string>
     <string name="add_texts_on_images">텍스트 추가</string>
@@ -137,4 +137,5 @@
     <string name="open_nfolder">폴더열기</string>
     <string name="apply_settings">적용</string>
     <string name="txt_wallpaper_set">화면 설정 완료</string>
+    <string name="txt_disabled_auto">자동 변경기능을 해제했습니다</string>
 </resources>

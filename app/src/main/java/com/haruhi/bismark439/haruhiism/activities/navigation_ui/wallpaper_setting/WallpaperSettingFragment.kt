@@ -69,7 +69,11 @@ class WallpaperSettingFragment :
         lifecycleScope.launch(Dispatchers.Default) {
             saveSettings(true)
             withContext(Dispatchers.Main) {
-                Toaster.show(requireContext(), getString(R.string.txt_wallpaper_set))
+                if (option.isEnabled) {
+                    Toaster.show(requireContext(), getString(R.string.txt_wallpaper_set))
+                } else {
+                    Toaster.show(requireContext(), getString(R.string.txt_disabled_auto))
+                }
             }
         }
     }
@@ -86,7 +90,8 @@ class WallpaperSettingFragment :
         updateEnabled()
         updatePreviews()
         updateQuotations()
-        binding.tvFilesFound.text = getString(R.string.txt_files_found, option.imgList.size.toString())
+        binding.tvFilesFound.text =
+            getString(R.string.txt_files_found, option.imgList.size.toString())
         binding.rgFillType.check(option.cropType.getRadioGroupId())
         binding.etTimeVal.setText(option.timeVal.toString())
         binding.cbRandom.isChecked = option.randomise
@@ -220,6 +225,11 @@ class WallpaperSettingFragment :
         lifecycleScope.launch {
             option.readFiles(requireContext())
             updatePreviews()
+            if (!option.isEnabled) {
+                withContext(Dispatchers.Main) {
+                    binding.btnToggleWallpaper.performClick()
+                }
+            }
             saveSettings(false)
         }
 

@@ -30,7 +30,7 @@ class MyWallpaperOption {
             }
             option.customText = sharedPref.getString(CUSTOM_TEXT, "")!!
             option.randomise = sharedPref.getBoolean(RANDOMISE, true)
-            option.isEnabled = sharedPref.getBoolean(ENABLED, false)
+            option.isEnabled = sharedPref.getBoolean(ENABLED, true)
             option.addTexts = sharedPref.getBoolean(ADD_TEXTS, false)
             option.timeVal = sharedPref.getInt(TIME_VAL, 1)
             option.iterator = sharedPref.getInt(ITERATOR, 0)
@@ -66,7 +66,7 @@ class MyWallpaperOption {
 
     var folderPathUri: Uri? = null// = Uri.parse(NOT_FOUND)
     var randomise = true
-    var isEnabled = false
+    var isEnabled = true
     var addTexts = false
     var customText = ""
     var timeVal = 1
