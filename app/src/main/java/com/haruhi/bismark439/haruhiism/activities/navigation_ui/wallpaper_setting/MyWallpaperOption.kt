@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.DocumentsContract
+import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.system.CropType
 import com.haruhi.bismark439.haruhiism.system.StorageManager
 import com.haruhi.bismark439.haruhiism.system.TimeUnit
@@ -101,7 +102,7 @@ class MyWallpaperOption {
         if (!pathIsValid) return
         var cursor: Cursor? = null
         try {
-            println("Read " + folderPathUri.toString())
+            DEBUG.appendLog("Read " + folderPathUri.toString())
             // the uri returned by Intent.ACTION_OPEN_DOCUMENT_TREE
             // the uri from which we query the files
             val uriFolder = DocumentsContract.buildChildDocumentsUriUsingTree(
@@ -122,7 +123,9 @@ class MyWallpaperOption {
                             folderPathUri,
                             cursor.getString(0)
                         )
-
+//val fileName = File(uri.path).name
+//// or
+//val fileName = uri.pathSegments.last()
                     //add to the list
                     if (StorageManager.isAnImage(context, uriFile)) {
                         imgList.add(uriFile)
@@ -136,7 +139,7 @@ class MyWallpaperOption {
         }
         pathIsValid = true
         if (pathIsValid) {
-            println("Fonund ${imgList.size} files")
+            DEBUG.appendLog("Found ${imgList.size} files")
         }
     }
 

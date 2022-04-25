@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.system.alarms.NotificationManager.sendNotification
 import com.haruhi.bismark439.haruhiism.system.alarms.SoundPlayer
 import com.haruhi.bismark439.haruhiism.system.Constants.FILE_KYON_MIKURU_KINSOKU_MP3
@@ -93,8 +94,6 @@ class MikuruPuzzleAlarmActivity :
                     val test = findViewById<View>(tvs[i]) as TextView
                     val overlap = isViewOverlapping(test, view)
                     if (overlap) {
-                        println("Overlapped with line$i")
-                        println(test.text.toString())
                         doSomething(i, view)
                     }
                     i++
@@ -127,9 +126,9 @@ class MikuruPuzzleAlarmActivity :
         val yy = (secondPosition[1] + moving.height / 2).toFloat()
         if (xx >= firstPosition[0] && xx <= fRight) {
             if (yy >= firstPosition[1] && yy <= fBot) {
-                println("X: " + firstPosition[0] + "~ " + fRight)
-                println("Y: " + firstPosition[1] + " ~ " + fBot)
-                println("vs X: $xx Y:$yy")
+                DEBUG.appendLog("X: " + firstPosition[0] + "~ " + fRight)
+                DEBUG.appendLog("Y: " + firstPosition[1] + " ~ " + fBot)
+                DEBUG.appendLog("vs X: $xx Y:$yy")
                 return true
             }
         }

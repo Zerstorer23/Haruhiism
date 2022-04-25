@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyEllipsis">
     <string name="app_name">Haruhiism</string>
-    <string name="sincelast">Until 直觀</string>
-    <string name="beforelast">Since 直觀</string>
+    <string name="sincelast">Until %1$s</string>
+    <string name="beforelast">Since %1$s</string>
     <string name="days">days</string>
     <string name="tues">T</string>
     <string name="wed">W</string>
@@ -597,7 +597,7 @@ hNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNmm+///-..-/////ydddddddNdNNNNNNNNNMMMMMMMMNN
 
 </string>
     <string name="melancholy">The Melancholy</string>
-    <string name="surprise">直觀</string>
+    <string name="latest_title">直觀</string>
     <string name="yuki_n" translatable="false">YUKI.N></string>
     <string name="todaydesu">Today!</string>
     <string name="txt_koizumi_board_title" translatable="false">\" ● VS ○ \"</string>
@@ -632,6 +632,19 @@ hNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNmm+///-..-/////ydddddddNdNNNNNNNNNMMMMMMMMNN
     <string name="apply_settings">Apply settings</string>
     <string name="txt_wallpaper_set">Wallpaper set</string>
     <string name="txt_disabled_auto">Disabled auto updates</string>
+    <string name="title_rankings">정보</string>
+    <string name="txt_custom">Custom</string>
+    <string name="txt_txtcolor">Text Color</string>
+    <string name="txt_dday_name">D-Day name</string>
+    <string name="txt_suzumiya">Suzumiya</string>
+    <string name="txt_character">Character</string>
+    <string name="txt_suzumiya_shositsu">Suzumiya Shositsu</string>
+    <string name="txt_nagato">Nagaato</string>
+    <string name="txt_nagato_shositsu">Nagato Shositsu</string>
+    <string name="txt_mikuru">Mikuru</string>
+    <string name="txt_mikuru_big">Mikuru Big</string>
+    <string name="txt_my_clicks">%1$s clicked widget</string>
+    <string name="txt_global_clicks">Global counts</string>
 
     <!--
     https://www.text-image.com/convert/pic2ascii.cgi

@@ -117,14 +117,11 @@ class YukiNWall : WallpaperService() {
             }
             mHandler.removeCallbacks(mDrawFrame)
             if (mVisible) {
-                // set the execution delay
-                //      System.out.println("Delay "+mDelay);
                 mHandler.postDelayed(mDrawFrame, mDelay.toLong())
             }
         }
 
-        fun beep() {
-            //   System.out.println("Beep called");
+        private fun beep() {
             if (beep) {
                 drawText(stringSoFar)
             } else {
@@ -210,7 +207,6 @@ class YukiNWall : WallpaperService() {
 
         //old matrix effect code
         fun drawText(text: String?) {
-//            System.out.println("Draw text : "+text);
             var x = 0
             var y = 7
             for (i in 0 until text!!.length) {
@@ -219,7 +215,6 @@ class YukiNWall : WallpaperService() {
                     y++
                     x = 0
                 } else {
-                    //   System.out.println("set:"+text.charAt(i)+":at x"+x+"/ y"+y);
                     canvas!!.drawText(
                         "" + text[i],
                         (x * fontSize).toFloat(),

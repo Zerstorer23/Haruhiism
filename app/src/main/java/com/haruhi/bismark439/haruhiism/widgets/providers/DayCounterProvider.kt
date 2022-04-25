@@ -4,8 +4,12 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetCharacter
 import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetDB
 import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetDB.Companion.loadWidgets
+import com.haruhi.bismark439.haruhiism.model.widgetDB.toCharacterFolder
+import com.haruhi.bismark439.haruhiism.widgets.providers.WidgetCreater.onCounterClicked
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 /*
@@ -22,24 +26,23 @@ class DayCounterProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        println("DDAY update called. Widget Count: ${appWidgetIds.size}")
         loadWidgets(context) { updateUI(context, appWidgetIds) }
-
     }
 
     private fun updateUI(
         context: Context,
         appWidgetIds: IntArray
     ) {
-        println("Widget DB: " + WidgetDB.getSize() + " installed: " + appWidgetIds.size)
+        DEBUG.appendLog("Widget DB: " + WidgetDB.getSize() + " installed: " + appWidgetIds.size)
         for (widgetId in appWidgetIds) {
-            println("Widget ID: $widgetId")
+            DEBUG.appendLog("Widget ID: $widgetId")
             val widgetData = WidgetDB.get(widgetId) ?: continue
-            println("Found: $widgetId $widgetData")
+            DEBUG.appendLog("Found: $widgetId $widgetData")
             val ui = WidgetCreater.createUI(context, widgetData)
             val intent = Intent(context, DayCounterProvider::class.java)
             intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
+            intent.putExtra(WidgetCreater.SRC_WIDGET, widgetData.widgetCharacter.toCharacterFolder())
             AppWidgetManager.getInstance(context).updateAppWidget(widgetId, ui)
         }
     }
@@ -47,7 +50,6 @@ class DayCounterProvider : AppWidgetProvider() {
 
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
         super.onDeleted(context, appWidgetIds)
-        println("WIDGET DELETED called")
         loadWidgets(context) { removeMissingWidgets(context, appWidgetIds) }
     }
 
@@ -65,6 +67,8 @@ class DayCounterProvider : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
+        onCounterClicked(context, intent)
     }
-
 }
+
+

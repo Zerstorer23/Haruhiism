@@ -23,6 +23,10 @@ object StorageManager {
         )
     }
 
+    fun readFilesFromAsset(context: Context, folderName: String): Array<String> {
+        val assetManager = context.assets
+        return assetManager.list(folderName) as Array<String>
+    }
 
 
     fun launchImageLoader(type: LauncherType) {
@@ -42,6 +46,7 @@ object StorageManager {
     fun isAnImage(context: Context, uri: Uri): Boolean {
         val ext = getFileExtension(context, uri)
         return imageExts.contains(ext)
+        //https://stackoverflow.com/questions/5568874/how-to-extract-the-file-name-from-uri-returned-from-intent-action-get-content
     }
 
 }

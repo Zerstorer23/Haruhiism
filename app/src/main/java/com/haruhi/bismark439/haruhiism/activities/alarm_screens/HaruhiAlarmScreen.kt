@@ -5,7 +5,10 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.databinding.ActivityHaruhiBasicBinding
+import com.haruhi.bismark439.haruhiism.system.Constants.FOLDER_HARUHI
+import com.haruhi.bismark439.haruhiism.system.StorageManager
 import com.haruhi.bismark439.haruhiism.system.alarms.NotificationManager.sendNotification
+import com.haruhi.bismark439.haruhiism.widgets.providers.IWidgetProvider
 import com.ncorti.slidetoact.SlideToActView
 import pl.droidsonroids.gif.GifImageView
 import java.io.IOException
@@ -35,13 +38,12 @@ class HaruhiAlarmScreen :
         rotate.interpolator = LinearInterpolator()
         rotate.repeatCount = Animation.INFINITE
         binding.hrhSos.startAnimation(rotate)
-        val assetManager = assets
         //Haruhi Image
         val hrhImg: GifImageView = findViewById(R.id.hrh_img)
         val nrand = (Math.random() * aniList.size).toInt()
         hrhImg.setBackgroundResource(aniList[nrand])
         try {
-            haruhiVoices = assetManager.list("haruhi") as Array<String>
+            haruhiVoices = StorageManager.readFilesFromAsset(applicationContext,FOLDER_HARUHI)
         } catch (e: IOException) {
             e.printStackTrace()
         }

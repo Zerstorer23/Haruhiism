@@ -5,6 +5,14 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.R
+import com.haruhi.bismark439.haruhiism.system.Constants.FOLDER_HARUHI
+import com.haruhi.bismark439.haruhiism.system.Constants.FOLDER_HARUHI_SHOSITSU
+import com.haruhi.bismark439.haruhiism.system.Constants.FOLDER_MIKURU
+import com.haruhi.bismark439.haruhiism.system.Constants.FOLDER_MIKURU_BIG
+import com.haruhi.bismark439.haruhiism.system.Constants.FOLDER_NAGATO
+import com.haruhi.bismark439.haruhiism.system.Constants.FOLDER_NAGATO_SHOSITSU
 import com.haruhi.bismark439.haruhiism.system.VoidReturn
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -40,10 +48,10 @@ class WidgetDB {
             WidgetDao.initDao(context)
             GlobalScope.launch {
                 WidgetDao.instance.selectAll().collect {
-                    println("Widgets loaded: "+widgetDB.size)
-                    for( i in widgetDB){
-                        println(i)
-                        print("==")
+                    DEBUG.appendLog("Widgets loaded: " + widgetDB.size)
+                    for (i in widgetDB) {
+                        DEBUG.appendLog(i.toString())
+                        DEBUG.appendLog("==")
                     }
                     buildHashMap(it)
                     onResult()
@@ -51,14 +59,14 @@ class WidgetDB {
             }
         }
 
-        fun deleteWidget(context: Context, widget :WidgetData) {
+        fun deleteWidget(context: Context, widget: WidgetData) {
             WidgetDao.initDao(context)
             GlobalScope.launch {
                 WidgetDao.instance.delete(widget)
             }
         }
 
-        fun saveWidget(context: Context, temp: WidgetData, onResult:VoidReturn) {
+        fun saveWidget(context: Context, temp: WidgetData, onResult: VoidReturn) {
             WidgetDao.initDao(context)
             GlobalScope.launch {
                 WidgetDao.instance.insert(temp)
@@ -73,17 +81,15 @@ class WidgetDB {
 data class WidgetData
     (
     @PrimaryKey(autoGenerate = false)
-    val appWidgetId: Int = 0,
-    val name: String = " ",
+    var appWidgetId: Int = 0,
+    var name: String = " ",
     var yy: Int = 0,
     var mmMod: Int = 0,
     var dd: Int = 0,
     var color: Int = 0,
     var picture: Int = 0,
-    var filePath: String = ""
-):Parcelable {
-
-
+    var widgetCharacter: WidgetCharacter = WidgetCharacter.Haruhi
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString()!!,
@@ -92,7 +98,7 @@ data class WidgetData
         parcel.readInt(),
         parcel.readInt(),
         parcel.readInt(),
-        parcel.readString()!!
+        WidgetCharacter.values()[parcel.readInt()]
     )
 
     override fun toString(): String {
@@ -119,7 +125,7 @@ data class WidgetData
         parcel.writeInt(dd)
         parcel.writeInt(color)
         parcel.writeInt(picture)
-        parcel.writeString(filePath)
+        parcel.writeInt(widgetCharacter.ordinal)
     }
 
     override fun describeContents(): Int {
@@ -134,5 +140,46 @@ data class WidgetData
         override fun newArray(size: Int): Array<WidgetData?> {
             return arrayOfNulls(size)
         }
+    }
+}
+
+enum class WidgetCharacter {
+    Haruhi, HaruhiShositsu, Nagato, NagatoShositsu, Mikuru, MikuruBig
+}
+
+fun WidgetCharacter.toCharacterFolder(): String {
+    return when (this) {
+        WidgetCharacter.Haruhi -> FOLDER_HARUHI
+        WidgetCharacter.HaruhiShositsu -> FOLDER_HARUHI_SHOSITSU
+        WidgetCharacter.Nagato -> FOLDER_NAGATO
+        WidgetCharacter.NagatoShositsu -> FOLDER_NAGATO_SHOSITSU
+        WidgetCharacter.Mikuru -> FOLDER_MIKURU
+        WidgetCharacter.MikuruBig -> FOLDER_MIKURU_BIG
+        else -> ""
+    }
+}
+
+
+
+
+fun WidgetCharacter.toCharacterImg(): Int {
+    return when (this) {
+        WidgetCharacter.Haruhi ->R.drawable.haruhi1
+        WidgetCharacter.HaruhiShositsu -> R.drawable.haruhi_yuutsu
+        WidgetCharacter.Nagato -> R.drawable.nagato_chan
+        WidgetCharacter.NagatoShositsu -> R.drawable.nagato_chan
+        WidgetCharacter.Mikuru -> R.drawable.mikuruw
+        WidgetCharacter.MikuruBig ->R.drawable.nagato_chan
+        else -> R.drawable.nagato_chan
+    }
+}
+fun WidgetCharacter.toNameRes(): Int {
+    return when (this) {
+        WidgetCharacter.Haruhi ->(R.string.txt_suzumiya)
+        WidgetCharacter.HaruhiShositsu -> (R.string.txt_suzumiya_shositsu)
+        WidgetCharacter.Nagato -> (R.string.txt_nagato)
+        WidgetCharacter.NagatoShositsu -> (R.string.txt_nagato_shositsu)
+        WidgetCharacter.Mikuru -> (R.string.txt_mikuru)
+        WidgetCharacter.MikuruBig ->(R.string.txt_mikuru_big)
     }
 }

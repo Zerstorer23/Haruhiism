@@ -5,6 +5,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.activities.alarm_screens.HaruhiAlarmScreen
 import com.haruhi.bismark439.haruhiism.activities.alarm_screens.KoizumiAlarmScreenActivity
@@ -52,9 +53,9 @@ class AlarmDB {
         }
         fun printDB(){
 //            DEBUG.printStack()
-            println("===Alarm size : ${alarmDB.size}")
+            DEBUG.appendLog("===Alarm size : ${alarmDB.size}")
             for (alarm in alarmDB){
-                println(alarm)
+                DEBUG.appendLog(alarm.toString())
             }
         }
 
@@ -64,10 +65,10 @@ class AlarmDB {
             val alarmManager = mContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(mContext, AlarmReceiver::class.java)
             val reqCode = alarm.reqCode
-            val time: Long = AlarmFactory.getNearestNextTimeInMills(alarm.alarmHours, alarm.alarmMinutes)// alarm.startingTime
+            val time: Long = alarm.startingTime
             intent.putExtra(ALARM_REQ_CODE_TITLE, reqCode)
-            println("Sent code[ADD]:$reqCode")
-            println("$alarm")
+            DEBUG.appendLog("Sent code[ADD]:$reqCode")
+            DEBUG.appendLog("$alarm")
             val pi = PendingIntent.getBroadcast(
                 mContext,
                 reqCode,
@@ -98,7 +99,7 @@ class AlarmDB {
                 )
             pi.cancel()
             alarmManager.cancel(pi)
-            println("Disabled code:$reqCode")
+            DEBUG.appendLog("Disabled code:$reqCode")
         }
 
 

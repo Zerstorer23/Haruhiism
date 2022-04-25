@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
+import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.R
 
 /**
@@ -17,10 +18,10 @@ class NagatoInterfaceProvider : AppWidgetProvider() {
         appWidgetIds: IntArray
     ) {
         val count = appWidgetIds.size
-        println("NAGATO $count")
+        DEBUG.appendLog("NAGATO $count")
         for (i in 0 until count) {
             val widgetId = appWidgetIds[i]
-            println("NAGATO ID$widgetId")
+            DEBUG.appendLog("NAGATO ID$widgetId")
             val remoteViews = RemoteViews(context.packageName, R.layout.widget_nagato)
             val intent = Intent(context, NagatoInterfaceProvider::class.java)
             intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE

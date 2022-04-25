@@ -9,13 +9,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.lifecycleScope
+import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.activities.interfaces.IFragmentActivity
 import com.haruhi.bismark439.haruhiism.databinding.FragmentWallpaperSettingBinding
-import com.haruhi.bismark439.haruhiism.system.CropType
-import com.haruhi.bismark439.haruhiism.system.PermissionManager
-import com.haruhi.bismark439.haruhiism.system.ScreenManager
-import com.haruhi.bismark439.haruhiism.system.TimeUnit
+import com.haruhi.bismark439.haruhiism.system.*
 import com.haruhi.bismark439.haruhiism.system.ui.Toaster
 import com.haruhi.bismark439.haruhiism.system.wallpapers.WallpaperBroadcastManager
 import kotlinx.coroutines.Dispatchers
@@ -166,30 +164,11 @@ class WallpaperSettingFragment :
     }
 
     private lateinit var timeUnits: Array<String>
-    private val spinnerListener = object : AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(
-            parent: AdapterView<*>?,
-            view: View?,
-            position: Int,
-            id: Long
-        ) {
-            option.timeUnit = TimeUnit.values()[position]
-            println("Selected: " + option.timeUnit)
-        }
-
-        override fun onNothingSelected(parent: AdapterView<*>?) {
-            println("NOthing selected")
-        }
-    }
-
     private fun setSpinner() {
-        binding.spTimeUnit.adapter = ArrayAdapter(
-            requireContext(),
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-            timeUnits
-        )
+        SpinnerFactory.createSpinner(requireContext(), timeUnits,binding.spTimeUnit){
+            option.timeUnit = TimeUnit.values()[it]
+        }
         binding.spTimeUnit.setSelection(option.timeUnit.ordinal)
-        binding.spTimeUnit.onItemSelectedListener = spinnerListener
     }
 
     private fun onClickOpenFolder() {
@@ -244,7 +223,7 @@ class WallpaperSettingFragment :
         }
         MyWallpaperOption.saveData(requireContext(), option)
         if (!setImmediately) return
-        println("Saving settings...")
+        DEBUG.appendLog("Saving settings...")
         WallpaperBroadcastManager.updateWallpaper(requireContext(), option, option.isEnabled)
     }
 

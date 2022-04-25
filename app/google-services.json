@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "226456892759",
+    "project_id": "haruhiism-app",
+    "storage_bucket": "haruhiism-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226456892759:android:897e1c95ffea922247fa12",
+        "android_client_info": {
+          "package_name": "com.haruhi.bismark439.haruhiism"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226456892759-5p29bnp5ngaol93m98cpnimhpksvqlj6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.haruhi.bismark439.haruhiism",
+            "certificate_hash": "cd0b0113af15832dc22c92e0c565e8357ff837d4"
+          }
+        },
+        {
+          "client_id": "226456892759-cmibhsac9l2v4pfv2gdugfp3s4qhijcq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXNnfpGIhjnX_FeMReHt1xLr4nyOyOlu8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226456892759-cmibhsac9l2v4pfv2gdugfp3s4qhijcq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,7 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import androidx.core.content.ContextCompat
+import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.model.alarmDB.*
+import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmFactory
 import com.haruhi.bismark439.haruhiism.system.alarms.SoundPlayer.Companion.currentVolume
 import com.haruhi.bismark439.haruhiism.system.isTrueAt
 import com.haruhi.bismark439.haruhiism.system.toReadableTime
@@ -22,17 +24,17 @@ import kotlin.math.abs
 @DelicateCoroutinesApi
 class AlarmReceiver : BroadcastReceiver() {
     companion object {
-        const val TIME_PRECISION_IN_SEC = 29
+        const val TIME_PRECISION_IN_MILLS = (90) * 1000L
     }
 
     private var alarmManager: AlarmManager? = null
 
     override fun onReceive(context: Context, intent: Intent) {
         val reqCode = intent.getIntExtra("requestCode", 0)
-        println("Received code:$reqCode")
+        DEBUG.appendLog("Received code:$reqCode")
         alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         loadAlarm(context, reqCode)
-        println("Received Signal:" + intent.action)
+        DEBUG.appendLog("Received Signal:" + intent.action)
     }
 
 
@@ -40,7 +42,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val waker = modifyWaker(alarm.waker)
         val alarmIntent = Intent(context, AlarmDB.AlarmDictionary[waker])
         saveVolume(context, alarm.volume)
-        println(alarm.reqCode.toString() + " Received Waker: " + waker)
+        DEBUG.appendLog(alarm.reqCode.toString() + " Received Waker: " + waker)
         alarmIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         return alarmIntent
     }
@@ -56,24 +58,33 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun isTimeNow(alarm: AlarmData): Boolean {
         val now = Calendar.getInstance() //Today
+        val alarmCal = AlarmFactory.getMillsCalendar(alarm.alarmHours, alarm.alarmMinutes)
+
         val today = AlarmFactory.convertCalendarDateToMyDate(now)
         if (!alarm.days.isTrueAt(today)) {
-            println("It is not for today")
+            DEBUG.appendLog("It is not for today")
             return false
         }
-        if (abs(System.currentTimeMillis() - alarm.lastTime) <= (TIME_PRECISION_IN_SEC * 1000)) {
-            println("We already triggered this today")
+        if (abs(System.currentTimeMillis() - alarm.lastTime) <= (TIME_PRECISION_IN_MILLS)) {
+            DEBUG.appendLog("We already triggered this today")
             return false
         }
-        val alarmInSeconds = (alarm.alarmHours * 60 + alarm.alarmMinutes) * 60
-        val nowInSeconds = (now[Calendar.HOUR_OF_DAY] * 60 + now[Calendar.MINUTE]) * 60
-        val diff = abs(alarmInSeconds - nowInSeconds)
-        println("Time difference : ${diff.toLong().toReadableTime()}")
-        if (diff <= TIME_PRECISION_IN_SEC) {
-            return true
+
+/*        val alarmInSeconds = (alarm.alarmHours * 60 + alarm.alarmMinutes) * 60
+        val nowInSeconds = (now[Calendar.HOUR_OF_DAY] * 60 + now[Calendar.MINUTE]) * 60*/
+        val diff = abs(alarmCal.timeInMillis - System.currentTimeMillis())
+        DEBUG.appendLog(
+            "Time: ${alarmCal.timeInMillis.toReadableTime()} vs ${
+                System.currentTimeMillis().toReadableTime()
+            }"
+        )
+        DEBUG.appendLog("Time difference : ${diff.toLong()} vs $TIME_PRECISION_IN_MILLS")
+        return if (diff <= TIME_PRECISION_IN_MILLS) {
+            true
+        } else {
+            DEBUG.appendLog("It is not tim yet")
+            false
         }
-        println("It is not tim yet")
-        return false
     }
 
     private fun modifyWaker(waker: AlarmWakers): AlarmWakers {
@@ -93,29 +104,50 @@ class AlarmReceiver : BroadcastReceiver() {
     //Sunday
 
 
-
-    private fun onAlarmLoaded(context: Context, alarm: AlarmData) {
-        if (!alarm.enabled) return
-        if (!isTimeNow(alarm)) return
-        println("$alarm is for now")
+    private fun onAlarmLoaded(context: Context, alarm: AlarmData): AlarmReceivedCode {
+        if (!alarm.enabled) return AlarmReceivedCode.NotEnabled
+        if (!isTimeNow(alarm)) return AlarmReceivedCode.NotTimeYet
+        DEBUG.appendLog("$alarm is for now")
         val alarmIntent = generateIntent(context, alarm)
         ContextCompat.startActivity(context, alarmIntent, null)
-        updateLastAlarmFired(alarm)
+        return AlarmReceivedCode.Success
     }
 
     private fun loadAlarm(context: Context, reqCode: Int) {
         AlarmDao.initDao(context)
         GlobalScope.launch {
             val it = AlarmDao.instance.selectOnce(reqCode) ?: return@launch
-            println("Collect called $reqCode ${it.lastTime.toReadableTime()}")
-            onAlarmLoaded(context, it)
+            DEBUG.appendLog("Collect called $reqCode ${it.lastTime.toReadableTime()}")
+            when (onAlarmLoaded(context, it)) {
+                AlarmReceivedCode.Success -> {
+                    updateLastAlarmFired(it, true)
+                    AlarmDB.registerAlarm(context, it)
+                }
+                AlarmReceivedCode.NotTimeYet -> {
+                    updateLastAlarmFired(it, false)
+                    AlarmDB.registerAlarm(context, it)
+                }
+                AlarmReceivedCode.NotEnabled -> {
+
+                }
+            }
         }
     }
 
-    private fun updateLastAlarmFired(alarm: AlarmData) {
-        alarm.lastTime = System.currentTimeMillis()
+    private fun updateLastAlarmFired(alarm: AlarmData, fired: Boolean) {
+        if (fired) {
+            alarm.lastTime = AlarmFactory.getMillsCalendar(alarm.alarmHours, alarm.alarmMinutes).timeInMillis
+            alarm.startingTime = AlarmFactory.appendDayToTime(alarm.alarmHours, alarm.alarmMinutes)
+        } else {
+            alarm.startingTime =
+                AlarmFactory.getNearestNextTimeInMills(alarm.alarmHours, alarm.alarmMinutes)
+        }
         GlobalScope.launch {
             AlarmDao.instance.update(alarm)
         }
     }
+}
+
+enum class AlarmReceivedCode {
+    Success, NotTimeYet, NotEnabled
 }

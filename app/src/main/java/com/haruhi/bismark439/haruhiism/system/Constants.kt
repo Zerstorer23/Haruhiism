@@ -11,6 +11,12 @@ object Constants {
     const val FILE_WAKATERU_MP3 = "wakateru.mp3"
 
     const val FILE_KYON_MIKURU_KINSOKU_MP3 = "kinsoku/kyon_kinsoku.mp3"
+    const val FOLDER_HARUHI = "haruhi"
+    const val FOLDER_HARUHI_SHOSITSU = "haruhi_shositsu"
+    const val FOLDER_MIKURU = "mikuru"
+    const val FOLDER_MIKURU_BIG = "mikuru_big"
+    const val FOLDER_NAGATO = "Nagato"
+    const val FOLDER_NAGATO_SHOSITSU = "nagato_shositsu"
 }
 
 fun String.replaceAt(index: Int, newChar: Char): String {

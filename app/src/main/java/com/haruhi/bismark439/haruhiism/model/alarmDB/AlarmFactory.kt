@@ -1,6 +1,7 @@
 package com.haruhi.bismark439.haruhiism.model.alarmDB
 
 import android.content.Context
+import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.DEBUG.DEBUG_IMMEDIATE_ALARM
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.activities.AddAlarmActivity
@@ -31,28 +32,36 @@ object AlarmFactory {
     }
 
     fun getNearestNextTimeInMills(hour: Int, minutes: Int): Long {
-        var nextTimeInMills: Long
-        val calendar = Calendar.getInstance() //Alarm time
-        calendar[Calendar.HOUR_OF_DAY] = hour
-        calendar[Calendar.MINUTE] = minutes
-        nextTimeInMills = calendar.timeInMillis
-        if (System.currentTimeMillis() >= nextTimeInMills) {
+        var nextTimeInMills: Long = getMillsCalendar(hour, minutes).timeInMillis
+        if (System.currentTimeMillis() > nextTimeInMills) {
             nextTimeInMills += (AddAlarmActivity.dayInMills)
         }
         return nextTimeInMills
+    }
+    fun appendDayToTime(hour: Int, minutes: Int): Long {
+        val calendar = getMillsCalendar(hour, minutes)
+        calendar.timeInMillis+=AddAlarmActivity.dayInMills
+        return calendar.timeInMillis
+    }
+    fun getMillsCalendar(hour: Int, minutes: Int): Calendar {
+        val calendar = Calendar.getInstance() //Alarm time
+        calendar[Calendar.HOUR_OF_DAY] = hour
+        calendar[Calendar.MINUTE] = minutes
+        calendar[Calendar.SECOND] = 0
+        return calendar
     }
 
     fun showNextAlarmTime(context: Context, alarm: AlarmData) {
         val cal = Calendar.getInstance()
         cal.timeInMillis = alarm.startingTime
         val nextDate = convertCalendarDateToMyDate(cal)
-        println(alarm.days + " vs " + nextDate)
+        DEBUG.appendLog(alarm.days + " vs " + nextDate)
         if (!alarm.days.isTrueAt(nextDate)) {
             Toaster.show(context, context.getString(R.string.txt_no_alarm_tomorrow))
             return
         }
         var timeDiffInSec = (alarm.startingTime - System.currentTimeMillis()) / 1000
-        println("Time diff = $timeDiffInSec")
+        DEBUG.appendLog("Time diff = $timeDiffInSec")
         val hours = timeDiffInSec / (3600)
         timeDiffInSec -= hours * 3600
         val minutes = timeDiffInSec / 60
@@ -82,7 +91,7 @@ object AlarmFactory {
             Calendar.SATURDAY -> 5
             Calendar.SUNDAY -> 6
             else -> {
-                println("Date Error")
+                DEBUG.appendLog("Date Error")
                 -1
             }
         }

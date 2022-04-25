@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.VibrationEffect
 import android.os.Vibrator
+import java.security.MessageDigest
 
 object Helper {
 
@@ -20,5 +21,13 @@ object Helper {
         }
         return i.toString()
     }
-
+    private fun hash(text:String): String {
+        val bytes = text.toByteArray()
+        val md = MessageDigest.getInstance("SHA-256")
+        val digest = md.digest(bytes)
+        return digest.fold("") { str, it -> str + "%02x".format(it) }
+    }
+    fun String.toHash():String{
+        return hash(this)
+    }
 }

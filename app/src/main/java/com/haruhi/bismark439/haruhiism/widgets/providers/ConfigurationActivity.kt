@@ -7,14 +7,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.RemoteViews
-import com.haruhi.bismark439.haruhiism.R
+import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.activities.interfaces.BaseActivity
 import com.haruhi.bismark439.haruhiism.databinding.ConfigActivityWidgetBinding
-import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetDB
-import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetData
+import com.haruhi.bismark439.haruhiism.model.widgetDB.*
+import com.haruhi.bismark439.haruhiism.system.SpinnerFactory
 import kotlinx.coroutines.DelicateCoroutinesApi
 import yuku.ambilwarna.AmbilWarnaDialog
 import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener
@@ -28,72 +25,50 @@ class ConfigurationActivity :
     BaseActivity<ConfigActivityWidgetBinding>(ConfigActivityWidgetBinding::inflate) {
     private var mAppWidgetId = 0
     var date = IntArray(3)
-    var myImg = 0
+    val widgetData = WidgetData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WidgetDB.loadWidgets(this) {
-            runOnUiThread {
-                initialiseWidget()
-            }
-        }
+        checkValid()
+        widgetData.color = Color.parseColor("#c80000c8")
+        widgetData.widgetCharacter = WidgetCharacter.Haruhi
+        widgetData.appWidgetId = mAppWidgetId
+        initialiseWidget()
     }
-    private fun initialiseWidget(){
-        setResult(RESULT_CANCELED)
+
+
+    private fun initialiseWidget() {
         binding.btnCustomColor.setOnClickListener { onCustomColor() }
         binding.okButton.setOnClickListener { onCreateWidget() }
         setDatePicker()
-        setSpinner()
+        val nameList = WidgetCharacter.values().map{ch->getString(ch.toNameRes())}.toTypedArray()
+
+        SpinnerFactory.createSpinner(
+            applicationContext,
+            nameList,
+            binding.spinner
+        ) {
+            widgetData.widgetCharacter = WidgetCharacter.values()[it]
+            updateExample()
+        }
         //INITIALISE
         updateExample()
-        val extras = intent.extras
-        if (extras != null) {
-            mAppWidgetId = extras.getInt(
-                AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID
-            )
-        }
-// If you receive an intent without the appropriate ID, then the system should kill this Activity//
-        if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
-            finish()
-        }
     }
+
     private fun onCreateWidget() {
         val appWidgetManager = AppWidgetManager.getInstance(this)
         //But after 30 min it calls default update
-        val wg = WidgetData(
-            appWidgetId = mAppWidgetId,
-            color = myColor,
-            picture = drawables[myImg]
-        )
-        wg.setDate(date)
-        WidgetDB.saveWidget(this@ConfigurationActivity, wg) {
-            val ui = WidgetCreater.createUI(applicationContext, wg)
-            println(wg)
-            appWidgetManager.updateAppWidget(wg.appWidgetId, ui)
+        widgetData.name = binding.eventTitle.text.toString()
+        widgetData.picture = widgetData.widgetCharacter.toCharacterImg()
+        widgetData.setDate(date)
+        WidgetDB.saveWidget(this@ConfigurationActivity, widgetData) {
+            val ui = WidgetCreater.createUI(applicationContext, widgetData)
+            DEBUG.appendLog(widgetData.toString())
+            appWidgetManager.updateAppWidget(widgetData.appWidgetId, ui)
             val resultValue = Intent()
-            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, wg.appWidgetId)
+            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetData.appWidgetId)
             setResult(RESULT_OK, resultValue)
             finish()
-        }
-    }
-
-
-    private fun setSpinner() {
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, dNames)
-        binding.spinner.adapter = adapter
-        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                myImg = position
-                updateExample()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
@@ -181,7 +156,7 @@ class ConfigurationActivity :
     private fun checkValidity() {
         val cal = Calendar.getInstance()
         cal[date[0], date[1] - 1] = 1 //YY MM DD
-        println("Validity" + cal[Calendar.MONTH])
+        DEBUG.appendLog("Validity" + cal[Calendar.MONTH])
         val maxDay = cal.getActualMaximum(Calendar.DATE)
         if (date[2] > maxDay || date[2] < 1) {
             date[2] = maxDay
@@ -193,10 +168,10 @@ class ConfigurationActivity :
 
     //Color
     private fun onCustomColor() {
-        val dialog = AmbilWarnaDialog(this, myColor, true, object : OnAmbilWarnaListener {
+        val dialog = AmbilWarnaDialog(this, widgetData.color, true, object : OnAmbilWarnaListener {
             override fun onOk(dialog: AmbilWarnaDialog, color: Int) {
                 // color is the color selected by the user.
-                myColor = color
+                widgetData.color = color
                 updateExample()
             }
 
@@ -209,31 +184,37 @@ class ConfigurationActivity :
 
     fun onPresetColor(v: View?) {
         if (v == null) return
-        myColor = Color.parseColor(v.tag as String)
-        updateExample()
+        try {
+            widgetData.color = Color.parseColor(v.tag as String)
+            updateExample()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun updateExample() {
-        binding.exName.setTextColor(myColor)
-        binding.exName.text = binding.dateName.text.toString()
-        binding.exDays.setTextColor(myColor)
-        binding.exDays2.setTextColor(myColor)
-        binding.exImage.setImageResource(drawables[myImg])
+        binding.exName.setTextColor(widgetData.color)
+        binding.exName.text = binding.eventTitle.text
+        binding.exDays.setTextColor(widgetData.color)
+        binding.exDays2.setTextColor(widgetData.color)
+        binding.exImage.setImageResource(widgetData.widgetCharacter.toCharacterImg())
         binding.dateYear.setText(date[0].toString())
         binding.dateMonth.setText(date[1].toString())
         binding.dateDay.setText(date[2].toString())
     }
 
-
-    companion object {
-        var myColor = Color.parseColor("#c80000c8")
-        var drawables = intArrayOf(
-            R.drawable.haruhi_yuutsu,
-            R.drawable.haruhi1,
-            R.drawable.mikuruw,
-            R.drawable.nagato_chan
-        )
-        var dNames = arrayOf("Haruhi", "Haruhi-Shoshitsu", "Mikuru", "Nagato")
-
+    private fun checkValid() {
+        setResult(RESULT_CANCELED)
+        val extras = intent.extras
+        if (extras != null) {
+            mAppWidgetId = extras.getInt(
+                AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID
+            )
+        }
+        if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+            finish()
+        }
     }
+
 }

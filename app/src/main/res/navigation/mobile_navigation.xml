@@ -17,9 +17,9 @@
         android:label="@string/title_wallpapers"
         tools:layout="@layout/fragment_wallpaper_setting" />
 
-<!--    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.haruhi.bismark439.haruhiism.activities.navigation_ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />-->
+    <fragment
+        android:id="@+id/navigation_ranking"
+        android:name="com.haruhi.bismark439.haruhiism.activities.navigation_ui.click_ranks.RankingFragment"
+        android:label="@string/title_rankings"
+        tools:layout="@layout/fragment_ranking" />
 </navigation>

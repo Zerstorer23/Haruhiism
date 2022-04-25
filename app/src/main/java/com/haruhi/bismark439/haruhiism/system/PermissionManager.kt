@@ -2,6 +2,7 @@ package com.haruhi.bismark439.haruhiism.system
 
 import android.app.Activity
 import androidx.core.app.ActivityCompat
+import com.haruhi.bismark439.haruhiism.DEBUG
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -15,14 +16,12 @@ object PermissionManager {
             *requestedPermissions
         ).withListener(object : MultiplePermissionsListener {
             override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                println("Have permissions")
                 onPermissionChecked()
             }
             override fun onPermissionRationaleShouldBeShown(
                 permissions: MutableList<PermissionRequest>?,
                 token: PermissionToken?
             ) {
-                println("Permission denied")
                 ActivityCompat.requestPermissions(
                     activity,
                     requestedPermissions,

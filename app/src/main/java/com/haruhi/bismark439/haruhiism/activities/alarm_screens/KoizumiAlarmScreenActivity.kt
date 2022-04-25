@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.databinding.ActivityKoizumiScreenBinding
 import com.haruhi.bismark439.haruhiism.system.Sleeper
@@ -100,7 +101,7 @@ class KoizumiAlarmScreenActivity :
                 }
             }
         }
-        println("$numTrue VS $numFalse")
+        DEBUG.appendLog("$numTrue VS $numFalse")
     }
 
     fun updateBoard() {
@@ -160,7 +161,6 @@ class KoizumiAlarmScreenActivity :
             }
         }
         binding.scoreboard.text = "$numTrue VS $numFalse"
-        println("Answer $correct")
         showAnswer(correct)
     }
 

@@ -2,8 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="TypographyEllipsis">
     <string name="app_name">하루히즘</string>
-    <string name="beforelast">직관까지</string>
-    <string name="sincelast">직관이후</string>
+    <string name="beforelast">%1$s 까지</string>
+    <string name="sincelast">%1$s 이후</string>
     <string name="days">일</string>
     <string name="wed">수</string>
     <string name="fri">금</string>
@@ -105,7 +105,7 @@
     <string name="swipe">밀어서 알람해제</string>
     <string name="haruhiismLWP">하루히즘 LWP</string>
     <string name="melancholy">우울</string>
-    <string name="surprise">직관</string>
+    <string name="latest_title">직관</string>
     <string name="todaydesu">오늘!</string>
     <string name="empty_phone_line">_ _ _ _ _ _ _ _ _ _ _</string>
     <string name="koizumi_score_header">\" ● VS ○ \"</string>
@@ -138,4 +138,17 @@
     <string name="apply_settings">적용</string>
     <string name="txt_wallpaper_set">화면 설정 완료</string>
     <string name="txt_disabled_auto">자동 변경기능을 해제했습니다</string>
+    <string name="title_rankings">정보</string>
+    <string name="txt_custom">직접설정</string>
+    <string name="txt_txtcolor">색상</string>
+    <string name="txt_dday_name">제목</string>
+    <string name="txt_suzumiya">스즈미야</string>
+    <string name="txt_nagato">나가토</string>
+    <string name="txt_nagato_shositsu">소실 나가토</string>
+    <string name="txt_mikuru">미쿠루</string>
+    <string name="txt_mikuru_big">미쿠루 익은</string>
+    <string name="txt_character">캐릭터</string>
+    <string name="txt_suzumiya_shositsu">소실 스즈미야</string>
+    <string name="txt_my_clicks">%1$s 의 위젯 클릭수</string>
+    <string name="txt_global_clicks">전국구 클릭수</string>
 </resources>

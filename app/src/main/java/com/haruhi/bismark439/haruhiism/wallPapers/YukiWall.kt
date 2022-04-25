@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.os.Handler
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
+import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.wallPapers.ActivityYukiLWPSettings.Companion.loadLWP
 import java.util.*
@@ -81,7 +82,6 @@ class YukiWallpaper : WallpaperService() {
         //called when varaible changed
         override fun onVisibilityChanged(visible: Boolean) {
             mVisible = visible
-            println("VisChangeCalled$visible")
             text = loadLWP(applicationContext)
             textChar = text.toCharArray() // split the character of the text
             textLength = textChar.size
@@ -137,8 +137,6 @@ class YukiWallpaper : WallpaperService() {
         private fun changePicture() {
             constructImage()
             mImgIndex = rand.nextInt(imgList.size)
-            println("Rand pic $mImgIndex")
-            //                if(mImgIndex>=imgList.length)mImgIndex=0;
             mHandler.postDelayed(mChangePic, changePicSpeed.toLong())
         }
 
@@ -163,7 +161,6 @@ class YukiWallpaper : WallpaperService() {
             paint.style = Paint.Style.FILL
             this.width = width + 20
             this.height = height
-            println("onSurfaceChanged WIDTH: $width HEIGHT $height")
             fontSize = width / columnSize
             constructImage()
             initialise()
@@ -218,7 +215,6 @@ class YukiWallpaper : WallpaperService() {
                     100
                 )
             }
-            //  System.out.println("LENGTH "+asciiString.length());
             var modY = 0
             for (y in 0 until imageHeight) {
                 for (x in 0..99) {
@@ -226,7 +222,7 @@ class YukiWallpaper : WallpaperService() {
                     foregroundImage[modY + 1][x] = foregroundImage[modY][x]
                     //    foregroundImage[modY+2][x] =  foregroundImage[modY][x];
                 }
-                modY = modY + imageMultiply
+                modY += imageMultiply
             }
         }
 

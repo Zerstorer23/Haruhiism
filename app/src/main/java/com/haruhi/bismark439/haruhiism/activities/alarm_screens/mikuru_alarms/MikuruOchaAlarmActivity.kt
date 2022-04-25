@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.activities.alarm_screens.BasicAlarmScreenActivity
 import com.haruhi.bismark439.haruhiism.databinding.ActivityMikuruOchaScreenBinding
@@ -48,7 +49,7 @@ class MikuruOchaAlarmActivity :
             videoView.start()
         }
         videoView.setOnErrorListener { _, what, extra ->
-            println("$what = code , $extra = extra")
+            DEBUG.appendLog("$what = code , $extra = extra")
             false
         }
     }
@@ -71,7 +72,6 @@ class MikuruOchaAlarmActivity :
         param.weight = weightEnd.toFloat()
         tv3.layoutParams = param
 
-        //System.out.println("Progress: /Front: "+weightFront+" / end: "+(100-weightEnd));
     }
 
     private lateinit var countDown: Thread
@@ -100,7 +100,6 @@ class MikuruOchaAlarmActivity :
     fun makeDecision() {
         val prgBar = binding.teaProgress
         val ans = prgBar.progress
-        //  System.out.println("Progress: "+ans+" /Front: "+weightFront+" / end: "+(100-weightEnd));
         when {
             ans < weightFront -> {
                 announce.setText(R.string.pourtoolittle)
@@ -125,12 +124,6 @@ class MikuruOchaAlarmActivity :
     private fun onTouchView(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN && !mAutoIncrement) {
             mAutoIncrement = true
-            // creating an object of media controller class
-        //    val mediaControls = MediaController(this)
-            // set the anchor view for the video view
-          //  mediaControls.setAnchorView(binding.videoView)
-            // set the media controller for video view
-         //   videoView.setMediaController(mediaControls)
             videoView.setVideoURI(Uri.parse(pathIn))
             videoView.requestFocus()
             binding.videoView.start()

@@ -29,6 +29,7 @@ abstract class IFragmentActivity<T : ViewBinding>(
         savedInstanceState: Bundle?
     ): View {
         MyApp.setContext(requireContext())
+
         binding = inflater(inflater, container, false)
         onRefreshUI()
         return binding.root

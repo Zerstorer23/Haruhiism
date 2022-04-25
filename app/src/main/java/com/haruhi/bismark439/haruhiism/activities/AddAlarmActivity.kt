@@ -15,6 +15,7 @@ import com.haruhi.bismark439.haruhiism.databinding.ActivityAddAlarmBinding
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDB
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmFactory
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmWakers
+import com.haruhi.bismark439.haruhiism.system.SpinnerFactory
 import com.haruhi.bismark439.haruhiism.system.alarms.SoundPlayer.Companion.DEFAULT_VOLUME
 import com.haruhi.bismark439.haruhiism.system.isTrueAt
 import com.haruhi.bismark439.haruhiism.system.replaceAt
@@ -40,7 +41,6 @@ class AddAlarmActivity : BaseActivity<ActivityAddAlarmBinding>(ActivityAddAlarmB
         alarmTimePicker = binding.timePicker //findViewById(R.id.timePicker) as TimePicker?
         //Repeat Box
         binding.aRepeatCheck.setOnCheckedChangeListener { _, isChecked -> repeat = isChecked }
-        //Radio
         setUpSpinner()
 
         //Vib Check
@@ -49,53 +49,7 @@ class AddAlarmActivity : BaseActivity<ActivityAddAlarmBinding>(ActivityAddAlarmB
         //Volume
         binding.aVolseek.progress = DEFAULT_VOLUME.toInt()
 
-        //Minutes Interval
-        minSpin = binding.aSnzMinutes
-        val adapter: ArrayAdapter<String> =
-            ArrayAdapter<String>(
-                this,
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                snzMinutes
-            )
-        minSpin.adapter = adapter
-        minSpin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                sMin = snzMinutes[position].toInt()
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                sMin = 5
-            }
-        }
-
-//Times repeat
-        timeSpin = binding.aSnzTimes
-        val adapter2: ArrayAdapter<String> =
-            ArrayAdapter<String>(
-                this,
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-                snzTimes
-            )
-        timeSpin.adapter = adapter2
-        timeSpin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                sTimes = snzTimes[position].toInt()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                sTimes = 3
-            }
-        }
 
         //
         binding.btnSelectSong.setOnClickListener { songname = "alarm1.mp3" }
@@ -104,13 +58,19 @@ class AddAlarmActivity : BaseActivity<ActivityAddAlarmBinding>(ActivityAddAlarmB
     }
 
     private fun setUpSpinner() {
-        val nameArray = wakerNames.map { res -> resources.getString(res) }
-        val adapter = ArrayAdapter(
-            this,
-            R.layout.view_spinner_row, nameArray
-        )
-        binding.wakerSpinner.adapter = adapter
-    }
+        //Minutes Interval
+        SpinnerFactory.createSpinner<String>(applicationContext,snzMinutes,binding.aSnzMinutes){
+            sMin = snzMinutes[it].toInt()
+        }
+        SpinnerFactory.createSpinner<String>(applicationContext,snzTimes,binding.aSnzTimes){
+            sTimes = snzTimes[it].toInt()
+        }
+        val nameArray =( wakerNames.map { res -> resources.getString(res) }).toTypedArray()
+        SpinnerFactory.createSpinner<String>(applicationContext,nameArray,binding.wakerSpinner){
+        }
+
+       //
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -73,7 +73,8 @@ data class AlarmData(
         val sb = StringBuilder()
         sb.append("=====PRINTING ALARM DATA: =====\n")
         sb.append("$alarmHours :  $alarmMinutes  Code: $reqCode  Enabled: $enabled \n")
-        sb.append("Last: ${lastTime.toReadableTime()} :  $alarmMinutes  Days: $days \n")
+        sb.append("Start: ${startingTime.toReadableTime()}  \n")
+        sb.append("Last: ${lastTime.toReadableTime()} :  Days: $days \n")
         sb.append("======================\n")
         return sb.toString()
     }

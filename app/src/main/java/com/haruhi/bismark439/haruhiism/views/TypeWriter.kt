@@ -71,7 +71,6 @@ class TypeWriterView : AppCompatTextView {
                     if (arrayIndex < mStrings.size) {
                         mHandler.postDelayed(this, mDelay)
                     } else { //Wrote Everything
-                        println("Send beeper")
                         stringSoFar = appendText()
                         mDelay = 300
                         repeat = 500
@@ -93,7 +92,6 @@ class TypeWriterView : AppCompatTextView {
                 repeat--
                 mHandler.postDelayed(this, mDelay)
             }
-            // System.out.println(repeat);
         }
     }
 
