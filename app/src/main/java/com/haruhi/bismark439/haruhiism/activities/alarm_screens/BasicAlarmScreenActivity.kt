@@ -12,7 +12,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.KeyEvent
 import androidx.viewbinding.ViewBinding
-import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.system.alarms.SoundPlayer
 import com.haruhi.bismark439.haruhiism.activities.interfaces.ActivityViewBinder
 import com.haruhi.bismark439.haruhiism.activities.interfaces.BaseActivity
@@ -43,11 +43,11 @@ abstract class BasicAlarmScreenActivity<T : ViewBinding>(inflater: ActivityViewB
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            DEBUG.appendLog("KEYCODE_BACK")
+            Debugger.log("KEYCODE_BACK")
             return true
         }
         if (keyCode == KeyEvent.KEYCODE_MENU) {
-            DEBUG.appendLog("KEYCODE_MENU")
+            Debugger.log("KEYCODE_MENU")
             return true
         }
         return false

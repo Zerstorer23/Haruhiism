@@ -19,5 +19,6 @@ class HaruhiWidgetProvider : IWidgetProvider(
     R.string.latest_title,
     R.drawable.haruhi1,
     "#eeed7e10",
-    FOLDER_HARUHI
+    FOLDER_HARUHI,
+    HaruhiWidgetProvider::class.java
 )

@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.os.Handler
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
-import com.haruhi.bismark439.haruhiism.DEBUG
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.wallPapers.ActivityYukiLWPSettings.Companion.loadLWP
 import java.util.*

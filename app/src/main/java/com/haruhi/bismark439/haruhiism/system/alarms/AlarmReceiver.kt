@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import androidx.core.content.ContextCompat
-import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.model.alarmDB.*
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmFactory
 import com.haruhi.bismark439.haruhiism.system.alarms.SoundPlayer.Companion.currentVolume
@@ -31,10 +31,10 @@ class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val reqCode = intent.getIntExtra("requestCode", 0)
-        DEBUG.appendLog("Received code:$reqCode")
+        Debugger.log("Received code:$reqCode")
         alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         loadAlarm(context, reqCode)
-        DEBUG.appendLog("Received Signal:" + intent.action)
+        Debugger.log("Received Signal:" + intent.action)
     }
 
 
@@ -42,7 +42,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val waker = modifyWaker(alarm.waker)
         val alarmIntent = Intent(context, AlarmDB.AlarmDictionary[waker])
         saveVolume(context, alarm.volume)
-        DEBUG.appendLog(alarm.reqCode.toString() + " Received Waker: " + waker)
+        Debugger.log(alarm.reqCode.toString() + " Received Waker: " + waker)
         alarmIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         return alarmIntent
     }
@@ -62,27 +62,27 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val today = AlarmFactory.convertCalendarDateToMyDate(now)
         if (!alarm.days.isTrueAt(today)) {
-            DEBUG.appendLog("It is not for today")
+            Debugger.log("It is not for today")
             return false
         }
         if (abs(System.currentTimeMillis() - alarm.lastTime) <= (TIME_PRECISION_IN_MILLS)) {
-            DEBUG.appendLog("We already triggered this today")
+            Debugger.log("We already triggered this today")
             return false
         }
 
 /*        val alarmInSeconds = (alarm.alarmHours * 60 + alarm.alarmMinutes) * 60
         val nowInSeconds = (now[Calendar.HOUR_OF_DAY] * 60 + now[Calendar.MINUTE]) * 60*/
         val diff = abs(alarmCal.timeInMillis - System.currentTimeMillis())
-        DEBUG.appendLog(
+        Debugger.log(
             "Time: ${alarmCal.timeInMillis.toReadableTime()} vs ${
                 System.currentTimeMillis().toReadableTime()
             }"
         )
-        DEBUG.appendLog("Time difference : ${diff.toLong()} vs $TIME_PRECISION_IN_MILLS")
+        Debugger.log("Time difference : ${diff.toLong()} vs $TIME_PRECISION_IN_MILLS")
         return if (diff <= TIME_PRECISION_IN_MILLS) {
             true
         } else {
-            DEBUG.appendLog("It is not tim yet")
+            Debugger.log("It is not tim yet")
             false
         }
     }
@@ -107,7 +107,7 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun onAlarmLoaded(context: Context, alarm: AlarmData): AlarmReceivedCode {
         if (!alarm.enabled) return AlarmReceivedCode.NotEnabled
         if (!isTimeNow(alarm)) return AlarmReceivedCode.NotTimeYet
-        DEBUG.appendLog("$alarm is for now")
+        Debugger.log("$alarm is for now")
         val alarmIntent = generateIntent(context, alarm)
         ContextCompat.startActivity(context, alarmIntent, null)
         return AlarmReceivedCode.Success
@@ -117,7 +117,7 @@ class AlarmReceiver : BroadcastReceiver() {
         AlarmDao.initDao(context)
         GlobalScope.launch {
             val it = AlarmDao.instance.selectOnce(reqCode) ?: return@launch
-            DEBUG.appendLog("Collect called $reqCode ${it.lastTime.toReadableTime()}")
+            Debugger.log("Collect called $reqCode ${it.lastTime.toReadableTime()}")
             when (onAlarmLoaded(context, it)) {
                 AlarmReceivedCode.Success -> {
                     updateLastAlarmFired(it, true)

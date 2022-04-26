@@ -6,7 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.activities.alarm_screens.BasicAlarmScreenActivity
 import com.haruhi.bismark439.haruhiism.databinding.ActivityMikuruOchaScreenBinding
@@ -49,7 +49,7 @@ class MikuruOchaAlarmActivity :
             videoView.start()
         }
         videoView.setOnErrorListener { _, what, extra ->
-            DEBUG.appendLog("$what = code , $extra = extra")
+            Debugger.log("$what = code , $extra = extra")
             false
         }
     }

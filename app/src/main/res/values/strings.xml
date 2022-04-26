@@ -643,7 +643,7 @@ hNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNmm+///-..-/////ydddddddNdNNNNNNNNNMMMMMMMMNN
     <string name="txt_nagato_shositsu">Nagato Shositsu</string>
     <string name="txt_mikuru">Mikuru</string>
     <string name="txt_mikuru_big">Mikuru Big</string>
-    <string name="txt_my_clicks">%1$s clicked widget</string>
+    <string name="txt_my_clicks">My widget clicks</string>
     <string name="txt_global_clicks">Global counts</string>
 
     <!--

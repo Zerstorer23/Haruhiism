@@ -2,26 +2,30 @@ package com.haruhi.bismark439.haruhiism.widgets.providers
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
-import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.widget.RemoteViews
-import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.R
+import com.haruhi.bismark439.haruhiism.activities.navigation_ui.click_ranks.RankingFragment.Companion.CLICKS_MINE
 import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetData
 import com.haruhi.bismark439.haruhiism.model.widgetDB.toCharacterFolder
 import com.haruhi.bismark439.haruhiism.system.StorageManager
+import com.haruhi.bismark439.haruhiism.system.firebase_manager.ViewDatabaseHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 import kotlin.math.abs
-import kotlin.reflect.KClass
 
 object WidgetCreater {
     fun onCounterClicked(context: Context, intent: Intent) {
         val src = intent.getStringExtra(SRC_WIDGET)
+        Debugger.log("Play source $src")
         if (src == null || src.isEmpty()) {
             return
         }
@@ -34,7 +38,7 @@ object WidgetCreater {
         }
     }
 
-    fun playSound(context: Context, folder: String, fileList: Array<String>) {
+    private fun playSound(context: Context, folder: String, fileList: Array<String>) {
         val mMediaPlayer = MediaPlayer()
         try {
             val rand = (Math.random() * fileList.size).toInt()
@@ -71,7 +75,7 @@ object WidgetCreater {
 
     fun createUI(context: Context, widgetData: WidgetData): RemoteViews {
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_default_counter)
-        DEBUG.appendLog("UI update called on ${remoteViews.layoutId}")
+        Debugger.log("UI update called on ${remoteViews.layoutId}")
         val days: Long = getDays(getCalendar(widgetData.yy, widgetData.mmMod, widgetData.dd))
         setDdayText(remoteViews, context, days, widgetData.name)
         setColors(remoteViews, widgetData.color)
@@ -138,8 +142,8 @@ object WidgetCreater {
 
     private fun getDays(target: Calendar): Long {
         val today = Calendar.getInstance() //TimeZone.getTimeZone("GMT"));
-        DEBUG.appendLog("Target Cal: " + target[Calendar.YEAR] + "Y / " + (target[Calendar.MONTH] + 1) + "M / " + target[Calendar.DATE] + " D")
-        DEBUG.appendLog("Today Cal: " + today[Calendar.YEAR] + "Y / " + (today[Calendar.MONTH] + 1) + "M / " + today[Calendar.DATE] + " D")
+        Debugger.log("Target Cal: " + target[Calendar.YEAR] + "Y / " + (target[Calendar.MONTH] + 1) + "M / " + target[Calendar.DATE] + " D")
+        Debugger.log("Today Cal: " + today[Calendar.YEAR] + "Y / " + (today[Calendar.MONTH] + 1) + "M / " + today[Calendar.DATE] + " D")
         if (today[Calendar.YEAR] == target[Calendar.YEAR]
             && today[Calendar.MONTH] == target[Calendar.YEAR]
             && today[Calendar.DATE] == target[Calendar.YEAR]
@@ -153,6 +157,19 @@ object WidgetCreater {
         val calendar = Calendar.getInstance() //TimeZone.getTimeZone("GMT") );
         calendar.set(y, m, d, 0, 0)
         return calendar
+    }
+
+    fun incrementView(context: Context) {
+        GlobalScope.launch(Dispatchers.Default) {
+            val reader = StorageManager.getPrefReader(context)
+            val clicks = reader.getInt(CLICKS_MINE, 0) + 1
+            val writer = StorageManager.getPrefWriter(context)
+            writer.putInt(CLICKS_MINE, clicks)
+            writer.apply()
+            ViewDatabaseHandler.getSum {
+                ViewDatabaseHandler.incrementView { }
+            }
+        }
     }
 
     private const val DAY_IN_MILLI = (1000 * 60 * 60 * 24)

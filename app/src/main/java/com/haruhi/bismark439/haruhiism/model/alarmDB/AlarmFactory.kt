@@ -1,8 +1,8 @@
 package com.haruhi.bismark439.haruhiism.model.alarmDB
 
 import android.content.Context
-import com.haruhi.bismark439.haruhiism.DEBUG
-import com.haruhi.bismark439.haruhiism.DEBUG.DEBUG_IMMEDIATE_ALARM
+import com.haruhi.bismark439.haruhiism.Debugger
+import com.haruhi.bismark439.haruhiism.Debugger.DEBUG_IMMEDIATE_ALARM
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.activities.AddAlarmActivity
 import com.haruhi.bismark439.haruhiism.system.isTrueAt
@@ -55,13 +55,13 @@ object AlarmFactory {
         val cal = Calendar.getInstance()
         cal.timeInMillis = alarm.startingTime
         val nextDate = convertCalendarDateToMyDate(cal)
-        DEBUG.appendLog(alarm.days + " vs " + nextDate)
+        Debugger.log(alarm.days + " vs " + nextDate)
         if (!alarm.days.isTrueAt(nextDate)) {
             Toaster.show(context, context.getString(R.string.txt_no_alarm_tomorrow))
             return
         }
         var timeDiffInSec = (alarm.startingTime - System.currentTimeMillis()) / 1000
-        DEBUG.appendLog("Time diff = $timeDiffInSec")
+        Debugger.log("Time diff = $timeDiffInSec")
         val hours = timeDiffInSec / (3600)
         timeDiffInSec -= hours * 3600
         val minutes = timeDiffInSec / 60
@@ -91,7 +91,7 @@ object AlarmFactory {
             Calendar.SATURDAY -> 5
             Calendar.SUNDAY -> 6
             else -> {
-                DEBUG.appendLog("Date Error")
+                Debugger.log("Date Error")
                 -1
             }
         }

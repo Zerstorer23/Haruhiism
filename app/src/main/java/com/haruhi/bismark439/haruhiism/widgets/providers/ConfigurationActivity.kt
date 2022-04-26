@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.activities.interfaces.BaseActivity
 import com.haruhi.bismark439.haruhiism.databinding.ConfigActivityWidgetBinding
 import com.haruhi.bismark439.haruhiism.model.widgetDB.*
@@ -63,7 +63,7 @@ class ConfigurationActivity :
         widgetData.setDate(date)
         WidgetDB.saveWidget(this@ConfigurationActivity, widgetData) {
             val ui = WidgetCreater.createUI(applicationContext, widgetData)
-            DEBUG.appendLog(widgetData.toString())
+            Debugger.log(widgetData.toString())
             appWidgetManager.updateAppWidget(widgetData.appWidgetId, ui)
             val resultValue = Intent()
             resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetData.appWidgetId)
@@ -156,7 +156,7 @@ class ConfigurationActivity :
     private fun checkValidity() {
         val cal = Calendar.getInstance()
         cal[date[0], date[1] - 1] = 1 //YY MM DD
-        DEBUG.appendLog("Validity" + cal[Calendar.MONTH])
+        Debugger.log("Validity" + cal[Calendar.MONTH])
         val maxDay = cal.getActualMaximum(Calendar.DATE)
         if (date[2] > maxDay || date[2] < 1) {
             date[2] = maxDay

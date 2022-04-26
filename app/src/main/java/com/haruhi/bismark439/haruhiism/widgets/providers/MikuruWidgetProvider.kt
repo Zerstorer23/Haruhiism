@@ -11,7 +11,8 @@ class MikuruWidgetProvider : IWidgetProvider(
     R.string.melancholy,
     R.drawable.mikuruw,
     "#EEc80000",
-    Constants.FOLDER_MIKURU
+    Constants.FOLDER_MIKURU,
+    MikuruWidgetProvider::class.java
 )
 
 

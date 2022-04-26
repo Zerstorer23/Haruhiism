@@ -5,7 +5,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.system.Constants.FOLDER_HARUHI
 import com.haruhi.bismark439.haruhiism.system.Constants.FOLDER_HARUHI_SHOSITSU
@@ -47,17 +47,17 @@ class WidgetDB {
         fun loadWidgets(context: Context, onResult: VoidReturn) {
             WidgetDao.initDao(context)
             GlobalScope.launch {
-                WidgetDao.instance.selectAll().collect {
-                    DEBUG.appendLog("Widgets loaded: " + widgetDB.size)
-                    for (i in widgetDB) {
-                        DEBUG.appendLog(i.toString())
-                        DEBUG.appendLog("==")
-                    }
-                    buildHashMap(it)
-                    onResult()
+                val it = WidgetDao.instance.selectAllOnce()
+                Debugger.log("Widgets loaded: " + widgetDB.size)
+                for (i in widgetDB) {
+                    Debugger.log(i.toString())
+                    Debugger.log("==")
                 }
+                buildHashMap(it)
+                onResult()
             }
         }
+
 
         fun deleteWidget(context: Context, widget: WidgetData) {
             WidgetDao.initDao(context)
@@ -106,7 +106,7 @@ data class WidgetData
         sb.append("=====PRINTING WIDGET DATA: =====\n")
         sb.append("ID: $appWidgetId Name: $name  \n")
         sb.append("Y: $yy M: $mmMod D: $dd \n")
-        sb.append("Color : #$color \n")
+        sb.append("Color : #$color Char: ${widgetCharacter}\n")
         sb.append("============================ \n")
         return sb.toString()
     }
@@ -155,31 +155,27 @@ fun WidgetCharacter.toCharacterFolder(): String {
         WidgetCharacter.NagatoShositsu -> FOLDER_NAGATO_SHOSITSU
         WidgetCharacter.Mikuru -> FOLDER_MIKURU
         WidgetCharacter.MikuruBig -> FOLDER_MIKURU_BIG
-        else -> ""
     }
 }
-
-
-
 
 fun WidgetCharacter.toCharacterImg(): Int {
     return when (this) {
-        WidgetCharacter.Haruhi ->R.drawable.haruhi1
-        WidgetCharacter.HaruhiShositsu -> R.drawable.haruhi_yuutsu
-        WidgetCharacter.Nagato -> R.drawable.nagato_chan
+        WidgetCharacter.Haruhi -> R.drawable.haruhi_normal
+        WidgetCharacter.HaruhiShositsu -> R.drawable.haruhi1
+        WidgetCharacter.Nagato -> R.drawable.hat_nagato
         WidgetCharacter.NagatoShositsu -> R.drawable.nagato_chan
         WidgetCharacter.Mikuru -> R.drawable.mikuruw
-        WidgetCharacter.MikuruBig ->R.drawable.nagato_chan
-        else -> R.drawable.nagato_chan
+        WidgetCharacter.MikuruBig -> R.drawable.big_mikuru
     }
 }
+
 fun WidgetCharacter.toNameRes(): Int {
     return when (this) {
-        WidgetCharacter.Haruhi ->(R.string.txt_suzumiya)
+        WidgetCharacter.Haruhi -> (R.string.txt_suzumiya)
         WidgetCharacter.HaruhiShositsu -> (R.string.txt_suzumiya_shositsu)
         WidgetCharacter.Nagato -> (R.string.txt_nagato)
         WidgetCharacter.NagatoShositsu -> (R.string.txt_nagato_shositsu)
         WidgetCharacter.Mikuru -> (R.string.txt_mikuru)
-        WidgetCharacter.MikuruBig ->(R.string.txt_mikuru_big)
+        WidgetCharacter.MikuruBig -> (R.string.txt_mikuru_big)
     }
 }

@@ -5,7 +5,7 @@ import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.activities.AddAlarmActivity
 import com.haruhi.bismark439.haruhiism.activities.interfaces.IFragmentActivity
@@ -49,7 +49,7 @@ class HomeFragment : IFragmentActivity<FragmentHomeBinding>(
     private fun onAlarmCreated(it: ActivityResult) {
         val newAlarm = it.data!!.getParcelableExtra<AlarmData>("alarm")!!
         lifecycleScope.launch {
-            DEBUG.appendLog("Insert new alarm: " + newAlarm.reqCode)
+            Debugger.log("Insert new alarm: " + newAlarm.reqCode)
             AlarmDao.instance.insert(newAlarm)
         }
     }
@@ -61,7 +61,7 @@ class HomeFragment : IFragmentActivity<FragmentHomeBinding>(
         lifecycleScope.launch {
             AlarmDao.instance.selectAll().collect {
                 AlarmDB.alarmDB = ArrayList(it)
-                DEBUG.appendLog("alarm list updated : " + it.size)
+                Debugger.log("alarm list updated : " + it.size)
                 setUpListView()
                 if (AlarmDB.alarmDB.size == 0) return@collect
                 AlarmDB.safeRegisterAllAlarms(requireContext())

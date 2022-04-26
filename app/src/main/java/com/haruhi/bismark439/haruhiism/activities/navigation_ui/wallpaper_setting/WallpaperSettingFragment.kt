@@ -5,11 +5,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.lifecycleScope
-import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.activities.interfaces.IFragmentActivity
 import com.haruhi.bismark439.haruhiism.databinding.FragmentWallpaperSettingBinding
@@ -223,7 +221,7 @@ class WallpaperSettingFragment :
         }
         MyWallpaperOption.saveData(requireContext(), option)
         if (!setImmediately) return
-        DEBUG.appendLog("Saving settings...")
+        Debugger.log("Saving settings...")
         WallpaperBroadcastManager.updateWallpaper(requireContext(), option, option.isEnabled)
     }
 

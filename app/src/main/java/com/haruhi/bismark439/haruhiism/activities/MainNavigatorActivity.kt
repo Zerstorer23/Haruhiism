@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.activities.interfaces.BaseActivity
 import com.haruhi.bismark439.haruhiism.databinding.ActivityMainNavigatorBinding
@@ -21,13 +21,13 @@ class MainNavigatorActivity :
         val navController = findNavController(R.id.navControllerView)
         navView.setupWithNavController(navController)
 
-        if (DEBUG.debugMode) {
+        if (Debugger.debugMode) {
             PermissionManager.checkPermission(
                 this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
             {
-                DEBUG.appendLog("Success permission")
+                Debugger.log("Success permission")
             }
         }
     }

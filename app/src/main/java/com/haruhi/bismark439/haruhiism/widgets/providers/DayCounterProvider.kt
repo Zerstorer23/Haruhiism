@@ -4,8 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import com.haruhi.bismark439.haruhiism.DEBUG
-import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetCharacter
+import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetDB
 import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetDB.Companion.loadWidgets
 import com.haruhi.bismark439.haruhiism.model.widgetDB.toCharacterFolder
@@ -33,11 +32,11 @@ class DayCounterProvider : AppWidgetProvider() {
         context: Context,
         appWidgetIds: IntArray
     ) {
-        DEBUG.appendLog("Widget DB: " + WidgetDB.getSize() + " installed: " + appWidgetIds.size)
+        Debugger.log("Widget DB: " + WidgetDB.getSize() + " installed: " + appWidgetIds.size)
         for (widgetId in appWidgetIds) {
-            DEBUG.appendLog("Widget ID: $widgetId")
+            Debugger.log("Widget ID: $widgetId")
             val widgetData = WidgetDB.get(widgetId) ?: continue
-            DEBUG.appendLog("Found: $widgetId $widgetData")
+            Debugger.log("Found: $widgetId $widgetData")
             val ui = WidgetCreater.createUI(context, widgetData)
             val intent = Intent(context, DayCounterProvider::class.java)
             intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
@@ -68,6 +67,7 @@ class DayCounterProvider : AppWidgetProvider() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         onCounterClicked(context, intent)
+        WidgetCreater.incrementView(context)
     }
 }
 

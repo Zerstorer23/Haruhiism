@@ -2,7 +2,6 @@ package com.haruhi.bismark439.haruhiism.system
 
 import android.app.Activity
 import androidx.core.app.ActivityCompat
-import com.haruhi.bismark439.haruhiism.DEBUG
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken

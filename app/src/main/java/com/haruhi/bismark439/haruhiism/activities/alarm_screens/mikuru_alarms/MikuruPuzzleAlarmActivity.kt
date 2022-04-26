@@ -10,7 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
-import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.system.alarms.NotificationManager.sendNotification
 import com.haruhi.bismark439.haruhiism.system.alarms.SoundPlayer
 import com.haruhi.bismark439.haruhiism.system.Constants.FILE_KYON_MIKURU_KINSOKU_MP3
@@ -126,9 +126,9 @@ class MikuruPuzzleAlarmActivity :
         val yy = (secondPosition[1] + moving.height / 2).toFloat()
         if (xx >= firstPosition[0] && xx <= fRight) {
             if (yy >= firstPosition[1] && yy <= fBot) {
-                DEBUG.appendLog("X: " + firstPosition[0] + "~ " + fRight)
-                DEBUG.appendLog("Y: " + firstPosition[1] + " ~ " + fBot)
-                DEBUG.appendLog("vs X: $xx Y:$yy")
+                Debugger.log("X: " + firstPosition[0] + "~ " + fRight)
+                Debugger.log("Y: " + firstPosition[1] + " ~ " + fBot)
+                Debugger.log("vs X: $xx Y:$yy")
                 return true
             }
         }

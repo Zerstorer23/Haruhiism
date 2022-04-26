@@ -3,7 +3,7 @@ package com.haruhi.bismark439.haruhiism.system.alarms
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.Debugger
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 /**
@@ -14,7 +14,7 @@ class BootReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
 
-        DEBUG.appendLog("action ${intent.action}")
+        Debugger.log("action ${intent.action}")
         if (intent.action == Intent.ACTION_BOOT_COMPLETED
             || intent.action == Intent.ACTION_REBOOT
             || intent.action == Intent.ACTION_DATE_CHANGED

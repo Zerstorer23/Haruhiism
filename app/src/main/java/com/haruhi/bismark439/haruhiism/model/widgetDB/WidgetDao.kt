@@ -18,6 +18,8 @@ interface WidgetDao {
 
     @Query("SELECT * FROM `widget-table`")
     fun selectAll(): Flow<List<WidgetData>>
+    @Query("SELECT * FROM `widget-table`")
+    fun selectAllOnce(): List<WidgetData>
 
 
     @Query(

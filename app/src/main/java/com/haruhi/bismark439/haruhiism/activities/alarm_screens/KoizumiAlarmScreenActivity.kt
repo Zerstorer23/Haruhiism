@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.haruhi.bismark439.haruhiism.DEBUG
+import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.databinding.ActivityKoizumiScreenBinding
 import com.haruhi.bismark439.haruhiism.system.Sleeper
@@ -101,7 +101,7 @@ class KoizumiAlarmScreenActivity :
                 }
             }
         }
-        DEBUG.appendLog("$numTrue VS $numFalse")
+        Debugger.log("$numTrue VS $numFalse")
     }
 
     fun updateBoard() {

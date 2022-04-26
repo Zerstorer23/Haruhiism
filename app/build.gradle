@@ -11,8 +11,8 @@ android {
         applicationId "com.haruhi.bismark439.haruhiism"
         minSdk 26
         targetSdk 31
-        versionCode 108
-        versionName "k1.08"
+        versionCode 109
+        versionName "k1.09"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

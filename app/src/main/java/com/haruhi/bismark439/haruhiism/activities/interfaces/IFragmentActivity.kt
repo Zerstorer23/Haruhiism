@@ -21,7 +21,6 @@ abstract class IFragmentActivity<T : ViewBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         onActivityStart()
-
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +28,6 @@ abstract class IFragmentActivity<T : ViewBinding>(
         savedInstanceState: Bundle?
     ): View {
         MyApp.setContext(requireContext())
-
         binding = inflater(inflater, container, false)
         onRefreshUI()
         return binding.root
