@@ -5,11 +5,10 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
-import com.haruhi.bismark439.haruhiism.widgets.providers.WidgetCreater.createPresetUI
+import android.graphics.Color
+import com.haruhi.bismark439.haruhiism.R
+import com.haruhi.bismark439.haruhiism.system.ui.Toaster
 import com.haruhi.bismark439.haruhiism.widgets.providers.WidgetCreater.onCounterClicked
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
 
 open class IWidgetProvider(
@@ -28,28 +27,31 @@ open class IWidgetProvider(
         val title = context.getString(titleStringId)
         val bitmap =
             BitmapFactory.decodeResource(context.resources, drawableId)// R.drawable.haruhi1)
-        val intent = Intent(context, cls)
-        val ui = createPresetUI(
-            context,
-            appWidgetIds,
-            title,
-            colorString,
-            calendar,
-            bitmap,
-            srcFolder,
-            intent
-        )
+        val color = Color.parseColor(colorString)
         for (widgetId in appWidgetIds) {
-            appWidgetManager.updateAppWidget(widgetId, ui)
+            val view = WidgetCreater.createGeneralUI(context, title, color, calendar)
+            WidgetCreater.setOnClickIntent(context, view, cls, srcFolder, widgetId)
+            view.setImageViewBitmap(R.id.widgetImage, bitmap)
+            appWidgetManager.updateAppWidget(widgetId, view)
         }
     }
 
+    private fun updateUI(context: Context, widgetId: Int) {
+        val title = context.getString(titleStringId)
+        val bitmap = BitmapFactory.decodeResource(context.resources, drawableId)// R.drawable.haruhi1)
+        val color = Color.parseColor(colorString)
+        val view = WidgetCreater.createGeneralUI(context, title, color, calendar)
+        WidgetCreater.setOnClickIntent(context, view, cls, srcFolder, widgetId)
+        view.setImageViewBitmap(R.id.widgetImage, bitmap)
+        AppWidgetManager.getInstance(context).updateAppWidget(widgetId, view)
+    }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         onCounterClicked(context, intent)
         WidgetCreater.incrementView(context)
+        val id = intent.getIntExtra(WidgetCreater.THIS_WIDGET_ID, -1)
+        if (id == -1) return
+        updateUI(context, id)
     }
-
-
 }

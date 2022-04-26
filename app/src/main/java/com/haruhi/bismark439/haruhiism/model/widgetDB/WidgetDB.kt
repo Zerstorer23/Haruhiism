@@ -65,6 +65,12 @@ class WidgetDB {
                 WidgetDao.instance.delete(widget)
             }
         }
+        fun deleteWidget(context: Context, code:Int) {
+            WidgetDao.initDao(context)
+            GlobalScope.launch {
+                WidgetDao.instance.deleteById(code)
+            }
+        }
 
         fun saveWidget(context: Context, temp: WidgetData, onResult: VoidReturn) {
             WidgetDao.initDao(context)

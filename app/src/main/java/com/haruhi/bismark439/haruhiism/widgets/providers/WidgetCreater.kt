@@ -1,11 +1,11 @@
+@file:OptIn(DelicateCoroutinesApi::class)
+
 package com.haruhi.bismark439.haruhiism.widgets.providers
 
 import android.app.PendingIntent
-import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.media.MediaPlayer
 import android.widget.RemoteViews
 import com.haruhi.bismark439.haruhiism.Debugger
@@ -15,6 +15,8 @@ import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetData
 import com.haruhi.bismark439.haruhiism.model.widgetDB.toCharacterFolder
 import com.haruhi.bismark439.haruhiism.system.StorageManager
 import com.haruhi.bismark439.haruhiism.system.firebase_manager.ViewDatabaseHandler
+import com.haruhi.bismark439.haruhiism.widgets.providers.DayCounterProvider.Companion.ACTION_TOUCH
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -23,9 +25,16 @@ import java.util.*
 import kotlin.math.abs
 
 object WidgetCreater {
+    private const val DAY_IN_MILLI = (1000 * 60 * 60 * 24)
+    const val SRC_WIDGET = "SourceWidget"
+    const val THIS_WIDGET_ID = "MyAppIdWidget"
+
     fun onCounterClicked(context: Context, intent: Intent) {
         val src = intent.getStringExtra(SRC_WIDGET)
-        Debugger.log("Play source $src")
+        val id = intent.getIntExtra(THIS_WIDGET_ID, -1)
+        val action = intent.action
+
+        Debugger.log("$id / $action : Play source $src")
         if (src == null || src.isEmpty()) {
             return
         }
@@ -53,57 +62,38 @@ object WidgetCreater {
         }
     }
 
-    fun createPresetUI(
-        context: Context,
-        appWidgetIds: IntArray,
-        title: String,
-        colorString: String,
-        time: Calendar,
-        bitmap: Bitmap,
-        srcName: String,
-        intent: Intent
-    ): RemoteViews {
+
+    fun createFromWidgetData(context: Context, widgetData: WidgetData): RemoteViews {
+        val calendar = getCalendar(widgetData.yy, widgetData.mmMod, widgetData.dd)
+        val srcName = widgetData.widgetCharacter.toCharacterFolder()
+        val view = createGeneralUI(context, widgetData.name, widgetData.color, calendar)
+        setOnClickIntent(context, view, DayCounterProvider::class.java, srcName, widgetData.appWidgetId)
+        view.setImageViewResource(R.id.widgetImage, widgetData.picture)
+        return view
+    }
+
+    fun createGeneralUI(
+        context: Context, title: String, color: Int,
+        time: Calendar): RemoteViews {
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_default_counter)
-        val days = getDays(time) //
-        val textColor = Color.parseColor(colorString)
+        val days = getDays(time)
         setDdayText(remoteViews, context, days, title)
-        setColors(remoteViews, textColor)
-        remoteViews.setImageViewBitmap(R.id.widgetImage, bitmap)
-        setOnClickIntent(context, intent, appWidgetIds, srcName, remoteViews)
+        setColors(remoteViews, color)
         return remoteViews
     }
 
-    fun createUI(context: Context, widgetData: WidgetData): RemoteViews {
-        val remoteViews = RemoteViews(context.packageName, R.layout.widget_default_counter)
-        Debugger.log("UI update called on ${remoteViews.layoutId}")
-        val days: Long = getDays(getCalendar(widgetData.yy, widgetData.mmMod, widgetData.dd))
-        setDdayText(remoteViews, context, days, widgetData.name)
-        setColors(remoteViews, widgetData.color)
-        remoteViews.setImageViewResource(R.id.widgetImage, widgetData.picture)
-        val intent = Intent(context, DayCounterProvider::class.java)
-        setOnClickIntent(
-            context,
-            intent,
-            null,
-            widgetData.widgetCharacter.toCharacterFolder(),
-            remoteViews
-        )
-        return remoteViews
-    }
-
-    private fun setOnClickIntent(
+    fun setOnClickIntent(
         context: Context,
-        intent: Intent,
-        appWidgetIds: IntArray?,
+        remoteViews: RemoteViews,
+        cls: Class<*>,
         srcName: String,
-        remoteViews: RemoteViews
+        widgetId:Int = -1
     ) {
-        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-        if (appWidgetIds != null) {
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
-        }
+        val intent = Intent(context, cls)
+        intent.action = ACTION_TOUCH
         intent.putExtra(SRC_WIDGET, srcName)
-        val pi = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        intent.putExtra(THIS_WIDGET_ID, widgetId)
+        val pi = PendingIntent.getBroadcast(context, widgetId, intent,  PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         remoteViews.setOnClickPendingIntent(R.id.widgetImage, pi)
     }
 
@@ -167,13 +157,12 @@ object WidgetCreater {
             writer.putInt(CLICKS_MINE, clicks)
             writer.apply()
             ViewDatabaseHandler.getSum {
-                ViewDatabaseHandler.incrementView { }
+                ViewDatabaseHandler.incrementView(context) { }
             }
         }
     }
 
-    private const val DAY_IN_MILLI = (1000 * 60 * 60 * 24)
-    const val SRC_WIDGET = "SourceWidget"
+
 
 }
 

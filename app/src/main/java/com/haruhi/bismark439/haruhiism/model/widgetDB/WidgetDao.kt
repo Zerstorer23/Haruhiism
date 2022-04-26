@@ -16,8 +16,16 @@ interface WidgetDao {
     @Delete
     suspend fun delete(entity: WidgetData)
 
+    @Query(
+        "DELETE " +
+                "FROM `widget-table`" +
+                "where appWidgetId=:code"
+    )
+    fun deleteById(code: Int)
+
     @Query("SELECT * FROM `widget-table`")
     fun selectAll(): Flow<List<WidgetData>>
+
     @Query("SELECT * FROM `widget-table`")
     fun selectAllOnce(): List<WidgetData>
 
@@ -28,6 +36,13 @@ interface WidgetDao {
                 "where appWidgetId=:code"
     )
     fun select(code: Int): Flow<WidgetData>
+
+    @Query(
+        "SELECT * " +
+                "FROM `widget-table`" +
+                "where appWidgetId=:code"
+    )
+    fun selectOnce(code: Int): WidgetData?
 
     companion object {
         lateinit var instance: WidgetDao

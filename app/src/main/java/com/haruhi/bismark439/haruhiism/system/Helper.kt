@@ -4,6 +4,8 @@ package com.haruhi.bismark439.haruhiism.system
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.VibrationEffect
 import android.os.Vibrator
 import java.security.MessageDigest
@@ -29,5 +31,17 @@ object Helper {
     }
     fun String.toHash():String{
         return hash(this)
+    }
+
+    fun checkInternet(context: Context, vararg types:Int ): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        if (capabilities != null) {
+            for(t in types){
+                if(capabilities.hasTransport(t)) return true
+            }
+        }
+        return false
     }
 }

@@ -39,6 +39,7 @@
             android:label="@string/latest_title">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.haruhi.bismark439.haruhiism.action.TOUCH_WIDGET" />
             </intent-filter>
 
             <meta-data
@@ -51,6 +52,7 @@
             android:label="@string/melancholy">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.haruhi.bismark439.haruhiism.action.TOUCH_WIDGET" />
             </intent-filter>
 
             <meta-data
@@ -63,6 +65,7 @@
             android:label="D-Day Counter">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.haruhi.bismark439.haruhiism.action.TOUCH_WIDGET" />
             </intent-filter>
 
             <meta-data

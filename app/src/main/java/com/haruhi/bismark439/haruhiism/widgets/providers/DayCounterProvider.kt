@@ -7,9 +7,11 @@ import android.content.Intent
 import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetDB
 import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetDB.Companion.loadWidgets
-import com.haruhi.bismark439.haruhiism.model.widgetDB.toCharacterFolder
+import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetDao
 import com.haruhi.bismark439.haruhiism.widgets.providers.WidgetCreater.onCounterClicked
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /*
 
@@ -20,29 +22,42 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
 class DayCounterProvider : AppWidgetProvider() {
+    companion object {
+        const val ACTION_TOUCH = "com.haruhi.bismark439.haruhiism.action.TOUCH_WIDGET"
+    }
+
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        loadWidgets(context) { updateUI(context, appWidgetIds) }
+        loadWidgets(context) {
+            updateUI(context, appWidgetManager, appWidgetIds)
+        }
     }
 
     private fun updateUI(
         context: Context,
+        appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        Debugger.log("Widget DB: " + WidgetDB.getSize() + " installed: " + appWidgetIds.size)
+       // Debugger.log("Widget DB: " + WidgetDB.getSize() + " installed: " + appWidgetIds.size)
         for (widgetId in appWidgetIds) {
-            Debugger.log("Widget ID: $widgetId")
             val widgetData = WidgetDB.get(widgetId) ?: continue
-            Debugger.log("Found: $widgetId $widgetData")
-            val ui = WidgetCreater.createUI(context, widgetData)
-            val intent = Intent(context, DayCounterProvider::class.java)
-            intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
-            intent.putExtra(WidgetCreater.SRC_WIDGET, widgetData.widgetCharacter.toCharacterFolder())
-            AppWidgetManager.getInstance(context).updateAppWidget(widgetId, ui)
+            val ui = WidgetCreater.createFromWidgetData(context, widgetData)
+            appWidgetManager.updateAppWidget(widgetId, ui)
+        }
+    }
+
+    private fun updateUI(
+        context: Context,
+        appWidgetId: Int
+    ) {
+        GlobalScope.launch {
+            val widgetData = WidgetDao.instance.selectOnce(appWidgetId) ?: return@launch
+            Debugger.log("Update on $appWidgetId called")
+            val ui = WidgetCreater.createFromWidgetData(context, widgetData)
+            AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, ui)
         }
     }
 
@@ -57,10 +72,7 @@ class DayCounterProvider : AppWidgetProvider() {
         appWidgetIds: IntArray
     ) {
         for (id in appWidgetIds) {
-            val widgetData = WidgetDB.get(id)
-            if (widgetData != null) {
-                WidgetDB.deleteWidget(context, widgetData)
-            }
+            WidgetDB.deleteWidget(context, id)
         }
     }
 
@@ -68,6 +80,10 @@ class DayCounterProvider : AppWidgetProvider() {
         super.onReceive(context, intent)
         onCounterClicked(context, intent)
         WidgetCreater.incrementView(context)
+        val id = intent.getIntExtra(WidgetCreater.THIS_WIDGET_ID, -1)
+        if (id != -1) {
+            updateUI(context,id)
+        }
     }
 }
 

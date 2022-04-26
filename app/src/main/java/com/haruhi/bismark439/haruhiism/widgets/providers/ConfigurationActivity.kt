@@ -62,14 +62,17 @@ class ConfigurationActivity :
         widgetData.picture = widgetData.widgetCharacter.toCharacterImg()
         widgetData.setDate(date)
         WidgetDB.saveWidget(this@ConfigurationActivity, widgetData) {
-            val ui = WidgetCreater.createUI(applicationContext, widgetData)
+            val ui = WidgetCreater.createFromWidgetData(applicationContext, widgetData)
             Debugger.log(widgetData.toString())
             appWidgetManager.updateAppWidget(widgetData.appWidgetId, ui)
-            val resultValue = Intent()
-            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetData.appWidgetId)
-            setResult(RESULT_OK, resultValue)
-            finish()
+            returnSuccess()
         }
+    }
+    private fun returnSuccess(){
+        val resultValue = Intent()
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetData.appWidgetId)
+        setResult(RESULT_OK, resultValue)
+        finish()
     }
 
     private fun setDatePicker() {
