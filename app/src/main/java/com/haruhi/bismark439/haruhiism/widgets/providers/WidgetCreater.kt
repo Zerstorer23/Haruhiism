@@ -5,7 +5,6 @@ package com.haruhi.bismark439.haruhiism.widgets.providers
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.media.MediaPlayer
 import android.widget.RemoteViews
 import com.haruhi.bismark439.haruhiism.Debugger
@@ -67,14 +66,21 @@ object WidgetCreater {
         val calendar = getCalendar(widgetData.yy, widgetData.mmMod, widgetData.dd)
         val srcName = widgetData.widgetCharacter.toCharacterFolder()
         val view = createGeneralUI(context, widgetData.name, widgetData.color, calendar)
-        setOnClickIntent(context, view, DayCounterProvider::class.java, srcName, widgetData.appWidgetId)
+        setOnClickIntent(
+            context,
+            view,
+            DayCounterProvider::class.java,
+            srcName,
+            widgetData.appWidgetId
+        )
         view.setImageViewResource(R.id.widgetImage, widgetData.picture)
         return view
     }
 
     fun createGeneralUI(
         context: Context, title: String, color: Int,
-        time: Calendar): RemoteViews {
+        time: Calendar
+    ): RemoteViews {
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_default_counter)
         val days = getDays(time)
         setDdayText(remoteViews, context, days, title)
@@ -87,13 +93,18 @@ object WidgetCreater {
         remoteViews: RemoteViews,
         cls: Class<*>,
         srcName: String,
-        widgetId:Int = -1
+        widgetId: Int = -1
     ) {
         val intent = Intent(context, cls)
         intent.action = ACTION_TOUCH
         intent.putExtra(SRC_WIDGET, srcName)
         intent.putExtra(THIS_WIDGET_ID, widgetId)
-        val pi = PendingIntent.getBroadcast(context, widgetId, intent,  PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val pi = PendingIntent.getBroadcast(
+            context,
+            widgetId,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
         remoteViews.setOnClickPendingIntent(R.id.widgetImage, pi)
     }
 
@@ -132,8 +143,6 @@ object WidgetCreater {
 
     private fun getDays(target: Calendar): Long {
         val today = Calendar.getInstance() //TimeZone.getTimeZone("GMT"));
-        Debugger.log("Target Cal: " + target[Calendar.YEAR] + "Y / " + (target[Calendar.MONTH] + 1) + "M / " + target[Calendar.DATE] + " D")
-        Debugger.log("Today Cal: " + today[Calendar.YEAR] + "Y / " + (today[Calendar.MONTH] + 1) + "M / " + today[Calendar.DATE] + " D")
         if (today[Calendar.YEAR] == target[Calendar.YEAR]
             && today[Calendar.MONTH] == target[Calendar.YEAR]
             && today[Calendar.DATE] == target[Calendar.YEAR]
@@ -161,7 +170,6 @@ object WidgetCreater {
             }
         }
     }
-
 
 
 }

@@ -12,6 +12,5 @@ object MyUser{
     }
     fun incrementViews(){
         totalViews++
-        Debugger.log("New view  $totalViews")
     }
 }

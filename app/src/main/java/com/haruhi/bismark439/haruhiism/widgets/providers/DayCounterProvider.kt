@@ -53,6 +53,7 @@ class DayCounterProvider : AppWidgetProvider() {
         context: Context,
         appWidgetId: Int
     ) {
+        WidgetDao.initDao(context)
         GlobalScope.launch {
             val widgetData = WidgetDao.instance.selectOnce(appWidgetId) ?: return@launch
             Debugger.log("Update on $appWidgetId called")
