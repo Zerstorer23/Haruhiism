@@ -14,4 +14,8 @@
 .cxx
 local.properties
 *.apk
+*.jar
+*.lnk
+app/release/app-release.aab
 *.aab
+app/release/app-release.aab
