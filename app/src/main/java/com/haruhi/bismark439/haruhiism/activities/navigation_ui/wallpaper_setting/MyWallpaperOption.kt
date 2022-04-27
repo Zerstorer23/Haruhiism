@@ -21,6 +21,7 @@ class MyWallpaperOption {
         private const val TIME_UNIT = "WP_timeUnit"
         private const val CROP_TYPE = "WP_cropType"
         private const val ITERATOR = "WP_iterator"
+        private const val LAST_SET = "WP_lastSet"
         fun loadData(context: Context): MyWallpaperOption {
             val option = MyWallpaperOption()
             val sharedPref = StorageManager.getPrefReader(context)
@@ -37,6 +38,7 @@ class MyWallpaperOption {
             option.iterator = sharedPref.getInt(ITERATOR, 0)
             option.timeUnit = TimeUnit.values()[sharedPref.getInt(TIME_UNIT, 0)]
             option.cropType = CropType.values()[sharedPref.getInt(CROP_TYPE, 0)]
+            option.lastSet = sharedPref.getLong(LAST_SET, 0L)
 
             return option
         }
@@ -52,6 +54,7 @@ class MyWallpaperOption {
             editor.putInt(TIME_UNIT, option.timeUnit.ordinal)
             editor.putInt(CROP_TYPE, option.cropType.ordinal)
             editor.putInt(ITERATOR, option.iterator)
+            editor.putLong(LAST_SET, option.lastSet)
             editor.apply()
         }
 
@@ -59,6 +62,7 @@ class MyWallpaperOption {
             val editor = StorageManager.getPrefWriter(context)
             when (key) {
                 ITERATOR -> editor.putInt(ITERATOR, option.iterator)
+                LAST_SET -> editor.putLong(LAST_SET, option.lastSet)
                 else -> {}
             }
             editor.apply()
@@ -74,6 +78,7 @@ class MyWallpaperOption {
     var timeUnit = TimeUnit.Day
     var cropType = CropType.Fill
     var iterator = 0
+    var lastSet = 0L
 
     var imgList: ArrayList<Uri> = arrayListOf()
     var simplePath: String = ""
@@ -182,5 +187,10 @@ class MyWallpaperOption {
             e.printStackTrace()
 
         }
+    }
+
+    fun setAndSaveLastSet(context: Context) {
+        this.lastSet = System.currentTimeMillis()
+        savePartial(context, this, LAST_SET)
     }
 }

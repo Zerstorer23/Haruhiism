@@ -32,6 +32,12 @@ class RankingFragment : IFragmentActivity<FragmentRankingBinding>(
     private fun loadMyClicks(){
         val reader = StorageManager.getPrefReader(requireContext())
         myClicks = reader.getInt(CLICKS_MINE,0)
+        binding.tvMyCount.text = myClicks.toString()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadMyClicks()
     }
     private fun initUser() {
         ViewDatabaseHandler.getSum {

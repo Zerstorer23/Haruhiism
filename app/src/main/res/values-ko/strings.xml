@@ -151,4 +151,7 @@
     <string name="txt_suzumiya_shositsu">소실 스즈미야</string>
     <string name="txt_my_clicks">내 위젯 클릭수</string>
     <string name="txt_global_clicks">전국구 클릭수</string>
+    <string name="weather_app_desc">지역날씨</string>
+    <string name="txt_weather">날씨</string>
+    <string name="txt_dday_counter">날짜세기</string>
 </resources>

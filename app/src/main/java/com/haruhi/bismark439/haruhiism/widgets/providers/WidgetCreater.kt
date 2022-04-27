@@ -30,10 +30,11 @@ object WidgetCreater {
 
     fun onCounterClicked(context: Context, intent: Intent) {
         val src = intent.getStringExtra(SRC_WIDGET)
+/*
         val id = intent.getIntExtra(THIS_WIDGET_ID, -1)
         val action = intent.action
+*/
 
-        Debugger.log("$id / $action : Play source $src")
         if (src == null || src.isEmpty()) {
             return
         }
@@ -74,6 +75,7 @@ object WidgetCreater {
             widgetData.appWidgetId
         )
         view.setImageViewResource(R.id.widgetImage, widgetData.picture)
+        Debugger.log(widgetData.toString())
         return view
     }
 
@@ -165,6 +167,7 @@ object WidgetCreater {
             val writer = StorageManager.getPrefWriter(context)
             writer.putInt(CLICKS_MINE, clicks)
             writer.apply()
+            Debugger.log("Clicks : $clicks")
             ViewDatabaseHandler.getSum {
                 ViewDatabaseHandler.incrementView(context) { }
             }

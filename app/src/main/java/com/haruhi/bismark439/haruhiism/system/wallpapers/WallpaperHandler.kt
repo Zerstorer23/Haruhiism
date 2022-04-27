@@ -1,17 +1,16 @@
 package com.haruhi.bismark439.haruhiism.system.wallpapers
 
-import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.*
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.text.format.DateFormat
 import android.util.DisplayMetrics
-import androidx.core.graphics.drawable.toBitmap
 import com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setting.MyWallpaperOption
 import com.haruhi.bismark439.haruhiism.system.physicalScreenRectDp
-import java.io.FileOutputStream
 import java.util.*
 import kotlin.math.max
 import kotlin.math.min
@@ -19,20 +18,13 @@ import kotlin.math.min
 
 object WallpaperHandler {
 
-/*
-    fun setWallpaper(context: Context, id: Int) {
-        val bitmap: Bitmap =
-            BitmapFactory.decodeResource(context.resources, id)
-        setWallpaper(context, bitmap)
-    }
-*/
-
     fun setWallpaper(context: Context, uri: Uri, option: MyWallpaperOption) {
         var bitmap = loadBitmapFromUri(context, uri)
         if (option.addTexts) {
             bitmap = cropCenter(context, bitmap)
             bitmap = drawText(context, bitmap, option.customText)
         }
+        option.setAndSaveLastSet(context)
         val wallpaperManager = WallpaperManager.getInstance(context)
         wallpaperManager.setBitmap(bitmap)
     }
@@ -74,6 +66,7 @@ object WallpaperHandler {
             canvas.drawText(dateStr, centerX, upperY, this)
         }
     }
+
     private const val max_side_length = 17
     private fun drawQuote(metrics: DisplayMetrics, bitmap: Bitmap, canvas: Canvas, text: String) {
         val centerX = bitmap.width * 0.1f
@@ -90,7 +83,7 @@ object WallpaperHandler {
                 setShadowLayer(5f, 0f, 0f, Color.parseColor("#C8FFFFFF"))
                 canvas.drawText(wrappedText, centerX, upperY, this)
             }
-            upperY+= 13f * metrics.density
+            upperY += 13f * metrics.density
         }
 
 

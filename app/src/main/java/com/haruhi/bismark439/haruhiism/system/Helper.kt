@@ -9,6 +9,8 @@ import android.net.NetworkCapabilities
 import android.os.VibrationEffect
 import android.os.Vibrator
 import java.security.MessageDigest
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Helper {
 
@@ -32,16 +34,12 @@ object Helper {
     fun String.toHash():String{
         return hash(this)
     }
-
-    fun checkInternet(context: Context, vararg types:Int ): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            for(t in types){
-                if(capabilities.hasTransport(t)) return true
-            }
-        }
-        return false
+    fun getTimeString(context: Context, timex: Long): String {
+        val date = Date(timex)
+        val locale = (context.resources.configuration.locales[0])
+        val sdf = SimpleDateFormat("M/d hh:mm aa", locale)
+        sdf.timeZone = TimeZone.getDefault()
+        return sdf.format(date)
     }
+
 }

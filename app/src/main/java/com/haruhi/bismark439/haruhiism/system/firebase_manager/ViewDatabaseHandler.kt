@@ -1,11 +1,9 @@
 package com.haruhi.bismark439.haruhiism.system.firebase_manager
 
 import android.content.Context
-import android.net.NetworkCapabilities
 import com.haruhi.bismark439.haruhiism.Debugger
-import com.haruhi.bismark439.haruhiism.system.Helper
+import com.haruhi.bismark439.haruhiism.system.NetworkManager
 import com.haruhi.bismark439.haruhiism.system.VoidReturn
-import com.haruhi.bismark439.haruhiism.system.ui.Toaster
 
 object ViewDatabaseHandler {
     const val COLLECTION_SUM = "sums"
@@ -25,7 +23,7 @@ object ViewDatabaseHandler {
 
     fun incrementView(context: Context, onResult: BaseReturn<Boolean>) {
         MyUser.incrementViews()
-        if(!Helper.checkInternet(context, NetworkCapabilities.TRANSPORT_WIFI)) {
+        if(!NetworkManager.hasWifi(context)) {
             return
         }
         FirebaseHandler.update(COLLECTION_SUM, COLLECTION_SUM, MyUser.toSumMap()) { it2 ->

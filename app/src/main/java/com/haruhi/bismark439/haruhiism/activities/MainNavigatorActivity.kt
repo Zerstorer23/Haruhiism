@@ -1,6 +1,8 @@
 package com.haruhi.bismark439.haruhiism.activities
 
 import android.Manifest
+import android.app.AlarmManager
+import android.content.Context
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -20,15 +22,18 @@ class MainNavigatorActivity :
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.navControllerView)
         navView.setupWithNavController(navController)
-
-        if (Debugger.debugMode) {
-            PermissionManager.checkPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-            {
-                Debugger.log("Success permission")
-            }
+        PermissionManager.checkPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+        {
+            Debugger.log("Success permission")
         }
+        val a = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        Debugger.log("next alarm = "+a.nextAlarmClock.showIntent.toString())
+        Debugger.log("next alarm = "+a.nextAlarmClock.triggerTime.toString())
     }
 }

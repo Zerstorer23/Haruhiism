@@ -645,6 +645,9 @@ hNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNmm+///-..-/////ydddddddNdNNNNNNNNNMMMMMMMMNN
     <string name="txt_mikuru_big">Mikuru Big</string>
     <string name="txt_my_clicks">My widget clicks</string>
     <string name="txt_global_clicks">Global counts</string>
+    <string name="weather_app_desc">Local weather</string>
+    <string name="txt_weather">Weather</string>
+    <string name="txt_dday_counter">D-Day Counter</string>
 
     <!--
     https://www.text-image.com/convert/pic2ascii.cgi

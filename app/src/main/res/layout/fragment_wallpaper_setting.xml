@@ -202,6 +202,10 @@
                         android:inputType="text" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </FrameLayout>
+            <TextView
+                android:id="@+id/tvDebugWindow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

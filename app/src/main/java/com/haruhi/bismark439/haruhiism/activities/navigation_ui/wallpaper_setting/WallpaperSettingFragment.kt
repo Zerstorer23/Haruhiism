@@ -2,6 +2,8 @@ package com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setti
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
@@ -17,6 +19,7 @@ import com.haruhi.bismark439.haruhiism.system.wallpapers.WallpaperBroadcastManag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 
 class WallpaperSettingFragment :
@@ -100,9 +103,20 @@ class WallpaperSettingFragment :
         binding.btnRightSet.setOnClickListener {
             onClickSave()
         }
-
+        setDebugWindow()
         binding.spLoading.visibility = View.GONE
         binding.mainBoard.visibility = View.VISIBLE
+    }
+
+    private fun setDebugWindow() {
+        val lastCalStr = Helper.getTimeString(requireContext(), option.lastSet)
+        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val next = alarmManager.nextAlarmClock
+        //    val nextStr = Helper.getTimeString(requireContext(),next.triggerTime)
+        binding.tvDebugWindow.text = "last set: $lastCalStr"// \n next : $nextStr"
+        //    Debugger.log("next: ${next.showIntent.describeContents()}")
+        //  Debugger.log("next: ${next.showIntent}")
+        //  Debugger.log("next: ${next.describeContents()}")
     }
 
     private fun updateQuotations() {
@@ -163,7 +177,7 @@ class WallpaperSettingFragment :
 
     private lateinit var timeUnits: Array<String>
     private fun setSpinner() {
-        SpinnerFactory.createSpinner(requireContext(), timeUnits,binding.spTimeUnit){
+        SpinnerFactory.createSpinner(requireContext(), timeUnits, binding.spTimeUnit) {
             option.timeUnit = TimeUnit.values()[it]
         }
         binding.spTimeUnit.setSelection(option.timeUnit.ordinal)
@@ -223,6 +237,7 @@ class WallpaperSettingFragment :
         if (!setImmediately) return
         Debugger.log("Saving settings...")
         WallpaperBroadcastManager.updateWallpaper(requireContext(), option, option.isEnabled)
+        setDebugWindow()
     }
 
 
