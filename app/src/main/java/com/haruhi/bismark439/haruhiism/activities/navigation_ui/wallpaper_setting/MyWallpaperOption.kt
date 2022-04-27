@@ -17,11 +17,11 @@ class MyWallpaperOption {
         private const val ENABLED = "WP_enabled"
         private const val ADD_TEXTS = "WP_addTexts"
         private const val CUSTOM_TEXT = "WP_customTexts"
-        private const val TIME_VAL = "WP_timeVal"
-        private const val TIME_UNIT = "WP_timeUnit"
+        const val TIME_VAL = "WP_timeVal"
+        const val TIME_UNIT = "WP_timeUnit"
         private const val CROP_TYPE = "WP_cropType"
         private const val ITERATOR = "WP_iterator"
-        private const val LAST_SET = "WP_lastSet"
+        const val LAST_SET = "WP_lastSet"
         fun loadData(context: Context): MyWallpaperOption {
             val option = MyWallpaperOption()
             val sharedPref = StorageManager.getPrefReader(context)
@@ -66,6 +66,15 @@ class MyWallpaperOption {
                 else -> {}
             }
             editor.apply()
+        }
+
+        fun getTimeInterval(unit: TimeUnit, value: Int): Long {
+            val multiplier = when (unit) {
+                TimeUnit.Day -> 24 * 60 * 60 * 1000L//Get tonight
+                TimeUnit.Hour -> 60 * 60 * 1000L
+                TimeUnit.Minutes -> 60 * 1000L
+            }
+            return (value * multiplier)
         }
     }
 
@@ -148,13 +157,6 @@ class MyWallpaperOption {
         }
     }
 
-    fun getTimeUnitInMills(): Long {
-        return when (timeUnit) {
-            TimeUnit.Day -> 24 * 60 * 60 * 1000//Get tonight
-            TimeUnit.Hour -> 60 * 60 * 1000
-            TimeUnit.Minutes -> 60 * 1000
-        }
-    }
 
     fun getRandomUri(): Uri? {
         if (!canPollImages()) return null
@@ -188,7 +190,9 @@ class MyWallpaperOption {
 
         }
     }
-
+    fun resetLastset(){
+        this.lastSet = 0
+    }
     fun setAndSaveLastSet(context: Context) {
         this.lastSet = System.currentTimeMillis()
         savePartial(context, this, LAST_SET)

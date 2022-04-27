@@ -124,7 +124,7 @@ class BootingService : Service() {
         val option = MyWallpaperOption.loadData(context)
         if (!option.isEnabled) return
         option.readFiles(context)
-        WallpaperBroadcastManager.updateWallpaper(context, option, true)
+        WallpaperBroadcastManager.updateWallpaper(context, option)
     }
 
     override fun onBind(intent: Intent?): IBinder? {

@@ -19,7 +19,6 @@ import com.haruhi.bismark439.haruhiism.system.wallpapers.WallpaperBroadcastManag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 
 class WallpaperSettingFragment :
@@ -51,6 +50,7 @@ class WallpaperSettingFragment :
             option = MyWallpaperOption.loadData(requireContext())
             option.readFiles(requireContext())
             withContext(Dispatchers.Main) {
+                WallpaperBroadcastManager.updateWallpaper(requireContext(), option)
                 postInit()
             }
             init = true
@@ -109,14 +109,12 @@ class WallpaperSettingFragment :
     }
 
     private fun setDebugWindow() {
-        val lastCalStr = Helper.getTimeString(requireContext(), option.lastSet)
-        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val next = alarmManager.nextAlarmClock
-        //    val nextStr = Helper.getTimeString(requireContext(),next.triggerTime)
+        var lastMills = option.lastSet
+        if(lastMills == 0L)
+            lastMills = System.currentTimeMillis()
+
+        val lastCalStr = Helper.getTimeString(requireContext(), lastMills)
         binding.tvDebugWindow.text = "last set: $lastCalStr"// \n next : $nextStr"
-        //    Debugger.log("next: ${next.showIntent.describeContents()}")
-        //  Debugger.log("next: ${next.showIntent}")
-        //  Debugger.log("next: ${next.describeContents()}")
     }
 
     private fun updateQuotations() {
@@ -235,8 +233,9 @@ class WallpaperSettingFragment :
         }
         MyWallpaperOption.saveData(requireContext(), option)
         if (!setImmediately) return
+        option.resetLastset()
         Debugger.log("Saving settings...")
-        WallpaperBroadcastManager.updateWallpaper(requireContext(), option, option.isEnabled)
+        WallpaperBroadcastManager.updateWallpaper(requireContext(), option)//, option.isEnabled)
         setDebugWindow()
     }
 
