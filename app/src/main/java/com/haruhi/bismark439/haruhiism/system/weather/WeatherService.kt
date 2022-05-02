@@ -1,6 +1,6 @@
 package com.haruhi.bismark439.haruhiism.system.weather
 
-import com.haruhi.bismark439.haruhiism.model.WeatherResponse
+import com.haruhi.bismark439.haruhiism.model.weatherDB.WeatherResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

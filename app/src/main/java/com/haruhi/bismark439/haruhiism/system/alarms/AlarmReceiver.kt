@@ -24,7 +24,7 @@ import kotlin.math.abs
 @DelicateCoroutinesApi
 class AlarmReceiver : BroadcastReceiver() {
     companion object {
-        const val TIME_PRECISION_IN_MILLS = (90) * 1000L
+        const val TIME_PRECISION_IN_MILLS = (300) * 1000L
     }
 
     private var alarmManager: AlarmManager? = null

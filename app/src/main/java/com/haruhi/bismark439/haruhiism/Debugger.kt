@@ -1,5 +1,6 @@
 package com.haruhi.bismark439.haruhiism
 
+import com.haruhi.bismark439.haruhiism.system.VoidReturn
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -7,7 +8,7 @@ import java.io.IOException
 
 object Debugger {
     const val DEBUG_IMMEDIATE_ALARM = false
-    const val debugMode = false
+    private const val debugMode = true
     fun printStack() {
         val sb = StringBuilder()
         val stack = Thread.currentThread().stackTrace
@@ -16,34 +17,45 @@ object Debugger {
     }
 
     private var beginTime = 0L
-    fun start(){
+    fun start() {
         beginTime = System.currentTimeMillis()
     }
-    fun lap(tag:String){
+
+    fun lap(tag: String) {
         val elapsed = System.currentTimeMillis() - beginTime
         Debugger.log("Elapsed $tag = $elapsed")
     }
+
+    fun runSafe(f: VoidReturn) {
+        try {
+            f()
+        } catch (e: Exception) {
+            Debugger.log(e.stackTraceToString())
+        }
+
+    }
+
     private var firstTime = true
-    private fun checkFile(logFile:File){
-        if(firstTime){
+    private fun checkFile(logFile: File) {
+        if (firstTime) {
             logFile.delete()
-            logFile.createNewFile()
-            firstTime= false
-        }else{
-            if (!logFile.exists()) {
-                try {
-                    logFile.createNewFile()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
+            firstTime = false
+        }
+        if (!logFile.exists()) {
+            try {
+                logFile.createNewFile()
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
         }
 
     }
+
     fun log(text: String?) {
         println(text)
-        if(!debugMode) return
-        val logFile =File("sdcard/log.txt")//File(MyApp.appContext.getExternalFilesDir("haruhiism"),)
+        if (!debugMode) return
+        val logFile =
+            File("sdcard/log.txt")//File(MyApp.appContext.getExternalFilesDir("haruhiism"),)
         checkFile(logFile)
         try {
             //BufferedWriter for performance, true to set append to file flag

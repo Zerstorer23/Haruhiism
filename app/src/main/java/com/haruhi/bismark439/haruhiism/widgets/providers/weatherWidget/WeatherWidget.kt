@@ -11,7 +11,7 @@ import android.widget.RemoteViews
 import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.R
 import com.haruhi.bismark439.haruhiism.system.weather.WeatherManager
-import com.haruhi.bismark439.haruhiism.model.WeatherResponse
+import com.haruhi.bismark439.haruhiism.model.weatherDB.WeatherResponse
 import com.haruhi.bismark439.haruhiism.system.Helper
 import com.haruhi.bismark439.haruhiism.system.LocationManager
 import com.haruhi.bismark439.haruhiism.widgets.providers.WidgetCreater
@@ -43,52 +43,48 @@ class WeatherWidget : AppWidgetProvider() {
         }
     }
 
-    private fun createUI(context: Context, weather: WeatherResponse, widgetId: Int): RemoteViews {
+    private fun createUI(context: Context, weather: WeatherResponse?, widgetId: Int): RemoteViews {
         val views = RemoteViews(context.packageName, R.layout.weather_widget)
-        Debugger.log(weather.toString())
-        val tempStr = WeatherManager.getTemperature(context, weather.main.temp)
-        Debugger.log("Temperature $tempStr")
-        views.setImageViewResource(
-            R.id.ivWeatherIconCharacter,
-            WeatherManager.getCharacterByTemperature(weather.main.temp)
-        )
-        views.setTextViewText(R.id.tvTemperature, tempStr)
-        views.setTextViewText(R.id.tvTemperatureUnit, WeatherManager.getUnit(context))
-        views.setTextViewText(R.id.tvLocation, weather.name)
-        val time = Helper.getTimeString(context, System.currentTimeMillis())
-        views.setTextViewText(R.id.tvUpdateTime, time)
-        if (weather.weather.isNotEmpty()) {
-            val firstWeather = weather.weather.first()
-            views.setImageViewResource(
-                R.id.ivWeatherIcon,
-                WeatherManager.getIconById(firstWeather.icon)
+        try {
+            if (weather != null) {
+                Debugger.log(weather.toString())
+            }
+            val tempStr = weather?.main?.temp?.let { WeatherManager.getTemperature(context, it) }
+            Debugger.log("Temperature $tempStr")
+            weather?.main?.temp?.let {
+                WeatherManager.getCharacterByTemperature(it)
+            }?.let {
+                views.setImageViewResource(
+                    R.id.ivWeatherIconCharacter,
+                    it
+                )
+            }
+            views.setTextViewText(R.id.tvTemperature, tempStr)
+            views.setTextViewText(R.id.tvTemperatureUnit, WeatherManager.getUnit(context))
+            views.setTextViewText(R.id.tvLocation, weather?.name)
+            val time = Helper.getTimeString(context, System.currentTimeMillis())
+            views.setTextViewText(R.id.tvUpdateTime, time)
+            if (weather?.weather?.isNotEmpty() == true) {
+                val firstWeather = weather.weather.first()
+                views.setImageViewResource(
+                    R.id.ivWeatherIcon,
+                    WeatherManager.getIconById(firstWeather.icon)
+                )
+            }
+            val intent = Intent(context, WeatherWidget::class.java)
+            intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            intent.putExtra(WidgetCreater.THIS_WIDGET_ID, widgetId)
+            val pi = PendingIntent.getBroadcast(
+                context, widgetId,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
+            views.setOnClickPendingIntent(R.id.ivWeatherWidget, pi)
+            views.setOnClickPendingIntent(R.id.ivRefresh, pi)
+        } catch (e: Exception) {
+            Debugger.log("UI Exception!")
+            Debugger.log(e.stackTraceToString())
         }
-        val intent = Intent(context, WeatherWidget::class.java)
-        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-        intent.putExtra(WidgetCreater.THIS_WIDGET_ID, widgetId)
-        val pi = PendingIntent.getBroadcast(
-            context, widgetId,
-            intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        views.setOnClickPendingIntent(R.id.ivWeatherWidget, pi)
-        views.setOnClickPendingIntent(R.id.ivRefresh, pi)
-/*
-        binding.tvMain.text = weather.main
-        binding.tvMainDescription.text = weather.description
-        binding.tvTemp.text = "${response.main.temp}${MyApp.getUnit(this)}"
-        binding.tvCountry.text = response.sys.country
-        binding.tvMax.text = "${response.main.temp_max}${MyApp.getUnit(this)} ↑"
-        binding.tvMin.text = "${response.main.temp_min}${MyApp.getUnit(this)} ↓"
-        binding.tvSunriseTime.text = MyApp.getTime(response.sys.sunrise)
-        binding.tvSunsetTime.text = MyApp.getTime(response.sys.sunset)
-        val kmh = response.wind.speed * 1.609
-        binding.tvSpeed.text = "${kmh.roundToInt()} km/h"
-        binding.tvSpeedUnit.text = response.wind.degree.toString() + "º"
-        binding.tvName.text = response.name
-        binding.tvHumidity.text = response.main.humidity.toString() + "%"
-        binding.ivMain.setImageResource(MyApp.getIconById(weather.icon))
-*/
+
         return views
     }
 

@@ -62,7 +62,10 @@ class HomeFragment : IFragmentActivity<FragmentHomeBinding>(
             AlarmDao.instance.selectAll().collect {
                 AlarmDB.alarmDB = ArrayList(it)
                 Debugger.log("alarm list updated : " + it.size)
+                if(isResumed)
+                {
                 setUpListView()
+                }
                 if (AlarmDB.alarmDB.size == 0) return@collect
                 AlarmDB.safeRegisterAllAlarms(requireContext())
             }

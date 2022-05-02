@@ -192,6 +192,7 @@ class MyWallpaperOption {
     }
     fun resetLastset(){
         this.lastSet = 0
+
     }
     fun setAndSaveLastSet(context: Context) {
         this.lastSet = System.currentTimeMillis()

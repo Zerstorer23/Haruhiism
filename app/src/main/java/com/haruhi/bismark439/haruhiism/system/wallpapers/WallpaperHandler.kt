@@ -1,13 +1,11 @@
 package com.haruhi.bismark439.haruhiism.system.wallpapers
 
-import android.app.AlarmManager
 import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.*
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.text.format.DateFormat
 import android.util.DisplayMetrics
 import com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setting.MyWallpaperOption
 import com.haruhi.bismark439.haruhiism.system.physicalScreenRectDp
@@ -19,12 +17,15 @@ import kotlin.math.min
 object WallpaperHandler {
 
     fun setWallpaper(context: Context, uri: Uri, option: MyWallpaperOption) {
+        option.setAndSaveLastSet(context)
+        setWallpaperWithoutNotify(context,uri,option)
+    }
+    fun setWallpaperWithoutNotify(context: Context, uri: Uri, option: MyWallpaperOption) {
         var bitmap = loadBitmapFromUri(context, uri)
         if (option.addTexts) {
             bitmap = cropCenter(context, bitmap)
             bitmap = drawText(context, bitmap, option.customText)
         }
-        option.setAndSaveLastSet(context)
         val wallpaperManager = WallpaperManager.getInstance(context)
         wallpaperManager.setBitmap(bitmap)
     }

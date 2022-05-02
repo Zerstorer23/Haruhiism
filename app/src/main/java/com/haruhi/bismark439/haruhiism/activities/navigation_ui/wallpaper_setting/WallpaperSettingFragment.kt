@@ -16,6 +16,7 @@ import com.haruhi.bismark439.haruhiism.databinding.FragmentWallpaperSettingBindi
 import com.haruhi.bismark439.haruhiism.system.*
 import com.haruhi.bismark439.haruhiism.system.ui.Toaster
 import com.haruhi.bismark439.haruhiism.system.wallpapers.WallpaperBroadcastManager
+import com.haruhi.bismark439.haruhiism.system.wallpapers.WallpaperHandler.setWallpaperWithoutNotify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -236,6 +237,8 @@ class WallpaperSettingFragment :
         option.resetLastset()
         Debugger.log("Saving settings...")
         WallpaperBroadcastManager.updateWallpaper(requireContext(), option)//, option.isEnabled)
+        val uri = option.getNextUri(requireContext()) ?: return
+        setWallpaperWithoutNotify(requireContext(),uri ,option)
         setDebugWindow()
     }
 

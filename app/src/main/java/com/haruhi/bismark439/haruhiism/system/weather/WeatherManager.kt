@@ -3,10 +3,8 @@ package com.haruhi.bismark439.haruhiism.system.weather
 import android.content.Context
 import com.google.gson.Gson
 import com.haruhi.bismark439.haruhiism.R
-import com.haruhi.bismark439.haruhiism.model.WeatherResponse
+import com.haruhi.bismark439.haruhiism.model.weatherDB.WeatherResponse
 import com.haruhi.bismark439.haruhiism.system.StorageManager
-import java.text.SimpleDateFormat
-import java.util.*
 
 object WeatherManager {
     private const val WEATHER_DATA = "weather_response_data"
@@ -54,20 +52,24 @@ object WeatherManager {
 
     fun getIconById(id: String): Int {
         return when (id) {
-            "01d" -> R.drawable.sunny
-            "02d" -> R.drawable.cloud
-            "03d" -> R.drawable.cloud
-            "04d" -> R.drawable.cloud
-            "04n" -> R.drawable.cloud
+            "01d" -> R.drawable.w01d
+            "01n" -> R.drawable.w01d
+            "02d" -> R.drawable.w02d
+            "02n" -> R.drawable.w02d
+            "03d" -> R.drawable.w03d
+            "03n" -> R.drawable.w03d
+            "04d" -> R.drawable.w04d
+            "04n" -> R.drawable.w04d
+            "09d" -> R.drawable.w09d
+            "09n" -> R.drawable.w09d
             "10d" -> R.drawable.rain
+            "10n" -> R.drawable.rain
             "11d" -> R.drawable.storm
-            "13d" -> R.drawable.snowflake
-            "01n" -> R.drawable.cloud
-            "02n" -> R.drawable.cloud
-            "03n" -> R.drawable.cloud
-            "10n" -> R.drawable.cloud
             "11n" -> R.drawable.rain
+            "13d" -> R.drawable.snowflake
             "13n" -> R.drawable.snowflake
+            "50d" -> R.drawable.w50d
+            "50n" -> R.drawable.w50d
             else -> R.drawable.sunny
         }
     }

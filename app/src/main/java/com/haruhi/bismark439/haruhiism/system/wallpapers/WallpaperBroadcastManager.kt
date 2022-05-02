@@ -13,19 +13,13 @@ object WallpaperBroadcastManager {
     private val receiverClass = WallpaperReceiver::class.java
 
     fun updateWallpaper(context: Context, option: MyWallpaperOption) {
+        removeWallpaperChanger(context)
         if (option.isEnabled) {
             addWallpaperChanger(context, option)
-/*            if (immediate) {
-                val uri = option.getNextUri(context) ?: return
-                WallpaperHandler.setWallpaper(context, uri, option)
-            }*/
-        } else {
-            removeWallpaperChanger(context)
         }
     }
 
     private fun addWallpaperChanger(context: Context, option: MyWallpaperOption) {
-        removeWallpaperChanger(context)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, receiverClass)
         val pi = PendingIntent.getBroadcast(
@@ -36,7 +30,11 @@ object WallpaperBroadcastManager {
         )
         val timeInterval: Long =
             MyWallpaperOption.getTimeInterval(option.timeUnit, option.timeVal)
-        val nextTrigger = option.lastSet + timeInterval
+        val nextTrigger: Long = if(option.lastSet == 0L){
+            System.currentTimeMillis()
+        }else{
+            option.lastSet + timeInterval
+        }
         Debugger.log("Set internal ${(timeInterval / 1000).toDouble() / 60} minutes")
         Debugger.log("Next change at${Helper.getTimeString(context, nextTrigger)}")
         alarmManager.setRepeating(

@@ -5,6 +5,7 @@ import android.app.AlarmManager
 import android.content.Context
 import android.os.Bundle
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.haruhi.bismark439.haruhiism.Debugger
@@ -20,7 +21,9 @@ class MainNavigatorActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val navView: BottomNavigationView = binding.navView
-        val navController = findNavController(R.id.navControllerView)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navControllerView) as NavHostFragment
+        val navController = navHostFragment.navController
+       // val navController = findNavController(R.id.navControllerView)
         navView.setupWithNavController(navController)
         PermissionManager.checkPermission(
             this,
@@ -32,8 +35,5 @@ class MainNavigatorActivity :
         {
             Debugger.log("Success permission")
         }
-        val a = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        Debugger.log("next alarm = "+a.nextAlarmClock.showIntent.toString())
-        Debugger.log("next alarm = "+a.nextAlarmClock.triggerTime.toString())
     }
 }
