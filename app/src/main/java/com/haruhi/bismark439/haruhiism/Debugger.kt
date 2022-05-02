@@ -8,7 +8,7 @@ import java.io.IOException
 
 object Debugger {
     const val DEBUG_IMMEDIATE_ALARM = false
-    private const val debugMode = true
+    private const val debugMode = false
     fun printStack() {
         val sb = StringBuilder()
         val stack = Thread.currentThread().stackTrace
@@ -53,6 +53,7 @@ object Debugger {
 
     fun log(text: String?) {
         println(text)
+        //if(!BuildConfig.DEBUG) return
         if (!debugMode) return
         val logFile =
             File("sdcard/log.txt")//File(MyApp.appContext.getExternalFilesDir("haruhiism"),)
