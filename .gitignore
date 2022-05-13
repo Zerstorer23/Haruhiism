@@ -18,3 +18,4 @@ local.properties
 *.lnk
 app/release/app-release.aab
 *.aab
+*.aab

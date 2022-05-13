@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v21/app_widget_background.xml" value="0.142" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v21/app_widget_inner_view_background.xml" value="0.142" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v24/cloud.xml" value="0.142" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v24/humidity.xml" value="0.1" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v24/ic_refresh_24dp.xml" value="0.142" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v24/location.xml" value="0.142" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v24/my_border.xml" value="0.142" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v24/my_border_green.xml" value="0.142" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v24/my_border_transparent_circular.xml" value="0.142" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v24/snowflake.xml" value="0.142" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v24/sunrise.xml" value="0.142" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v24/sunset.xml" value="0.142" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable-v24/wind.xml" value="0.142" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable/app_widget_background.xml" value="0.1235" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable/app_widget_inner_view_background.xml" value="0.1235" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1235" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable/my_border.xml" value="0.12" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable/my_border_green.xml" value="0.1235" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable/thumb.xml" value="0.138" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/drawable/track.xml" value="0.138" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/activity_add_alarm.xml" value="0.21296296296296297" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/activity_alarm_add.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/activity_alarm_screen.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/activity_basic_alarm_screen.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/activity_haruhi_basic.xml" value="0.2" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/activity_koizumi_screen.xml" value="0.1" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/activity_main_navigator.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/activity_mikuru__screen.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/activity_mikuru_ocha_screen.xml" value="0.1" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/activity_mikuru_puzzle_screen.xml" value="0.1" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/activity_yuki_setting.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/config_activity_widget.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/fragment_dashboard.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/fragment_home.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/fragment_ranking.xml" value="0.25" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/fragment_wallpaper_setting.xml" value="0.264" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/item_alarm_view.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/new_app_widget.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/res_alarm_list_view.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/test_widget.xml" value="0.1125" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/view_spinner_row.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/weather_widget.xml" value="0.2" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/widget_default_counter.xml" value="0.4" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/widget_haruhi.xml" value="0.25364583333333335" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/layout/widget_nagato.xml" value="0.1125" />
+        <entry key="..\:/Code Repos/KotlinANdroidStudy/HaruhiismKotlin/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25364583333333335" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
