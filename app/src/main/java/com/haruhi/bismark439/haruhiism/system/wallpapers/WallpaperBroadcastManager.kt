@@ -35,7 +35,7 @@ object WallpaperBroadcastManager {
         }else{
             option.lastSet + timeInterval
         }
-        Debugger.log("Set internal ${(timeInterval / 1000).toDouble() / 60} minutes")
+        Debugger.log("Set intevnal ${(timeInterval / 1000).toDouble() / 60} minutes")
         Debugger.log("Next change at${Helper.getTimeString(context, nextTrigger)}")
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,

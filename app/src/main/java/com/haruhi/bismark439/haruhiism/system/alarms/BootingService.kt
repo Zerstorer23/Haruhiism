@@ -3,6 +3,8 @@ package com.haruhi.bismark439.haruhiism.system.alarms
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -14,13 +16,19 @@ import com.haruhi.bismark439.haruhiism.activities.MainNavigatorActivity
 import com.haruhi.bismark439.haruhiism.activities.navigation_ui.wallpaper_setting.MyWallpaperOption
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDB
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDao
+import com.haruhi.bismark439.haruhiism.system.LocationManager
 import com.haruhi.bismark439.haruhiism.system.wallpapers.WallpaperBroadcastManager
+import com.haruhi.bismark439.haruhiism.widgets.providers.weatherWidget.WeatherWidget
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 import android.app.NotificationChannel as NotificationChannel1
 
+//http://awesomeprojectsxyz.blogspot.com/2016/04/android-development-how-to-use-adb.html
+//ADB BROADCAST
+//am broadcast -a android.intent.action.ACTION_BOOT_COMPLETED -p com.haruhi.bismark439.haruhiism
+//adb shell am broadcast -a android.intent.action.ACTION_BOOT_COMPLETED
 @DelicateCoroutinesApi
 class BootingService : Service() {
     companion object {
@@ -33,6 +41,7 @@ class BootingService : Service() {
         Log.d("HARUHI", "MyService is started")
         startNotification()
         loadWallpapers(applicationContext)
+        loadWidgetWeathers(applicationContext)
         loadAlarms(applicationContext)
     }
 
@@ -124,7 +133,21 @@ class BootingService : Service() {
         val option = MyWallpaperOption.loadData(context)
         if (!option.isEnabled) return
         option.readFiles(context)
+        println("Load wallpaper")
         WallpaperBroadcastManager.updateWallpaper(context, option)
+    }
+
+    private fun loadWidgetWeathers(context: Context) {
+        println("Load Weathers")
+        val widgetManager = AppWidgetManager.getInstance(context)
+        val widgetComponent = ComponentName(context, WeatherWidget::class.java)
+        val appWidgetIds = widgetManager.getAppWidgetIds(widgetComponent)
+        val weather = LocationManager.loadWeather(context) ?: return
+        for (appWidgetId in appWidgetIds) {
+            println("Update $appWidgetId")
+            val views = WeatherWidget.createUI(context, weather, appWidgetId)
+            widgetManager.updateAppWidget(appWidgetId, views)
+        }
     }
 
     override fun onBind(intent: Intent?): IBinder? {

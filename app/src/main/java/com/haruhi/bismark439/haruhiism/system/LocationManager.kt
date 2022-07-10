@@ -15,6 +15,7 @@ import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.model.weatherDB.WeatherResponse
 import com.haruhi.bismark439.haruhiism.system.firebase_manager.BaseReturn
 import com.haruhi.bismark439.haruhiism.system.ui.Toaster
+import com.haruhi.bismark439.haruhiism.widgets.providers.weatherWidget.WeatherWidget
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -134,21 +135,48 @@ object LocationManager {
         lon: Double,
         onResult: BaseReturn<WeatherResponse>
     ) {
-        if (!NetworkManager.hasInternet(context)) return
+        if (!NetworkManager.hasInternet(context)) {
+            val weather = loadWeather(context) ?: return
+            onResult(weather)
+            return
+        }
         GlobalScope.launch {
             Debugger.runSafe {
-                val url = "${BASE_URL_REST}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${METRIC_UNIT}"
+                val url =
+                    "${BASE_URL_REST}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${METRIC_UNIT}"
                 Debugger.log("rest URL: $url")
                 val apiResponse =
                     URL(url).readText().trim()
                 Debugger.log("Text: $apiResponse")
-                val weather = Gson().fromJson(apiResponse, WeatherResponse::class.java)
+                var weather = Gson().fromJson(apiResponse, WeatherResponse::class.java)
+                if (weather == null) {
+                    weather = loadWeather(context)
+                }
                 if (weather != null) {
+                    saveWeather(context, weather)
                     Debugger.log("Response: $weather")
                     onResult(weather)
                 }
             }
         }
 
+    }
+
+    fun saveWeather(context: Context, response: WeatherResponse) {
+        val weatherJson = Gson().toJson(response)
+        val writer = StorageManager.getPrefWriter(context)
+        writer.putString(WeatherWidget.WeatherCache, weatherJson)
+        println("Write $weatherJson")
+        writer.apply()
+    }
+
+    fun loadWeather(context: Context): WeatherResponse? {
+        val reader = StorageManager.getPrefReader(context)
+        val jsonString = reader.getString(WeatherWidget.WeatherCache, "")
+        return if (!jsonString.isNullOrEmpty()) {
+            Gson().fromJson(jsonString, WeatherResponse::class.java)
+        } else {
+            null
+        }
     }
 }

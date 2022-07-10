@@ -154,4 +154,5 @@
     <string name="weather_app_desc">지역날씨</string>
     <string name="txt_weather">날씨</string>
     <string name="txt_dday_counter">날짜세기</string>
+    <string name="press_refresh">새로고침을 눌러주세요...</string>
 </resources>

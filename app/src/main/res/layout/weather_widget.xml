@@ -83,6 +83,7 @@
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold|italic"
+                    android:text="@string/press_refresh"
                     tools:text="매디슨" />
 
                 <LinearLayout

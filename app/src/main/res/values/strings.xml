@@ -648,6 +648,7 @@ hNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNmm+///-..-/////ydddddddNdNNNNNNNNNMMMMMMMMNN
     <string name="weather_app_desc">Local weather</string>
     <string name="txt_weather">Weather</string>
     <string name="txt_dday_counter">D-Day Counter</string>
+    <string name="press_refresh">Press refresh...</string>
 
     <!--
     https://www.text-image.com/convert/pic2ascii.cgi

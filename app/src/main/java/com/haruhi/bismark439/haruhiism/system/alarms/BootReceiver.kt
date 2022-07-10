@@ -10,19 +10,20 @@ import kotlinx.coroutines.DelicateCoroutinesApi
  * Created by Bismark439 on 13/01/2018.
  */
 @DelicateCoroutinesApi
+
 class BootReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
+        Debugger.log("Boot action ${intent.action}")
+    /*    if (!(
+                    intent.action == Intent.ACTION_BOOT_COMPLETED
+                    || intent.action == Intent.ACTION_REBOOT
+                    || intent.action == Intent.ACTION_DATE_CHANGED
+                    || intent.action == Intent.ACTION_MY_PACKAGE_REPLACED
+                    )) return*/
+        context.startForegroundService(Intent(context, BootingService::class.java))
+//        context.startForegroundService(Intent(context, BootingService::class.java))
 
-        Debugger.log("action ${intent.action}")
-        if (intent.action == Intent.ACTION_BOOT_COMPLETED
-            || intent.action == Intent.ACTION_REBOOT
-            || intent.action == Intent.ACTION_DATE_CHANGED
-            || intent.action == Intent.ACTION_MY_PACKAGE_REPLACED
-        ) {
-            val intent = Intent(context, BootingService::class.java)
-            context.startForegroundService(intent)
-        }
     }
 
 }
