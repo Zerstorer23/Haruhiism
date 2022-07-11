@@ -50,18 +50,14 @@ object AlarmFactory {
         calendar[Calendar.SECOND] = 0
         return calendar
     }
-
-    fun showNextAlarmTime(context: Context, alarm: AlarmData) {
+    fun getNextAlarmString( context : Context, alarm: AlarmData):String{
         val cal = Calendar.getInstance()
         cal.timeInMillis = alarm.startingTime
         val nextDate = convertCalendarDateToMyDate(cal)
-        Debugger.log(alarm.days + " vs " + nextDate)
         if (!alarm.days.isTrueAt(nextDate)) {
-            Toaster.show(context, context.getString(R.string.txt_no_alarm_tomorrow))
-            return
+            return  context.getString(R.string.txt_no_alarm_tomorrow)
         }
         var timeDiffInSec = (alarm.startingTime - System.currentTimeMillis()) / 1000
-        Debugger.log("Time diff = $timeDiffInSec")
         val hours = timeDiffInSec / (3600)
         timeDiffInSec -= hours * 3600
         val minutes = timeDiffInSec / 60
@@ -77,7 +73,10 @@ object AlarmFactory {
             timeDiffInSec = 0
         }
         msg += "${timeDiffInSec}${context.resources.getString(R.string.seconds)}"
-        msg = context.resources.getString(R.string.toast_next_alarm, msg)
+        return context.resources.getString(R.string.toast_next_alarm, msg)
+    }
+    fun showNextAlarmTime(context: Context, alarm: AlarmData) {
+        val msg = getNextAlarmString(context, alarm)
         Toaster.show(context, msg)
     }
 

@@ -2,7 +2,9 @@
 
 package com.haruhi.bismark439.haruhiism.activities
 
+import android.Manifest
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -15,6 +17,7 @@ import com.haruhi.bismark439.haruhiism.databinding.ActivityAddAlarmBinding
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmDB
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmFactory
 import com.haruhi.bismark439.haruhiism.model.alarmDB.AlarmWakers
+import com.haruhi.bismark439.haruhiism.system.PermissionManager
 import com.haruhi.bismark439.haruhiism.system.SpinnerFactory
 import com.haruhi.bismark439.haruhiism.system.alarms.SoundPlayer.Companion.DEFAULT_VOLUME
 import com.haruhi.bismark439.haruhiism.system.isTrueAt
@@ -50,7 +53,6 @@ class AddAlarmActivity : BaseActivity<ActivityAddAlarmBinding>(ActivityAddAlarmB
         binding.aVolseek.progress = DEFAULT_VOLUME.toInt()
 
 
-
         //
         binding.btnSelectSong.setOnClickListener { songname = "alarm1.mp3" }
         binding.btnCancel.setOnClickListener { finish() }
@@ -59,18 +61,18 @@ class AddAlarmActivity : BaseActivity<ActivityAddAlarmBinding>(ActivityAddAlarmB
 
     private fun setUpSpinner() {
         //Minutes Interval
-        SpinnerFactory.createSpinner<String>(applicationContext,snzMinutes,binding.aSnzMinutes){
+        SpinnerFactory.createSpinner<String>(applicationContext, snzMinutes, binding.aSnzMinutes) {
             sMin = snzMinutes[it].toInt()
         }
-        SpinnerFactory.createSpinner<String>(applicationContext,snzTimes,binding.aSnzTimes){
+        SpinnerFactory.createSpinner<String>(applicationContext, snzTimes, binding.aSnzTimes) {
             sTimes = snzTimes[it].toInt()
         }
-        val nameArray =( wakerNames.map { res -> resources.getString(res) }).toTypedArray()
-        SpinnerFactory.createSpinner<String>(applicationContext,nameArray,binding.wakerSpinner){
+        val nameArray = (wakerNames.map { res -> resources.getString(res) }).toTypedArray()
+        SpinnerFactory.createSpinner<String>(applicationContext, nameArray, binding.wakerSpinner) {
         }
 
-       //
-        }
+        //
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,6 +107,10 @@ class AddAlarmActivity : BaseActivity<ActivityAddAlarmBinding>(ActivityAddAlarmB
 
     @DelicateCoroutinesApi
     private fun onDone() {
+            pushInfo()
+    }
+
+    private fun pushInfo() {
         val hour = alarmTimePicker.hour
         val minutes = alarmTimePicker.minute
         val nearestTimeInMills = AlarmFactory.getNearestNextTimeInMills(hour, minutes)
@@ -119,7 +125,6 @@ class AddAlarmActivity : BaseActivity<ActivityAddAlarmBinding>(ActivityAddAlarmB
         setResult(RESULT_OK, data)
         finish()
     }
-
 
 
     companion object {

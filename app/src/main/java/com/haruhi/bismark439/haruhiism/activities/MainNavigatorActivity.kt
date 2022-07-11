@@ -3,6 +3,7 @@ package com.haruhi.bismark439.haruhiism.activities
 import android.Manifest
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -27,15 +28,29 @@ class MainNavigatorActivity :
         val navController = navHostFragment.navController
        // val navController = findNavController(R.id.navControllerView)
         navView.setupWithNavController(navController)
-        PermissionManager.checkPermission(
-            this,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        )
-        {
-            Debugger.log("Success permission")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PermissionManager.checkPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.SCHEDULE_EXACT_ALARM,
+            )
+            {
+                Debugger.log("Success permission")
+            }
+        }else{
+            PermissionManager.checkPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+            )
+            {
+                Debugger.log("Success permission")
+            }
         }
     }
 

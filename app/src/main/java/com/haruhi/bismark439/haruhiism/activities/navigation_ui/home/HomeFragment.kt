@@ -27,6 +27,7 @@ class HomeFragment : IFragmentActivity<FragmentHomeBinding>(
     private val createAlarmLauncher = initActivityLauncher(this::onAlarmCreated)
 
     override fun onActivityStart() {
+
         loadAlarms()
     }
 

@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -76,11 +77,11 @@
         </receiver>
         <receiver
             android:name=".widgets.providers.weatherWidget.WeatherWidget"
-            android:label="@string/txt_weather"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/txt_weather">
             <intent-filter>
-<!--                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.ACTION_BOOT_COMPLETED" />-->
+                <!--                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                                <action android:name="android.intent.action.ACTION_BOOT_COMPLETED" />-->
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
@@ -88,6 +89,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/weather_widget_info" />
         </receiver>
+
         <activity
             android:name=".widgets.providers.ConfigurationActivity"
             android:exported="true">
@@ -96,7 +98,11 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".system.alarms.AlarmReceiver" />
+        <receiver
+            android:name=".system.alarms.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false">
+        </receiver>
         <receiver android:name=".system.wallpapers.WallpaperReceiver" />
         <receiver
             android:name=".system.alarms.BootReceiver"

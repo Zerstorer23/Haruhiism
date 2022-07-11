@@ -74,6 +74,7 @@ class BootingService : Service() {
              ).show()
         }*/
         Log.d("HARUHI", "하루히 $msg")
+
         AlarmDB.safeRegisterAllAlarms(context)
         stopNotification()
         stopSelf()
