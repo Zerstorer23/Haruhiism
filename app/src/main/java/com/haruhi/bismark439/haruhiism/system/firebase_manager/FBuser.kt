@@ -1,3 +1,4 @@
+/*
 package com.haruhi.bismark439.haruhiism.system.firebase_manager
 
 import com.haruhi.bismark439.haruhiism.Debugger
@@ -13,4 +14,4 @@ object MyUser{
     fun incrementViews(){
         totalViews++
     }
-}
+}*/

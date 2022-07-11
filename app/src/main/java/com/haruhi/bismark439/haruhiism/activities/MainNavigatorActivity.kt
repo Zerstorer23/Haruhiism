@@ -1,12 +1,9 @@
 package com.haruhi.bismark439.haruhiism.activities
 
 import android.Manifest
-import android.app.AlarmManager
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,7 +13,6 @@ import com.haruhi.bismark439.haruhiism.activities.interfaces.BaseActivity
 import com.haruhi.bismark439.haruhiism.databinding.ActivityMainNavigatorBinding
 import com.haruhi.bismark439.haruhiism.system.PermissionManager
 import com.haruhi.bismark439.haruhiism.system.alarms.BootReceiver
-import com.haruhi.bismark439.haruhiism.system.alarms.BootingService
 
 class MainNavigatorActivity :
     BaseActivity<ActivityMainNavigatorBinding>(ActivityMainNavigatorBinding::inflate) {

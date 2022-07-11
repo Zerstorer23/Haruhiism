@@ -1,65 +1,53 @@
 package com.haruhi.bismark439.haruhiism.activities.navigation_ui.click_ranks
 
-import com.haruhi.bismark439.haruhiism.Debugger
 import com.haruhi.bismark439.haruhiism.activities.interfaces.IFragmentActivity
 import com.haruhi.bismark439.haruhiism.databinding.FragmentRankingBinding
 import com.haruhi.bismark439.haruhiism.system.StorageManager
-import com.haruhi.bismark439.haruhiism.system.firebase_manager.MyUser
-import com.haruhi.bismark439.haruhiism.system.firebase_manager.ViewDatabaseHandler
-import java.lang.Exception
+import com.haruhi.bismark439.haruhiism.system.firebase_manager.FirebaseHandler
 
 class RankingFragment : IFragmentActivity<FragmentRankingBinding>(
     FragmentRankingBinding::inflate
 ) {
     companion object {
-        var initDB: Boolean = false
         const val CLICKS_MINE = "MyClicks"
     }
 
     private var myClicks = 0
+    private var totalClicks = 0L
 
     override fun onActivityStart() {
-        if (!initDB) {
-            initUser()
-        }
+        loadClicks()
     }
 
     override fun onRefreshUI() {
-        loadMyClicks()
-        onDataLoaded()
+        loadClicks()
     }
 
-    private fun loadMyClicks(){
+    private fun loadMyClicks() {
         val reader = StorageManager.getPrefReader(requireContext())
-        myClicks = reader.getInt(CLICKS_MINE,0)
-        binding.tvMyCount.text = myClicks.toString()
+        myClicks = reader.getInt(CLICKS_MINE, 0)
     }
 
     override fun onResume() {
         super.onResume()
-        loadMyClicks()
+        loadClicks()
     }
-    private fun initUser() {
-        ViewDatabaseHandler.getSum {
-            Debugger.log("Load sum? $it ${MyUser.totalViews}")
-            if(it){
-                initDB = true
-                onDataLoaded()
-                ViewDatabaseHandler.listenSumChanges(::onDataLoaded)
-            }
+
+    private fun loadClicks() {
+        FirebaseHandler.getCounts {
+            totalClicks = it
+            onDataLoaded()
         }
-
     }
-
-
 
 
     private fun onDataLoaded() {
         //${}
         if (context == null) return
         try {
+            loadMyClicks()
             binding.tvMyCount.text = myClicks.toString()
-            binding.tvSumCount.text = MyUser.totalViews.toString()
+            binding.tvSumCount.text = totalClicks.toString()
         } catch (e: Exception) {
             e.printStackTrace()
         }

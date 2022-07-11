@@ -58,7 +58,7 @@ object LocationManager {
     fun requestLocationData(context: Context, onResult: BaseReturn<WeatherResponse>) {
         val locationCallback = object : LocationCallback() {
             override fun onLocationResult(result: LocationResult) {
-                val lastLocation: Location = result.lastLocation
+                val lastLocation: Location = result.lastLocation ?: return
                 val latitude = lastLocation.latitude
                 val longitude = lastLocation.longitude
                 Debugger.log("Location $latitude / $longitude")

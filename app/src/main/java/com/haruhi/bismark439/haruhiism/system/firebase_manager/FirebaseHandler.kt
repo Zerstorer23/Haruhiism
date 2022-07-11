@@ -1,20 +1,29 @@
 package com.haruhi.bismark439.haruhiism.system.firebase_manager
 
-import android.content.ContentValues.TAG
+
 import android.util.Log
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.MutableData
+import com.google.firebase.database.Transaction
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ServerValue
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
+import java.util.HashMap
 
 typealias BaseReturn<T> = (o: T) -> Unit
-typealias SnapshotListener = (snapshot : DocumentSnapshot) -> Unit
+typealias SnapshotListener = (snapshot: DataSnapshot) -> Unit
 
 object FirebaseHandler {
-
-    private val db by lazy{
-        FirebaseFirestore.getInstance()
+    val FIELD_COUNT = "counts"
+    private val db : DatabaseReference by lazy {
+        Firebase.database.reference
     }
 
+/*
     fun listenToChanges(collection:String, doc:String,onChange:SnapshotListener){
         val docRef = db.collection(collection).document(doc)
         docRef.addSnapshotListener { snapshot, e ->
@@ -30,7 +39,9 @@ object FirebaseHandler {
             }
         }
     }
+*/
 
+/*
     fun insert(boardName:String, key:String, entry: Any, onResult: BaseReturn<Boolean>) {
         db.collection(boardName)
             .document(key)
@@ -44,9 +55,10 @@ object FirebaseHandler {
 
             }
     }
+*/
 
 
-    fun getWhere(boardName:String, where:String, id:String, limit:Long, onResult: BaseReturn<List<DocumentSnapshot>?>) {
+/*    fun getWhere(boardName:String, where:String, id:String, limit:Long, onResult: BaseReturn<List<DocumentSnapshot>?>) {
         db.collection(boardName)
             .whereEqualTo(where, id)
             .limit(limit)
@@ -57,46 +69,49 @@ object FirebaseHandler {
                 it.printStackTrace()
                 onResult(null)
             }
+    }*/
+
+    /*  fun get(boardName:String, limit:Long, onResult: BaseReturn<List<DocumentSnapshot>?>) {
+          db.collection(boardName)
+              .limit(limit)
+              .get()
+              .addOnSuccessListener { document ->
+                  onResult(document.documents)
+              }.addOnFailureListener {
+                  it.printStackTrace()
+                  onResult(null)
+              }
+      }
+
+      fun delete(boardName:String, key:String, onResult: BaseReturn<Boolean>) {
+          db.collection(boardName)
+              .document(key).delete()
+              .addOnSuccessListener {
+                  Log.d(
+                      TAG,
+                      "DocumentSnapshot successfully deleted!"
+                  )
+                  onResult(true)
+              }
+              .addOnFailureListener { e ->
+                  Log.w(TAG, "Error deleting document", e)
+                  onResult(false)
+              }
+      }
+  */
+    fun getCounts(onResult: BaseReturn<Long>) {
+        db.child(FIELD_COUNT).get().addOnSuccessListener {
+            onResult(it.value as Long)
+        }.addOnFailureListener {
+            onResult(0)
+        }
     }
 
-    fun get(boardName:String, limit:Long, onResult: BaseReturn<List<DocumentSnapshot>?>) {
-        db.collection(boardName)
-            .limit(limit)
-            .get()
-            .addOnSuccessListener { document ->
-                onResult(document.documents)
-            }.addOnFailureListener {
-                it.printStackTrace()
-                onResult(null)
-            }
-    }
-
-    fun delete(boardName:String, key:String, onResult: BaseReturn<Boolean>) {
-        db.collection(boardName)
-            .document(key).delete()
-            .addOnSuccessListener {
-                Log.d(
-                    TAG,
-                    "DocumentSnapshot successfully deleted!"
-                )
-                onResult(true)
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error deleting document", e)
-                onResult(false)
-            }
-    }
-
-    fun update(boardName: String, key : String, map:HashMap<String,Any>, onResult: BaseReturn<Boolean>) {
-        db.collection(boardName)
-            .document(key)
-            .update(map)
-            .addOnSuccessListener {
-                onResult(true)
-            }.addOnFailureListener {
-                it.printStackTrace()
-                onResult(false)
-            }
+    fun incrementCounts() {
+        val updates: MutableMap<String, Any> = hashMapOf(
+            FIELD_COUNT to ServerValue.increment(1)
+        )
+        db.updateChildren(updates)
     }
 
 }

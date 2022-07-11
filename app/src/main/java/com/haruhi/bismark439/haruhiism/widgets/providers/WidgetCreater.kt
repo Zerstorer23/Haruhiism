@@ -13,7 +13,7 @@ import com.haruhi.bismark439.haruhiism.activities.navigation_ui.click_ranks.Rank
 import com.haruhi.bismark439.haruhiism.model.widgetDB.WidgetData
 import com.haruhi.bismark439.haruhiism.model.widgetDB.toCharacterFolder
 import com.haruhi.bismark439.haruhiism.system.StorageManager
-import com.haruhi.bismark439.haruhiism.system.firebase_manager.ViewDatabaseHandler
+import com.haruhi.bismark439.haruhiism.system.firebase_manager.FirebaseHandler
 import com.haruhi.bismark439.haruhiism.widgets.providers.DayCounterProvider.Companion.ACTION_TOUCH
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -30,11 +30,6 @@ object WidgetCreater {
 
     fun onCounterClicked(context: Context, intent: Intent) {
         val src = intent.getStringExtra(SRC_WIDGET)
-/*
-        val id = intent.getIntExtra(THIS_WIDGET_ID, -1)
-        val action = intent.action
-*/
-
         if (src == null || src.isEmpty()) {
             return
         }
@@ -168,9 +163,7 @@ object WidgetCreater {
             writer.putInt(CLICKS_MINE, clicks)
             writer.apply()
             Debugger.log("Clicks : $clicks")
-            ViewDatabaseHandler.getSum {
-                ViewDatabaseHandler.incrementView(context) { }
-            }
+            FirebaseHandler.incrementCounts()
         }
     }
 

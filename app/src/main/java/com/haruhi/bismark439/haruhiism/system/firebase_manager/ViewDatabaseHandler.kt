@@ -1,3 +1,4 @@
+/*
 package com.haruhi.bismark439.haruhiism.system.firebase_manager
 
 import android.content.Context
@@ -6,17 +7,9 @@ import com.haruhi.bismark439.haruhiism.system.NetworkManager
 import com.haruhi.bismark439.haruhiism.system.VoidReturn
 
 object ViewDatabaseHandler {
-    const val COLLECTION_SUM = "sums"
-
-
     fun getSum(onResult: BaseReturn<Boolean>) {
-        FirebaseHandler.get(COLLECTION_SUM, 1) {
-            if (it == null) {
-                onResult(false)
-                return@get
-            }
-            val sum = it.first().toObject(FBSum::class.java)!!
-            MyUser.totalViews = sum.sums
+        FirebaseHandler.getCounts() {
+            MyUser.totalViews = it.toLong();
             onResult(true)
         }
     }
@@ -26,9 +19,8 @@ object ViewDatabaseHandler {
         if(!NetworkManager.hasWifi(context)) {
             return
         }
-        FirebaseHandler.update(COLLECTION_SUM, COLLECTION_SUM, MyUser.toSumMap()) { it2 ->
-            onResult(it2)
-        }
+        FirebaseHandler.incrementCounts()
+        onResult(true)
     }
 
     fun listenSumChanges(onUpdate: VoidReturn) {
@@ -41,4 +33,4 @@ object ViewDatabaseHandler {
         }
     }
 
-}
+}*/
